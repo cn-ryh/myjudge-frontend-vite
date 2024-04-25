@@ -10,8 +10,10 @@ function creatEntry() {
             entry: string, template: string, filename: string
         }
     } = {};
-    glob.sync(__dirname + '/src/pages/*/index.html').forEach(val => {
-        const url = val.split(os.type() == `Linux` ? '/' : '\\')[2];
+    console.log(glob.sync('./src/pages/*/index.html'))
+    glob.sync('./src/pages/*/index.html').forEach(val => {
+        const url = val.split(`pages${os.type() == `Linux` ? '/' : '\\'}`)[1].split((os.type() == `Linux` )? '/' : '\\')[0];
+        console.log(url);
         if (url == `index`) {
             entryObj[url] = {
                 entry: `./src/pages/${url}/main.ts`,
@@ -23,7 +25,7 @@ function creatEntry() {
             entryObj[url] = {
                 entry: `./src/pages/${url}/main.ts`,
                 template: `./src/pages/${url}/index.html`,
-                filename: `./${url}/index.html`
+                filename: `${url}/index.html`
             };
 
         }
@@ -44,6 +46,5 @@ export default defineConfig({
             '@': path.resolve(__dirname, './src')
         },
         extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
-    },
-    publicDir: `./`
+    }
 })
