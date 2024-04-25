@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.card {
+    display: block;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(194, 187, 187, 0.308);
+    box-sizing: border-box;
+    min-height: 1px;
+    padding: 10px 20px;
+}
+
+main
+{
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 20px;
+}
+
+code {
+    font-family: Courier !important;
+    font-size: medium !important;
+}
+
+pre {
+    background-color: rgb(253, 243, 140, .61);
+    display: block;
+    padding: 13px 9px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
