@@ -1,20 +1,16 @@
 <script setup lang="ts">
 import { keepLogin } from '@/modules/user/getUserData';
 import { Button, HeadMenu, MenuItem, Image, Link, Submenu, Badge } from 'tdesign-vue-next'
-import { ChatBubble1Icon} from 'tdesign-icons-vue-next'
 import { currectUser } from './user/currectUser';
 import userSign from './user/userSign.vue';
 import { Ref, ref } from 'vue';
 import axios from 'axios';
 import { ip } from './ip';
 import 'tdesign-vue-next/es/style/css'
-import { io } from 'socket.io-client'
 import './normalize.css'
 import './layui-v2.9.8/layui/css/layui.css'
 import './main.css';
-const socket = io(`https://lenovo.cnryh.cn:38888`, {
-    path: `/oj/socket.io`
-});
+
 const unReadMessageNum: Ref<number> = ref(0);
 axios.post(`${ip}/getUnReadMessageNum`, {
     uid: currectUser.uid,

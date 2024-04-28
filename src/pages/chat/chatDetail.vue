@@ -120,7 +120,7 @@ const self = ref(currectUser.uid)
             style="overflow-y: auto;border-style:none none groove none;width: 95%;margin-left: auto;margin-right: auto;margin-top: 10px;height: 70%;">
             <div v-if="Chat.messages.length > 30 * loadedPage"
                 style="width: 100%;text-align: center;color: rgba(170,170,170,.8);">显示更多信息</div>
-            <div class="message-item" v-for="(item, index) of messages">
+            <div class="message-item" v-for="(item, index) of messages" :key="index">
                 <div :class="item.sender == self ? `message self` : `message other`">
                     <div class="message-block" v-html="markdownit.render(item.value)"></div>
                 </div>

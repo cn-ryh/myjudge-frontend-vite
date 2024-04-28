@@ -3,7 +3,7 @@ import { ref } from "vue";
 import axio from "axios";
 import { ip } from '@/modules/ip';
 import { keepLogin } from "@/modules/user/getUserData";
-import { Notification, Button, Card, Link } from '@arco-design/web-vue';
+import { Notification, Button, Link } from '@arco-design/web-vue';
 import * as monaco from 'monaco-editor'
 import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution';
 let monacoInstance: monaco.editor.IStandaloneCodeEditor;

@@ -1,6 +1,5 @@
 // 1. 定义路由组件.
 // 也可以从其他文件导入
-import NavView from '@/modules/navView.vue';
 import * as VueRouter from 'vue-router';
 // import NetcutList from './netcut-list.vue';
 // import NetcutView from './netcut-view.vue';
