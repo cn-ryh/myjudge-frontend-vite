@@ -78,6 +78,7 @@ class IReply {
 
 class IDiscussion {
     id: number = 0;
+    title:string = ``;
     type: discussType = discussType.other;
     process: processType = processType.open;
     creater: number = 0;

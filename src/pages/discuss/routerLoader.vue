@@ -8,7 +8,9 @@ window.onhashchange = () => {
 <template>
     <navView>
     </navView>
-    <router-view style="margin-top: 8vh;"></router-view>
+    <div>
+        <router-view></router-view>
+    </div>
 </template>
 <style>
 body {

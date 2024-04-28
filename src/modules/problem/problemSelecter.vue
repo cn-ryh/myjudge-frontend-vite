@@ -22,7 +22,6 @@ const options: Ref<AutoCompleteOption[]> = ref([]);
 axios.get(`${ip}/getProblemList`).then((res) => {
     options.value = [];
     problemList.value = res.data.problems;
-    console.log(problemList.value)
     for (const now of res.data.problems) {
         options.value.push(`${now.pid} ${now.title}`);
     }

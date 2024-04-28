@@ -25,7 +25,7 @@ keepLogin().then((res) => {
 
 <template>
     <NavView></NavView>
-    <div style="margin-top: 5rem;">
+    <div>
         <router-view></router-view>
 
     </div>

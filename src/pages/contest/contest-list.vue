@@ -18,28 +18,30 @@ function translateTime(date: Date) {
 }
 </script>
 <template>
-    <h1 style="text-align: center;width: 90%;">比赛列表</h1>
-    <Card style="margin-top: 3rem;width: 96%;">
-        <div class="grid-demo-background" style="text-align: center;">
-            <a :href="`./contest.html#/${item.id}`" v-for="(item, index) of contests" :key="index">
-                <Card size="small" style="width: 30%;display: inline-block;height: 8rem;margin: 3% 2%;"
-                    :title="item.title">
-                    <template #extra>
-                        <Link :href="`./contest.html#/${item.id}`">查看详情</Link>
-                    </template>
-                    <Tag>{{ item.type }}</Tag>
-                    <br>
-                    <br>
-                    <span>
-                        {{
+    <main>
+        <h1 style="text-align: center">比赛列表</h1>
+        <div class="card">
+            <div class="grid-demo-background" style="text-align: center;">
+                <a :href="`./contest.html#/${item.id}`" v-for="(item, index) of contests" :key="index">
+                    <Card size="small" style="width: 30%;display: inline-block;height: auto;margin: 3% 2%;"
+                        :title="item.title">
+                        <template #extra>
+                            <Link :href="`./contest.html#/${item.id}`">查看详情</Link>
+                        </template>
+                        <Tag>{{ item.type }}</Tag>
+                        <br>
+                        <br>
+                        <span>
+                            {{
                             `${translateTime(new Date(item.begintime))}~ ${translateTime(new Date(item.endtime))}`
-                        }}
-                    </span>
-                </Card>
-            </a>
+                            }}
+                        </span>
+                    </Card>
+                </a>
 
+            </div>
         </div>
-    </Card>
+    </main>
 </template>
 
 <style>

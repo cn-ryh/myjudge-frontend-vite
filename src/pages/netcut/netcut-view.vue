@@ -92,7 +92,6 @@ function getNetcutByPassword(varPassword: string) {
         paths,
         password: varPassword
     }).then((netcutData) => {
-        console.log(netcutData.data);
         if (netcutData.data.code === 0) {
             netcut.value = netcutData.data.data;
             canEdit.value = netcut.value.edit;

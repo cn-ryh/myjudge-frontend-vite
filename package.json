@@ -32,6 +32,7 @@
         "monaco-editor": "^0.47.0",
         "register-service-worker": "^1.7.2",
         "socket.io-client": "^4.7.5",
+        "tdesign-icons-vue-next": "^0.2.2",
         "tdesign-vue-next": "^1.9.4",
         "ts-loader": "^9.5.1",
         "vite-plugin-mpa-plus": "^0.6.0",

@@ -186,7 +186,7 @@ function submit() {
 </script>
 
 <template>
-    <div style="margin-left: 100px;">
+    <main>
         <div class="content-header ui-content-header">
             <div class="container" style="text-align: center;">
                 <h1 class="content-heading">{{ problemId }} {{ problemName }}</h1>
@@ -206,20 +206,22 @@ function submit() {
 
         <div v-show="showsubmit" id="codeInputer">
         </div>
-        <div v-show="(showsubmit == false)" id="problem">
-            <div v-html="problemDescription" style="display: inline-block;padding: 5% 5% 15%; width: 56%;">
+        <div v-show="(showsubmit == false)" id="problem" style="margin-top: 20px;" class="layui-row layui-col-space64">
+            <div class="layui-col-md8" id="description">
+                <div class="card" v-html="problemDescription" style="padding: 20px 30px;"></div>
             </div>
-
-            <Card style="position: relative;width: 25%;height: 60rem;margin-top: 5%;float: right;">
-                <Link :href="`/record#/list?problem=${problemId}`">
-                <span>提交记录</span>
-                </Link>
-                <Link :href="`/admin#/problem/${problemId}`" v-show="showAdmin">
-                题目管理
-                </Link>
-            </Card>
+            <div class="layui-col-md4">
+                <div class="card" style="padding: 20px 30px;">
+                    <Link :href="`/record#/list?problem=${problemId}`">
+                    <span>提交记录</span>
+                    </Link>
+                    <Link :href="`/admin#/problem/${problemId}`" v-show="showAdmin">
+                    题目管理
+                    </Link>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 </template>
 
 <style>
@@ -253,6 +255,16 @@ button {
 </style>
 
 <style>
+#problem #description h1,h2,h3,h4
+{
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+#problem #description
+{
+    font-size: 17px;
+    line-height: 29px;
+}
 #problem table {
     width: 100%;
     border-collapse: collapse;
@@ -306,6 +318,7 @@ button {
     background-color: black;
     font-size: medium;
     color: white;
+    line-height: 19px;
 }
 
 #problem pre code {

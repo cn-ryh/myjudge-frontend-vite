@@ -31,50 +31,50 @@ const markdownit = new MarkdownIt({
     name: "hint",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(4).trim();
-        return `<div class="custom-container hint">\n<p class="custom-container-title">${info || "Hint"
+        return `<div class="custom-container hint">\n<p class="hint-container-title">${info || "Hint"
             }</p>\n`;
     },
 }).use(container, {
     name: "warning",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(7).trim();
-        return `<div class="hint-container warning">\n<p class="custom-container-title">${info || "Warning"
+        return `<div class="hint-container warning">\n<p class="hint-container-title">${info || "Warning"
             }</p>\n`;
     },
 }).use(container, {
     name: "info",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(4).trim();
-        return `<div class="hint-container info">\n<p class="custom-container-title">${info || "Info"
+        return `<div class="hint-container info">\n<p class="hint-container-title">${info || "Info"
             }</p>\n`;
     },
 }).use(container, {
     name: "note",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(4).trim();
-        return `<div class="hint-container note">\n<p class="custom-container-title">${info || "Note"
+        return `<div class="hint-container note">\n<p class="hint-container-title">${info || "Note"
             }</p>\n`;
     },
 }).use(container, {
     name: "tip",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(3).trim();
-        return `<div class="hint-container tip">\n<p class="custom-container-title">${info || "Tip"
+        return `<div class="hint-container tip">\n<p class="hint-container-title">${info || "Tip"
             }</p>\n`;
     },
 }).use(container, {
     name: "caution",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(7).trim();
-        return `<div class="hint-container caution">\n<p class="custom-container-title">${info || "Caution"
+        return `<div class="hint-container caution">\n<p class="hint-container-title">${info || "Caution"
             }</p>\n`;
     },
 }).use(container, {
     name: "important",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(9).trim();
-        return `<div class="hint-container important">\n<p class="custom-container-title">${info || "Important"
+        return `<div class="hint-container important">\n<p class="hint-container-title">${info || "Important"
             }</p>\n`;
-    },
+    }
 });
 export { markdownit }

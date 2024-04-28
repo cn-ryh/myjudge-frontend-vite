@@ -49,71 +49,73 @@ function getrecord() {
 </script>
 
 <template>
-    <Card style="height: 4rem;">
-        <div style="margin-left: 15rem;">
-            <span style="margin: 20px;margin-top: 5rem !important;">
-                <form action="" style="display: inline;">
-                    <select name="state" id="state">
-                        <option value="">全部状态</option>
-                        <option value="Accept">Accept</option>
-                        <option value="Unaccept">Unaccept</option>
-                        <option value="Compile Error">Compile Error</option>
-                    </select>
-                </form>
-                <input id="recordid" placeholder="记录编号" style="width: 12rem;height: 2rem;" />
-                <input id="pid" placeholder="题目编号" style="width: 12rem;height: 2rem;">
-                <input id="user" placeholder="用户" style="width: 12rem;height: 2rem;">
+    <main>
+        <Card style="height: 4rem;">
+            <div style="margin-left: 15rem;">
+                <span style="margin: 20px;margin-top: 5rem !important;">
+                    <form action="" style="display: inline;">
+                        <select name="state" id="state">
+                            <option value="">全部状态</option>
+                            <option value="Accept">Accept</option>
+                            <option value="Unaccept">Unaccept</option>
+                            <option value="Compile Error">Compile Error</option>
+                        </select>
+                    </form>
+                    <input id="recordid" placeholder="记录编号" style="width: 12rem;height: 2rem;" />
+                    <input id="pid" placeholder="题目编号" style="width: 12rem;height: 2rem;">
+                    <input id="user" placeholder="用户" style="width: 12rem;height: 2rem;">
 
-                <button @click="getrecord()"> 确认 </button>
-            </span>
-            <span style="margin-right: 15px;"> 共 <b>{{ tot }}</b> 条记录 </span>
-        </div>
-    </Card>
+                    <button @click="getrecord()"> 确认 </button>
+                </span>
+                <span style="margin-right: 15px;"> 共 <b>{{ tot }}</b> 条记录 </span>
+            </div>
+        </Card>
 
-    <List style="margin-top: 1rem;width: 90%;margin-left: 5%;" :data="records" :paginationProps="{
-        total: records.length,
-        pageSize: 10
-    }">
-        <template #item="{ item }">
-            <div
-                style="font-size: 15px;padding-bottom: 10px;height: 2.3rem;border-bottom-style: outset;border-bottom-width: 2px;border-bottom-color: rgba(100, 100, 100, .2);padding-top: 1.2rem;">
-                <div style="display: inline-block;margin-left: 3rem;width: 32%;">
-                    <span style="margin-right: 1rem;width: 30%;">
-                        <a :href="`/user/${item.user}`">
-                            <span style="font-weight: bold;">
-                                {{ item.username }}
-                            </span>
-                        </a>
-                    </span>
-                    <span class="lfe-caption" style="width: 40%;">
-                        {{ item.submitTime }}
-                    </span>
-                </div>
-                <div style="width: 12%;display: inline-block;">
-                    <a :href="`/record#/${item.id}`">
-                        <span :class="`State-${item.state}`.replace(/\s/g, ``)"
-                            style="padding:1px 2px;font-size: large;font-weight: 420;">
-                            {{ item.state }}
+        <List style="margin-top: 1rem;width: 90%;margin-left: 5%;" :data="records" :paginationProps="{
+            total: records.length,
+            pageSize: 10
+        }">
+            <template #item="{ item }">
+                <div
+                    style="font-size: 15px;padding-bottom: 10px;height: 2.3rem;border-bottom-style: outset;border-bottom-width: 2px;border-bottom-color: rgba(100, 100, 100, .2);padding-top: 1.2rem;">
+                    <div style="display: inline-block;margin-left: 3rem;width: 32%;">
+                        <span style="margin-right: 1rem;width: 30%;">
+                            <a :href="`/user/${item.user}`">
+                                <span style="font-weight: bold;">
+                                    {{ item.username }}
+                                </span>
+                            </a>
                         </span>
-                    </a>
-                </div>
-                <div class="problem" style="width: 10%;display: inline-block;">
-                    <div>
-                        <a :href="`/problem#/${item.problem}`" style="color: rgb(10, 10, 230);">
-                            <span class="pid">
-                                <b>{{ item.problem }}</b>
-                                {{ item.title }}
+                        <span class="lfe-caption" style="width: 40%;">
+                            {{ item.submitTime }}
+                        </span>
+                    </div>
+                    <div style="width: 12%;display: inline-block;">
+                        <a :href="`/record#/${item.id}`">
+                            <span :class="`State-${item.state}`.replace(/\s/g, ``)"
+                                style="padding:1px 2px;font-size: large;font-weight: 420;">
+                                {{ item.state }}
                             </span>
                         </a>
                     </div>
+                    <div class="problem" style="width: 10%;display: inline-block;">
+                        <div>
+                            <a :href="`/problem#/${item.problem}`" style="color: rgb(10, 10, 230);">
+                                <span class="pid">
+                                    <b>{{ item.problem }}</b>
+                                    {{ item.title }}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="detail lfe-caption" style="display: inline-block;">
+                        {{ item.sumtime }}ms
+                        / {{ item.maxtime }}ms
+                    </div>
                 </div>
-                <div class="detail lfe-caption" style="display: inline-block;">
-                    {{ item.sumtime }}ms
-                    / {{ item.maxtime }}ms
-                </div>
-            </div>
-        </template>
-    </List>
+            </template>
+        </List>
+    </main>
 </template>
 
 <style>

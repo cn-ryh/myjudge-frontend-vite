@@ -5,11 +5,11 @@ import * as VueRouter from 'vue-router';
 // import NetcutList from './netcut-list.vue';
 // import NetcutView from './netcut-view.vue';
 
+import chatList from './chatList.vue';
 
 const routes = [
-    { path: `/`, component: NavView }
-    // { path: '/mine', component: NetcutList },
-    // { path: '/:pid', component: NetcutView }
+    { path: `/`, component: chatList },
+    { path: `/list`, component: chatList }
 ];
 
 // 3. 创建路由实例并传递 `routes` 配置
@@ -17,7 +17,7 @@ const routes = [
 // 暂时保持简单
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`netcut`),
+    history: VueRouter.createWebHashHistory(`chat`),
     routes,
 
 });

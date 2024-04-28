@@ -20,7 +20,6 @@ else {
             token: getCookie(`token`)
         }
     }).then((res) => {
-        console.log(res.data.data);
         netcutList.value = res.data.data;
     })
 

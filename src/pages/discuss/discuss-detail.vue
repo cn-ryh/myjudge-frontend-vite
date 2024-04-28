@@ -8,7 +8,7 @@ import { ip } from '@/modules/ip';
 import CommentView from './commentView.vue';
 import { currectUser } from '@/modules/user/currectUser';
 
-const discussion: Ref<IDiscussion> = ref({ problem: null, type: discussType.problem, id: 0, value: ``, process: processType.open, creater: 0, createTime: 0, replyTime: 0, replys: [] });
+const discussion: Ref<IDiscussion> = ref({ problem: null,title:``, type: discussType.problem, id: 0, value: ``, process: processType.open, creater: 0, createTime: 0, replyTime: 0, replys: [] });
 discussion.value.id = +window.location.hash.split(`/`)[1];
 axios.get(`${ip}/getDiscussion/${discussion.value.id}`).then((discussionRes) => {
     console.log(discussionRes);
@@ -135,7 +135,7 @@ function toView(id: string) {
 </script>
 
 <template>
-    <main>
+    <main style="margin-top: 20px;">
         <div class="layui-row layui-col-space32">
             <div class="layui-col-lg8 layui-col-sm9">
                 <div class="discussion card" v-html="markdownit.render(discussion.value)" style="margin-bottom: 50px;">
@@ -160,10 +160,6 @@ function toView(id: string) {
             </div>
             <div class="layui-col-lg4 layui-col-sm3">
                 <div class="card">
-                    <a>awa</a>
-                    <a>awa</a>
-                    <a>awa</a>
-                    <a>awa</a>
                 </div>
             </div>
         </div>

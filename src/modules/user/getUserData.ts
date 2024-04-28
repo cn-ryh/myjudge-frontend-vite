@@ -57,7 +57,6 @@ function keepLogin(): Promise<UserLoginData> {
 function getUserData(uid: number) {
     return new Promise<UserPublicData>((resolve, reject) => {
         axios.get(`${ip}/getUserData/${uid}`).then((res) => {
-            console.log(res);
             resolve(res.data);
             return;
         }).catch((err) => {

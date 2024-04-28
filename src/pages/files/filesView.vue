@@ -51,53 +51,58 @@ function DownloadFile(event) {
 </script>
 <template>
     <NavView></NavView>
-    <div id="Files" style="margin-left: 5rem;margin-top: 5rem;">
-        <center>
-            <h1>欢迎使用 11OJ 在线文件系统</h1>
-        </center>
-        <div id="FilesUpload">
-            <span>
-                <Upload multiple :action="`${ip}/uploadFiles`" id="FileUploader" draggable
-                    style="width: 80%;height: 20%;margin-left: 10%;">
-                </Upload>
-            </span>
-        </div>
-        <div id="FileDownload">
+    <main>
+        <div id="Files" style="margin-left: 5rem;margin-top: 5rem;">
             <center>
-                <button @click="getFileList()"
-                    style="height: 3rem;font-size: large;margin: 2px;background-color: rgba(210, 130, 10, 10);"> 获取文件列表
-                </button>
-                <br>
-                <br>
-                <table id="FileList">
-                    <thead>
-                        <tr>
-                            <td>序号</td>
-                            <td>文件名</td>
-                            <td>上传时间</td>
-                            <td>大小</td>
-                            <td>下载次数</td>
-                            <td> 下载链接 </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(item, idx) in FileLists" :key="idx">
-                            <td>{{ idx + 1 }}</td>
-                            <td>{{ item.filename }}</td>
-                            <td>{{ item.uploadtime }}</td>
-                            <td>{{ item.filesize }}</td>
-                            <td> {{ item.downloadtime }}</td>
-                            <td>
-                                <button :id="`download` + item.id.toString()" @click="$event => DownloadFile($event)">
-                                    下载文件
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h1>欢迎使用 11OJ 在线文件系统</h1>
             </center>
+            <div id="FilesUpload">
+                <span>
+                    <Upload multiple :action="`${ip}/uploadFiles`" id="FileUploader" draggable
+                        style="width: 80%;height: 20%;margin-left: 10%;">
+                    </Upload>
+                </span>
+            </div>
+            <div id="FileDownload">
+                <center>
+                    <button @click="getFileList()"
+                        style="height: 3rem;font-size: large;margin: 2px;background-color: rgba(210, 130, 10, 10);">
+                        获取文件列表
+                    </button>
+                    <br>
+                    <br>
+                    <table id="FileList">
+                        <thead>
+                            <tr>
+                                <td>序号</td>
+                                <td>文件名</td>
+                                <td>上传时间</td>
+                                <td>大小</td>
+                                <td>下载次数</td>
+                                <td> 下载链接 </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, idx) in FileLists" :key="idx">
+                                <td>{{ idx + 1 }}</td>
+                                <td>{{ item.filename }}</td>
+                                <td>{{ item.uploadtime }}</td>
+                                <td>{{ item.filesize }}</td>
+                                <td> {{ item.downloadtime }}</td>
+                                <td>
+                                    <button :id="`download` + item.id.toString()"
+                                        @click="$event => DownloadFile($event)">
+                                        下载文件
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </center>
+            </div>
         </div>
-    </div>
+
+    </main>
 </template>
 <style>
 /* button

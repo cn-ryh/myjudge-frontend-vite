@@ -10,10 +10,8 @@ function creatEntry() {
             entry: string, template: string, filename: string
         }
     } = {};
-    console.log(glob.sync('./src/pages/*/index.html'))
     glob.sync('./src/pages/*/index.html').forEach(val => {
         const url = val.split(`pages${os.type() == `Linux` ? '/' : '\\'}`)[1].split((os.type() == `Linux` )? '/' : '\\')[0];
-        console.log(url);
         if (url == `index`) {
             entryObj[url] = {
                 entry: `./src/pages/${url}/main.ts`,
@@ -31,7 +29,6 @@ function creatEntry() {
         }
 
     });
-    console.log(entryObj);
     return entryObj;
 }
 // https://vitejs.dev/config/

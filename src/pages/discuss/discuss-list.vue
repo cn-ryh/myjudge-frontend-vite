@@ -4,7 +4,8 @@ import { markdownit } from '@/modules/MarkdownIt/markdown'
 import { Ref, ref } from 'vue';
 import axios from 'axios';
 import { ip } from '@/modules/ip';
-import { IDiscussion } from '@/modules/interface';
+import { IDiscussion,discussType } from '@/modules/interface';
+import UserSign from '@/modules/user/userSign.vue';
 const discussTypes: Ref<string[]> = ref([`problem`, `tool`, `workOrder`, `language`, `firstExam`, `other`]);
 const discussTypesDisplay: Ref<string[]> = ref([`题目专版`, `工具链`, `工单`, `语言相关`, `初试相关`, `其他`]);
 const discussTypesRules: Ref<{
@@ -26,10 +27,7 @@ function getQueryVariable(variable: string) {
     const vars = query.split("&");
     for (let i = 0; i < vars.length; i++) {
         const pair = vars[i].split("=");
-        console.log(pair[0], variable)
-        console.log(pair[0] == variable)
         if (pair[0] == variable) {
-            console.log(`pair`);
             return pair[1];
         }
     }
@@ -51,55 +49,76 @@ setTimeout(() => {
     }
 }, 100)
 const list: Ref<IDiscussion[]> = ref([]);
-axios.post(`${ip}/getDiscussionList`, {}).then((getListRes) => {
-    if(getListRes.data.code === 0)
-    {
+const page: Ref<number> = ref(+(getQueryVariable(`page`) ?? 1))
+axios.post(`${ip}/getDiscussionList`, { page: page.value, type: type.value }).then((getListRes) => {
+    if (getListRes.data.code === 0) {
         list.value.push(...getListRes.data.data);
     }
-    else{
+    else {
         NotifyPlugin.warning({
-            title:`获取列表失败`,
+            title: `获取列表失败`,
             content: `请查看日志`
         });
     }
-    return ;
+    return;
 })
 </script>
 <template>
-    <main style="padding: 2vh 1vw;">
-        <div class="mainView">
-            <div class="layui-row layui-col-space32">
-                <div class="layui-col-md3">
-                    <div class="card" style="height: auto;padding: 10px;">
-                        <div style="padding: 10px 25px;">
-                            <div class="discussTypeItem" style="height: 5vh;">
-                                <Link class="discussTypeLinkAll"
-                                    style="font-size: 1.05rem;font-weight: 200;color: rgba(102,102,102,1);"
-                                    :href="`/discuss#/list`"> 所有板块
-                                </Link>
+    <div>
+        <main style="padding: 2vh 1vw;margin-top: 10px;">
+            <div class="mainView">
+                <div class="layui-row layui-col-space32">
+                    <div class="layui-col-md3">
+                        <div class="card" style="height: auto;padding: 10px;">
+                            <div style="padding: 10px 25px;">
+                                <div class="discussTypeItem" style="height: 5vh;">
+                                    <Link class="discussTypeLinkAll"
+                                        style="font-size: 1.05rem;font-weight: 200;color: rgba(102,102,102,1);"
+                                        :href="`/discuss#/list`"> 所有板块
+                                    </Link>
+                                </div>
+                                <div class="discussTypeItem" v-for="(item, index) of discussTypes" style="height: 5vh;"
+                                    :key="index">
+                                    <Link :class="`discussTypeLink${item}`" style="font-size: 1.05rem;font-weight: 200;"
+                                        :href="`/discuss#/list?type=${item}`"> {{ discussTypesDisplay[index] }} </Link>
+                                </div>
                             </div>
-                            <div class="discussTypeItem" v-for="(item, index) of discussTypes" style="height: 5vh;"
-                                :key="index">
-                                <Link :class="`discussTypeLink${item}`" style="font-size: 1.05rem;font-weight: 200;"
-                                    :href="`/discuss#/list?type=${item}`"> {{ discussTypesDisplay[index] }} </Link>
+                        </div>
+                        <div v-if="type !== ``" class="card" style="margin-top: 3vh;padding: 15px 10px;font-size: 15px;"
+                            v-html="markdownit.render(discussTypesRules[type])">
+                        </div>
+                        <div v-if="type !== ``" class="card"
+                            style="margin-top: 3vh;padding: 15px 10px;font-size: 15px;">
+                            <Button @click="jump(`/discuss#/new?type=${type}`)">创建</Button>
+                        </div>
+                    </div>
+                    <div class="layui-col-md9">
+                        <div  @click="jump(`/discuss#/${item.id}`)" style="margin-bottom: 20px;padding: 20px;"
+                            v-for="(item, index) of list" :key="index" class="discussionListItem card">
+                            <h3>{{ item.title }}</h3>
+                            <div style="width: 100%;margin-top: 10px;">
+                                <UserSign :uid="item.creater" show-tag :font-color="`black`"></UserSign>
+                                <span>
+                                    {{ new Date(item.createTime).toLocaleString() }}
+                                </span>
+                                <span v-if="item.type === discussType.problem" style="margin-left: 10px;">{{ item.problem
+                                    }}</span>
+                                <span style="float: right;">最近回复：{{ !item.replyTime ? `无` : new
+                                    Date(item.replyTime).toLocaleString()
+                                    }}</span>
                             </div>
                         </div>
                     </div>
-                    <div v-if="type !== ``" class="card" style="margin-top: 3vh;padding: 15px 10px;font-size: 15px;"
-                        v-html="markdownit.render(discussTypesRules[type])">
-                    </div>
-                    <div v-if="type !== ``" class="card" style="margin-top: 3vh;padding: 15px 10px;font-size: 15px;">
-                        <Button @click="jump(`/discuss#/new?type=${type}`)">创建</Button>
-                    </div>
-                </div>
-                <div class="layui-col-md9">
-                    <div class="grid-demo grid-demo-bg1">1/3</div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </template>
 <style scoped>
+.discussionListItem.card:hover
+{
+    cursor:pointer
+}
 .grid-demo {
     background-color: aliceblue;
 }
