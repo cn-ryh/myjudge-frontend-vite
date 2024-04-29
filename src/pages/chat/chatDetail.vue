@@ -291,5 +291,22 @@ const self = ref(currectUser.uid)
     {
         margin-left: 40px;
     }
+        #sendMessage {
+            height: 30%;
+            width: 95%;
+            margin-left: 2%;
+            margin-top: 15%;
+            font-size: larger;
+            font-weight: 600;
+        }
+    
+        #previewMessage {
+            height: 30%;
+            width: 95%;
+            margin-left: 2%;
+            margin-top: 10%;
+            font-size: larger;
+            font-weight: 600;
+        }
 }
 </style>
