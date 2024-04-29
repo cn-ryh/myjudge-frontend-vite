@@ -14,13 +14,16 @@
 
 main
 {
-    width: 1200px;
+    width: 80vw;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px 20px;
     position: relative;
 }
-
+@media screen{
+    
+}
 code {
     font-family: Courier !important;
     font-size: medium !important;

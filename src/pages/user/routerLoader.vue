@@ -4,9 +4,7 @@ import NavView from '@/modules/navView.vue';
 </script>
 <template>
     <NavView></NavView>
-    <div style="margin-left: 100px;margin-top: 4rem;height: auto;">
-        <router-view></router-view>
-    </div>
+    <router-view></router-view>
 </template>
 <style>
 body {

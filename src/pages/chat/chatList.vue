@@ -23,16 +23,15 @@ axios.post(`${ip}/getUnReadMessageNum`, {
     unReadMessages.value = num.data.data;
 })
 const nowChatId: Ref<string> = ref(``);
-watch(nowChatId,()=>
-{    
+watch(nowChatId, () => {
     unReadMessages.value[nowChatId.value] = 0;
 })
 </script>
 <template>
-    <main style="width: 1400px;">
+    <main style="width: 90vw;">
         <div class="card" style="width: 90%;height: 85vh;margin-left: 5%;margin-top: 4vh;">
             <div class="layui-row" style="height: 100%;">
-                <div class="layui-col-md3" style="border-style:ridge;height: 100%;">
+                <div class="layui-col-md3 layui-col-sm4" style="border-style:ridge;height: 100%;">
                     <div style="width: 100%;text-align: center;">
                         <h2>消息列表</h2>
                     </div>
@@ -52,7 +51,7 @@ watch(nowChatId,()=>
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-md9" style="height: 100%;">
+                <div class="layui-col-md9 layui-col-sm8" style="height: 100%;">
                     <ChatDetail :chat-id="nowChatId"></ChatDetail>
                     <div v-if="!nowChatId || nowChatId == ``"
                         style="height: 20%;margin-top: 40%;width: 100%;text-align: center;font-size: larger;">请选择会话

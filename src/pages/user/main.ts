@@ -10,4 +10,4 @@ import '@arco-design/web-vue/es/progress/style/css.js';
 const app = createApp(App);
 
 app.use(router);
-app.mount('#training');
+app.mount('#user');
