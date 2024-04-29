@@ -5,7 +5,7 @@ import { ip } from '@/modules/ip';
 import { currectUser } from '@/modules/user/currectUser';
 import UserSign from '@/modules/user/userSign.vue';
 import axios from 'axios';
-import { NotifyPlugin, Button, DialogPlugin, Drawer } from 'tdesign-vue-next';
+import { NotifyPlugin, Button, Drawer } from 'tdesign-vue-next';
 import { ref, Ref, watch } from 'vue';
 
 const props = defineProps<{ chatId: string }>()
@@ -19,9 +19,9 @@ function showPreview()
     previewHTML.value= markdownit.render(document.getElementById(`messageInputer`)?.innerText??``);
 }
 
-function loadMore() {
+// function loadMore() {
 
-}
+// }
 function getChat() {
     if (!props.chatId || props.chatId == ``) {
         return;
