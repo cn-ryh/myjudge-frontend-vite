@@ -314,6 +314,10 @@ button {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+#problem ol {
+    margin-left: 1.2rem;
+}
+
 #problem pre {
     background-color: black;
     font-size: medium;
