@@ -7,7 +7,5 @@ window.onhashchange = () => {
 </script>
 <template>
     <NavView></NavView>
-    <div>
-        <router-view></router-view>
-    </div>
+    <router-view></router-view>
 </template>

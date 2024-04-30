@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import NavView from '@/modules/navView.vue';
+import adminNav from './adminNav.vue';
 import { keepLogin } from '@/modules/user/getUserData';
 
 import { Notification } from '@arco-design/web-vue';
+import { ref, Ref } from 'vue';
 window.onhashchange = () => {
     window.location.reload();
 };
+let haveAdmin:Ref<boolean> = ref(false);
 keepLogin().then((res) => {
-    if (res.admin == false) {
-        // document = null
-        // setTimeout(() => {
-        const pd = document.createElement(`div`);
-        pd.setAttribute(`style`, `position:fixed;top:0;left:0;width:10000px;height:100000px;background-color:white;z-index:2`);
-        document.body.appendChild(pd);
+    for (let now in res.admin) {
+        if (res.admin[now]) {
+            haveAdmin.value = true;
+            break;
+        }
+    }
+    if (!haveAdmin.value) {
         Notification.error({
             title: `无访问权限`,
             content: `无管理权限或未登录`,
@@ -24,11 +27,8 @@ keepLogin().then((res) => {
 </script>
 
 <template>
-    <NavView></NavView>
-    <div>
-        <router-view></router-view>
-
-    </div>
+    <adminNav></adminNav>
+    <router-view v-if="haveAdmin"></router-view>
 </template>
 <style>
 body {

@@ -2,7 +2,8 @@
 import { ip } from '@/modules/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification, Button, Upload, Card, TabPane, Tabs, Select, Option, Steps, Step } from '@arco-design/web-vue';
+import { Upload, Card, TabPane, Tabs, Select, Option, Steps, Step } from '@arco-design/web-vue';
+import { NotifyPlugin, Button } from 'tdesign-vue-next';
 const title = ref(``);
 const description = ref(``);
 const diff = ref(0);
@@ -24,7 +25,7 @@ function changeProblem() {
         description: description.value,
         difficult: diff.value
     }).then(() => {
-        Notification.success(`更新成功`);
+        NotifyPlugin.success({ title: `更新成功` });
     });
 }
 const uploadPro = ref(1);
@@ -35,7 +36,17 @@ function uploadGen() {
     axios.post(`${ip}/uploadDataGen/${pid.value}`, {
         gensh, gencpp, std: stdcpp
     }).then((res) => {
-        console.log(res.data);
+        if(res.data.successUpload)
+        {
+            NotifyPlugin.success({ title: `上传成功` });
+        }
+        else
+        {
+            NotifyPlugin.error({
+                title: `上传失败`,
+                content: `请检查`
+            })
+        }
     });
 }
 </script>
@@ -78,7 +89,7 @@ function uploadGen() {
                         <Option :value="10">NOI+</Option>
                         <Option :value="0">暂无评定</Option>
                     </Select>
-                    <Button @click="changeProblem" type="primary">
+                    <Button @click="changeProblem" theme="primary">
                         提交
                     </Button>
                 </div>
@@ -107,7 +118,7 @@ function uploadGen() {
                                     <textarea id="genCpp"
                                         style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
                                 </div>
-                                <Button type="primary" style="width: 6%;margin-left: 47%;" @click="() => {
+                                <Button theme="primary" style="width: 6%;margin-left: 47%;" @click="() => {
                                     ++uploadPro
                                 }">下一步</Button>
                             </div>
@@ -120,10 +131,10 @@ function uploadGen() {
                                         style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
                                 </div>
 
-                                <Button type="primary" style="width: 6%;margin-left: 44%;" @click="() => {
+                                <Button theme="primary" style="width: 6%;margin-left: 44%;" @click="() => {
                                     --uploadPro
                                 }">上一步</Button>
-                                <Button type="primary" style="width: 6%;" @click="() => {
+                                <Button theme="primary" style="width: 6%;" @click="() => {
                                     ++uploadPro
                                 }">下一步</Button>
                             </div>
@@ -135,10 +146,10 @@ function uploadGen() {
                                     <textarea id="genSh"
                                         style="width: 80%;margin-left: 10%; height: 90%;resize: none;"></textarea>
                                 </div>
-                                <Button type="primary" style="width: 6%;margin-left: 44%;" @click="() => {
+                                <Button theme="primary" style="width: 6%;margin-left: 44%;" @click="() => {
                                     --uploadPro
                                 }">上一步</Button>
-                                <Button type="primary" status="success" style="width: 6%;" @click="() => {
+                                <Button theme="success" style="width: 6%;" @click="() => {
                                     uploadGen();
                                 }">完成</Button>
                             </div>

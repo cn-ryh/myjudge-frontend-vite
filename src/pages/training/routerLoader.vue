@@ -10,7 +10,7 @@ window.onhashchange = () => {
 
 <template>
     <NavView></NavView>
-    <router-view style="margin-top: 56px;"></router-view>
+    <router-view></router-view>
 </template>
 
 <style>

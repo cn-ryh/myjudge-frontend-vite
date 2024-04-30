@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { keepLogin } from '@/modules/user/getUserData';
+import { AdminType, keepLogin } from '@/modules/user/getUserData';
 import { Button, HeadMenu, MenuItem, Image, Link, Submenu, Badge } from 'tdesign-vue-next'
 import { currectUser } from './user/currectUser';
 import userSign from './user/userSign.vue';
@@ -23,10 +23,12 @@ axios.post(`${ip}/getUnReadMessageNum`, {
     unReadMessageNum.value = tot;
 })
 const logined: Ref<boolean> = ref(false), uid: Ref<number> = ref(0);
+const admin:Ref<AdminType> = ref(new AdminType());
 keepLogin().then((res) => {
     if (res.logined) {
         logined.value = true;
         uid.value = res.uid;
+        admin.value = res.admin;
     }
 })
 function jumpHome() {
@@ -38,30 +40,30 @@ function jumpHome() {
         <template #logo>
             <Image src="/logo.png" style="width: 6vh;height: 6vh;" @click="jumpHome"></Image>
         </template>
-        <Submenu value="awa1" title="应用" style="font-size: 1.1rem;">
-            <MenuItem value="awa1-1" :href="`/files`">
+        <Submenu value="apps" title="应用" style="font-size: 1.1rem;">
+            <MenuItem value="apps-files" :href="`/files`">
             文件系统
             </MenuItem>
-            <MenuItem value="awa1-1" :href="`/netcut#/mine`">
+            <MenuItem value="apps-netcut" :href="`/netcut#/mine`">
             云剪切板
             </MenuItem>
         </Submenu>
-        <MenuItem value="item2" :href="`/problem#/list`">
+        <MenuItem value="problems" :href="`/problem#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">题库</span>
         </MenuItem>
-        <MenuItem value="item3" :href="`/training#/list`">
+        <MenuItem value="trainings" :href="`/training#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">题单</span>
         </MenuItem>
-        <MenuItem value="item4" :href="`/contest#/list`">
+        <MenuItem value="contests" :href="`/contest#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">比赛</span>
         </MenuItem>
-        <MenuItem value="item6" :href="`/record#/list?user=${currectUser.uid}`">
+        <MenuItem value="records" :href="`/record#/list?user=${currectUser.uid}`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">提交记录</span>
         </MenuItem>
-        <MenuItem value="item7" :href="`/discuss#/list`">
+        <MenuItem value="discussions" :href="`/discuss#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">讨论</span>
         </MenuItem>
-        <MenuItem value="item5" :href="`/admin#/index`">
+        <MenuItem value="backend" :href="`/admin#/index`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">后台</span>
         </MenuItem>
         <template #operations>
