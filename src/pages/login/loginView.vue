@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import axio from 'axios';
 import { ip } from '@/modules/ip';
 import { setCookie } from '@/modules/cookie';
-import { Notification } from '@arco-design/web-vue';
+import { NotifyPlugin } from 'tdesign-vue-next';
 import NavView from '@/modules/navView.vue';
 
 window.onhashchange = () => {
@@ -22,7 +22,7 @@ function login(username: string, password: string) {
         password: password
     }).then((res) => {
         if (res.data.nouser == true) {
-            Notification.error({
+            NotifyPlugin.error({
                 title: `登录失败`,
                 content: `用户不存在`
             });
@@ -31,7 +31,7 @@ function login(username: string, password: string) {
         if (res.data.login == true) {
             setCookie(`uid`, res.data.uid, 1000);
             setCookie(`token`, res.data.usertoken, 1000);
-            Notification.success({
+            NotifyPlugin.success({
                 title: `登录成功`,
                 content: `三秒后跳转到主页`
             });

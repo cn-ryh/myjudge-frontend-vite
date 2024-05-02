@@ -2,8 +2,8 @@
 import { ip } from '@/modules/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification, Button,Card,Select,Option,Tabs,TabPane } from '@arco-design/web-vue';
-
+import { Notification, Button, Select, Option, Tabs, TabPane } from '@arco-design/web-vue';
+import '@/modules/main.css'
 document.title = `新建题目`;
 const title = ref(``);
 const description = ref(``);
@@ -20,10 +20,9 @@ function newProblem() {
                 title: "成功",
                 content: `题目创建成功，pid为 ${res.data.pid}`
             });
-            setTimeout(()=>
-            {
+            setTimeout(() => {
                 window.location.href = `/admin#/problem/${res.data.pid}`;
-            },3000);
+            }, 3000);
         }
 
     });
@@ -31,7 +30,7 @@ function newProblem() {
 
 </script>
 <template>
-        <Card style="width: 90%;margin-left: 5%;margin-top: 1%;">
+    <div class="card" style="">
         <div>
             <span> 题目编号 </span>
             <input placeholder="自动分配" id="problemIdInputer" disabled>
@@ -47,7 +46,7 @@ function newProblem() {
                     <span>题目描述</span>
                     <br>
                     <textarea v-model="description" class="inputarea"
-                        style="height: 30rem;width: 95%;resize: none;margin-left: 10px;"
+                        style="height: 28rem;width: 90%;resize: none;margin-left: 6%;padding: 5px 5px;"
                         placeholder="请输入题目描述，支持Markdown。"></textarea>
                 </div>
                 <br>
@@ -71,8 +70,9 @@ function newProblem() {
                     </Button>
                 </div>
             </TabPane>
-            <TabPane key="2" title="数据上传" disabled @click="()=>{$notification.error(`需要先创建题目`)}">
+            <TabPane key="2" title="数据上传" disabled @click="() => { $notification.error(`需要先创建题目`) }">
             </TabPane>
         </Tabs>
-    </Card>
+    </div>
+
 </template>

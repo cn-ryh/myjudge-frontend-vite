@@ -18,7 +18,7 @@ function showPreview() {
     previewing.value = true;
     previewHTML.value = markdownit.render(document.getElementById(`messageInputer`)?.innerText ?? ``);
 }
-const onList: Ref<boolean> = ref(window.location.hash.includes(`list`))
+// const onList: Ref<boolean> = ref(window.location.hash.includes(`list`))
 // function loadMore() {
 
 // }

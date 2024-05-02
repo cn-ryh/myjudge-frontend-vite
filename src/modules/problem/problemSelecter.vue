@@ -6,9 +6,9 @@ import '@arco-design/web-vue/es/select/style/css.js';
 import '@arco-design/web-vue/es/link/style/css.js';
 import '@arco-design/web-vue/es/tag/style/css.js';
 import { translateColor, translateDiff } from '@/modules/problem/translate'
-import { Button, Notification, Link, Tag, Table, TableColumn } from '@arco-design/web-vue';
+import { Button, Link, Tag, Table, TableColumn } from '@arco-design/web-vue';
 import { ref, Ref } from 'vue';
-import { AutoComplete, AutoCompleteOption, AutoCompleteOptionObj } from 'tdesign-vue-next';
+import { AutoComplete, AutoCompleteOption, AutoCompleteOptionObj, NotifyPlugin } from 'tdesign-vue-next';
 import axios from 'axios';
 import { ip } from '@/modules/ip';
 import { IProblem } from '../interface';
@@ -34,14 +34,14 @@ function addToTable() {
     if (nowProblem.value !== ``) {
         const id = nowProblem.value.split(` `)[0];
         if (!id) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
+            NotifyPlugin.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
         const x = problemList.value.filter((item) => {
             return item.pid == id;
         })[0];
         if (!x) {
-            Notification.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
+            NotifyPlugin.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
             return;
         }
         emit(`update:upproblems`, props.upproblems.concat([x]))

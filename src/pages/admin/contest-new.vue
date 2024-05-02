@@ -2,8 +2,8 @@
 import { ip } from '@/modules/ip';
 import axios from 'axios';
 import { Ref, ref } from 'vue';
-import { Notification, TabPane, Tabs } from '@arco-design/web-vue';
-import { DateRangePicker } from 'tdesign-vue-next';
+import {  TabPane, Tabs } from '@arco-design/web-vue';
+import { DateRangePicker, NotifyPlugin } from 'tdesign-vue-next';
 import ProblemSelecter from '@/modules/problem/problemSelecter.vue';
 import { IProblem } from '@/modules/interface';
 
@@ -14,11 +14,13 @@ const upproblems: Ref<IProblem[]> = ref([]);
 const TimeRange: Ref<number[]> = ref([]);
 function newContest() {
     if (TimeRange.value.length !== 2) {
-        Notification.error(`请填写完整时间`);
+        NotifyPlugin.error({
+            content: `请填写完整时间`
+        });
         return;
     }
     if (title.value === ``) {
-        Notification.error(`请填写完整比赛标题`);
+        NotifyPlugin.error({ content: `请填写完整比赛标题` });
         return;
     }
     axios.post(`${ip}/newContest`, {
@@ -31,7 +33,7 @@ function newContest() {
         type: `OI`
     }).then((res) => {
         if (res.data.success == true) {
-            Notification.success({
+            NotifyPlugin.success({
                 title: "成功",
                 content: `比赛创建成功`
             });
