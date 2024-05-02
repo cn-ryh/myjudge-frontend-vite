@@ -36,7 +36,7 @@ function jumpHome() {
 }
 </script>
 <template>
-    <HeadMenu theme="dark" expand-type="popup">
+    <HeadMenu id="headMenu" theme="dark" expand-type="popup">
         <template #logo>
             <Image src="/logo.png" style="width: 6vh;height: 6vh;" @click="jumpHome"></Image>
         </template>
@@ -75,7 +75,7 @@ function jumpHome() {
                     v-if="!logined">
                     <span class="operator" style="color:white;font-size: large;">登录</span>
                 </Button>
-                <Badge  style="margin-top: 10px;" :count="unReadMessageNum" :max-count="99">
+                <Badge style="margin-top: 10px;" :count="unReadMessageNum" :max-count="99">
                     <Button :href="`/chat#/list`" v-if="logined" size="large" variant="text" style="padding: 0px;height: 32px;">
                         <template #icon>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"
@@ -88,15 +88,32 @@ function jumpHome() {
                 </Badge>
                 <Link variant="text" v-if="logined" shape="square" :href="`/user#/${uid}`"
                     style="margin-left: 1vw;min-width: 3rem;">
-                <userSign :uid="uid"></UserSign>
+                    <userSign :uid="uid" :headImgPos="`right`" :showHeadImg="true"></UserSign>
                 </Link>
             </div>
         </template>
     </HeadMenu>
 </template>
 
-<style scoped>
+<style>
 .operator:hover {
     color: rgba(69, 69, 241, 0.8);
+}
+
+
+@media screen and (max-width: 900px) {
+    .t-head-menu .t-menu__item {
+        padding: 0 12px;
+    }
+}
+@media screen and (max-width: 840px) {
+    .t-head-menu .t-menu__item {
+        padding: 0 8px;
+    }
+}
+@media screen and (max-width: 775px) {
+    #headMenu {
+        display: none;
+    }
 }
 </style>

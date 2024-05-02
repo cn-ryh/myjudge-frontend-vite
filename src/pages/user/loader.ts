@@ -1,8 +1,10 @@
 import * as VueRouter from 'vue-router';
-import training from './user-detail.vue';
+import userSettimg from './userSettimg.vue';
+import userDetail from './user-detail.vue';
 
 const routes = [
-    { path: '/:id', component: training },
+    { path: '/setting', component: userSettimg },
+    { path: '/:id', component: userDetail },
 ];
 
 const router = VueRouter.createRouter({

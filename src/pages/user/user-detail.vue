@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ip } from "@/modules/ip";
-import {  Tag, Link, Tabs, TabPane } from "@arco-design/web-vue";
+import { Tag, Link, Tabs, TabPane } from "@arco-design/web-vue";
 import { Button } from "tdesign-vue-next";
 import { translateColor, translateDiff } from "@/modules/problem/translate";
 import axios from "axios";
@@ -9,13 +9,12 @@ import { currectUser } from "@/modules/user/currectUser";
 const uid = window.location.href.substring(window.location.href.lastIndexOf(`/`) + 1);
 const acceptedProblems: Ref<string[]> = ref([]);
 const triedProblems: Ref<string[]> = ref([]);
-const payed = ref(0);
 const username = ref('');
-const level = ref(0);
-const exp = ref(0);
+const headImg = ref(``)
 window.onhashchange = () => {
     window.location.reload();
 };
+
 axios.get(`${ip}/getUserData/${uid}`).then((res) => {
     if (res.data == `User not Found`) {
         window.alert(`用户不存在`);
@@ -23,13 +22,10 @@ axios.get(`${ip}/getUserData/${uid}`).then((res) => {
     }
     acceptedProblems.value = res.data.acceptedProblems;
     triedProblems.value = res.data.triedProblems;
-    payed.value = res.data.payed;
     username.value = res.data.username;
-    level.value = res.data.level;
-    exp.value = res.data.exp;
+    headImg.value = res.data.headImg;
 });
-function getChatHref()
-{
+function getChatHref() {
     return `/chat#/${Math.min(+uid, currectUser.uid)}&${Math.max(+uid, currectUser.uid)}`;
 }
 </script>
@@ -75,7 +71,10 @@ function getChatHref()
                                     username.substring(1) }}</span>
                         </h2>
                         <br />
+                        <img :src="headImg" style="width: 50%;border-radius: 50%;" />
+                        <br />
                         <Button v-if="+uid != currectUser.uid" :href="getChatHref()">私信</Button>
+                        <Button :href="`/user#/setting`"  v-if="+uid === currectUser.uid">个人设置</Button>
                     </center>
                 </div>
             </div>

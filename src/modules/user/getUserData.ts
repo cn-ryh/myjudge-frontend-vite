@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ip } from "@/modules/ip";
 import { currectUser } from "./currectUser";
+import { setCookie } from "../cookie";
 export class UserLoginData {
     uid = 0;
     username = ``
@@ -19,6 +20,7 @@ export class UserPublicData {
     uid = 0;
     username = ``
     tag: { color: string, text: string, textcolor: string }[] = [];
+    headImg: string = ``;
     constructor(uid = 0, username = ``, tag = []) {
         this.uid = uid;
         this.username = username;
@@ -48,7 +50,8 @@ export class AdminType {
 function keepLogin(): Promise<UserLoginData> {
     return new Promise((resolve) => {
         const uid = currectUser.uid;
-        const usertoken = currectUser.token;
+    const usertoken = currectUser.token;
+        
         if (!uid || !usertoken) {
             resolve(new UserLoginData());
             return;
@@ -64,6 +67,8 @@ function keepLogin(): Promise<UserLoginData> {
                 resolve(new UserLoginData(+uid, true, res.data.username, res.data.admin, usertoken));
             }
             else {
+                setCookie(`uid`, ``, 9999);
+                setCookie(`token`, ``, 9999);
                 resolve(new UserLoginData());
             }
         });
@@ -81,5 +86,17 @@ function getUserData(uid: number) {
         })
     })
 }
-
-export { keepLogin, getUserData };
+function getPrivateUser() {
+    return new Promise<any>((resolve, reject) => {
+        axios.post(`${ip}/getPrivateUser`, {
+            uid: currectUser.uid,
+            token: currectUser.token
+        }).then((res) => {
+            resolve(res.data.data);
+        }).catch((err) => {
+            console.error(err);
+            reject(err);
+        })
+    })
+}
+export { keepLogin, getUserData, getPrivateUser };

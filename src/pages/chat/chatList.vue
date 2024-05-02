@@ -7,21 +7,29 @@ import { Ref, watch } from 'vue';
 import { ref } from 'vue';
 import UserSign from '@/modules/user/userSign.vue';
 import ChatDetail from './chatDetail.vue';
-import { Badge } from 'tdesign-vue-next';
+import { Badge, NotifyPlugin } from 'tdesign-vue-next';
+import { keepLogin } from '@/modules/user/getUserData';
 const chatList: Ref<any[]> = ref([]);
-axios.post(`${ip}/getChatList`, {
-    uid: currectUser.uid, token: currectUser.token
-}).then((data) => {
-    console.log(data);
-    chatList.value = data.data.data;
+keepLogin().then((loginRes) => {
+    if (!loginRes.logined) {
+        NotifyPlugin.error({ title: `请登录` });
+        return;
+    }
+    axios.post(`${ip}/getChatList`, {
+        uid: currectUser.uid, token: currectUser.token
+    }).then((data) => {
+        console.log(data);
+        chatList.value = data.data.data;
+    }); axios.post(`${ip}/getUnReadMessageNum`, {
+        uid: currectUser.uid,
+        token: currectUser.token
+    }).then((num) => {
+        unReadMessages.value = num.data.data;
+    })
 })
+
 const unReadMessages: Ref<any> = ref({});
-axios.post(`${ip}/getUnReadMessageNum`, {
-    uid: currectUser.uid,
-    token: currectUser.token
-}).then((num) => {
-    unReadMessages.value = num.data.data;
-})
+
 const nowChatId: Ref<string> = ref(``);
 watch(nowChatId, () => {
     unReadMessages.value[nowChatId.value] = 0;
@@ -29,7 +37,7 @@ watch(nowChatId, () => {
 </script>
 <template>
     <main style="width: 90vw;">
-        <div class="card" style="width: 90%;height: 85vh;margin-left: 5%;margin-top: 4vh;">
+        <div class="card" style="width: 90%;height: 85vh;margin-left: 5%;margin-top: 4vh;padding: 2px;">
             <div class="layui-row" style="height: 100%;">
                 <div class="layui-col-md3 layui-col-sm4" style="border-style:ridge;height: 100%;">
                     <div style="width: 100%;text-align: center;">

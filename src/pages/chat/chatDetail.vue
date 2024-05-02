@@ -3,6 +3,7 @@ import { markdownit } from '@/modules/MarkdownIt/markdown';
 import { getAnotherUser } from '@/modules/chat/func';
 import { ip } from '@/modules/ip';
 import { currectUser } from '@/modules/user/currectUser';
+import { keepLogin } from '@/modules/user/getUserData';
 import UserSign from '@/modules/user/userSign.vue';
 import axios from 'axios';
 import { NotifyPlugin, Button, Drawer } from 'tdesign-vue-next';
@@ -12,13 +13,12 @@ const props = defineProps<{ chatId: string }>()
 const Chat: Ref<any> = ref(null);
 const messages: Ref<any[]> = ref([]);
 const loadedPage: Ref<number> = ref(1);
-const previewing:Ref<boolean> = ref(false),previewHTML = ref(``);
-function showPreview()
-{
+const previewing: Ref<boolean> = ref(false), previewHTML = ref(``);
+function showPreview() {
     previewing.value = true;
-    previewHTML.value= markdownit.render(document.getElementById(`messageInputer`)?.innerText??``);
+    previewHTML.value = markdownit.render(document.getElementById(`messageInputer`)?.innerText ?? ``);
 }
-
+const onList: Ref<boolean> = ref(window.location.hash.includes(`list`))
 // function loadMore() {
 
 // }
@@ -57,7 +57,13 @@ function getChat() {
         })
     });
 }
-getChat();
+keepLogin().then((loginRes) => {
+    if (!loginRes.logined) {
+        NotifyPlugin.error({ title: `请登录` });
+        return;
+    }
+    getChat();
+});
 let lastTime = 0;
 let timer = 0;
 let toMany = false;
@@ -192,11 +198,17 @@ const self = ref(currectUser.uid)
 </script>
 <template>
     <div v-if="Chat != null" style="height: 100%;">
-        <div id="header" style="width: 100%;text-align: center;border-bottom-style: dotted;padding: 10px;">
-            <UserSign show-tag :font-color="`black`" v-if="$props.chatId.includes(`&`)" :uid="+getAnotherUser($props.chatId)">
-            </UserSign>
-            <span style="width: auto;margin-left: auto;margin-right: auto;text-align: center;">{{
-                Chat.name }}</span>
+        <div id="header">
+            <div id="chatName">
+                <UserSign :show-tag="true" :font-color="`black`" v-if="$props.chatId.includes(`&`)"
+                    :uid="+getAnotherUser($props.chatId)">
+                </UserSign>
+                <div v-if="Chat.name" style="width: auto;margin-left: auto;margin-right: auto;text-align: center;">{{
+                    Chat.name }}</div>
+            </div>
+            <div id="operator">
+
+            </div>
         </div>
         <div id="messageView"
             style="overflow-y: auto;border-style:none none groove none;width: 99%;margin-left: auto;margin-right: auto;margin-top: 10px;height: 70%;">
@@ -278,6 +290,7 @@ const self = ref(currectUser.uid)
     font-size: larger;
     font-weight: 600;
 }
+
 #previewMessage {
     height: 30%;
     width: 70%;
@@ -286,27 +299,50 @@ const self = ref(currectUser.uid)
     font-size: larger;
     font-weight: 600;
 }
-@media screen and (min-width:1200px){
-    #operators
-    {
+
+@media screen and (min-width:1200px) {
+    #operators {
         margin-left: 40px;
     }
-        #sendMessage {
-            height: 30%;
-            width: 95%;
-            margin-left: 2%;
-            margin-top: 15%;
-            font-size: larger;
-            font-weight: 600;
-        }
-    
-        #previewMessage {
-            height: 30%;
-            width: 95%;
-            margin-left: 2%;
-            margin-top: 10%;
-            font-size: larger;
-            font-weight: 600;
-        }
+
+    #sendMessage {
+        height: 30%;
+        width: 95%;
+        margin-left: 2%;
+        margin-top: 15%;
+        font-size: larger;
+        font-weight: 600;
+    }
+
+    #previewMessage {
+        height: 30%;
+        width: 95%;
+        margin-left: 2%;
+        margin-top: 10%;
+        font-size: larger;
+        font-weight: 600;
+    }
+}
+</style>
+<style scoped>
+#header {
+    width: calc(100% - 20px);
+    text-align: center;
+    border-bottom-style: dotted;
+    padding: 10px;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+}
+
+#operator {
+    width: 20px;
+    height: 20px;
+}
+
+#chatName {
+    margin-left: 20px;
+    flex: 1 1;
 }
 </style>
