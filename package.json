@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "vite --host 192.168.1.4",
         "build": "vue-tsc && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "docs:build": "bash ./buildDoc.sh"
     },
     "dependencies": {
         "@mdit/plugin-alert": "^0.10.0",
