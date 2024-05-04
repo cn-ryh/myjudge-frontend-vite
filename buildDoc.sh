@@ -1,4 +1,4 @@
 cd ./docs
-pnpm run install 
+pnpm install 
 pnpm run docs:build
 mv ./src/.vuepress/dist ../dist/docs
