@@ -1,5 +1,4 @@
 import MarkdownIt from "markdown-it";
-import { alert } from "@mdit/plugin-alert";
 import { align } from "@mdit/plugin-align";
 import { tab } from "@mdit/plugin-tab";
 import { mark } from "@mdit/plugin-mark";
@@ -25,8 +24,6 @@ const markdownit = new MarkdownIt({
             return str;
         }
     }
-}).use(alert, {
-    deep: true
 }).use(align).use(mathjax).use(tab).use(tasklist).use(mark).use(container, {
     name: "hint",
     openRender: (tokens, index) => {
