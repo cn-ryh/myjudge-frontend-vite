@@ -1,24 +1,45 @@
 <script setup lang="ts">
 import { ip } from '@/modules/ip';
 import axios from 'axios';
-import {  ref } from 'vue';
-import { Card, Notification, Button, TabPane, Tabs } from '@arco-design/web-vue';
+import {  Ref, ref } from 'vue';
+import { Card, Button, TabPane, Tabs } from '@arco-design/web-vue';
+import { NotifyPlugin } from 'tdesign-vue-next';
+import ProblemSelecter from '@/modules/problem/problemSelecter.vue';
+import { IProblem } from '@/modules/interface';
 
 const title = ref(``);
 const description = ref(``);
 const page = window.location.href;
-const upproblems = ref([]);
+const upproblems:Ref<IProblem[]> = ref([]);
 
 const id = ref(``);
 
 function changeTraining() {
+    const problems:string[] = [];
+    for(let now of upproblems.value)
+    {
+        problems.push(now.pid);
+    }
+    console.log(problems);
     axios.post(`${ip}/changeTraining/${page.substring(page.lastIndexOf(`/`) + 1)}`, {
         title: title.value,
         description: description.value,
-        problems: upproblems.value
+        problems
     }).then(() => {
-        Notification.success(`更新成功`);
+        NotifyPlugin.success({
+            title: "更新成功"
+        });
     });
+}
+
+if (page.substring(page.lastIndexOf(`/`) + 1) !== `problem`) {
+    axios.get(`${ip}/getTraining/${page.substring(page.lastIndexOf(`/`) + 1)}`).then((res) => {
+        let training = res.data;
+        description.value = training.description;
+        id.value = training.id;
+        title.value = training.title
+        upproblems.value = training.problems;
+    })
 }
 
 </script>
@@ -44,6 +65,7 @@ function changeTraining() {
 
             </TabPane>
             <TabPane key="2" title="题目编辑">
+                <ProblemSelecter v-model:upproblems="upproblems"></ProblemSelecter>
             </TabPane>
 
         </Tabs>

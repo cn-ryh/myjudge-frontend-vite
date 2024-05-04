@@ -16,11 +16,13 @@ else {
         method: `post`,
         url: `${ip}/getOwnNetcutList`,
         data: {
-            uid: +getCookie(`uid`),
-            token: getCookie(`token`)
+            uid: currectUser.uid,
+            token: currectUser.token
         }
     }).then((res) => {
         netcutList.value = res.data.data;
+    }).catch((err) => {
+        console.error(err);
     })
 
 }
@@ -47,10 +49,10 @@ function deleteNetcut(path: string) {
 }
 </script>
 <template>
-    <div>
-        <H2 style="text-align: center;">我的剪切板</H2>
+    <main>
+        <H2 style="text-align: center;margin-top: 2vh;">我的剪切板</H2>
         <Table :pagination="{ pageSize: 20 }" :data="netcutList" size="small" :bordered="false"
-            style="width: 80vw;margin-left: 10vw;">
+            style="width: 80vw;margin-top:20px">
             <template #columns>
                 <TableColumn title="剪切板路径" data-index="paths">
                     <template #cell="{ record }">
@@ -95,7 +97,7 @@ function deleteNetcut(path: string) {
                 <p>因此不建议使用该剪切板保存隐私数据</p>
             </div>
         </center>
-    </div>
+    </main>
 </template>
 
 <style></style>

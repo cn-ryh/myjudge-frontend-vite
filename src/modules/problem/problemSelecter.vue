@@ -34,26 +34,34 @@ function addToTable() {
     if (nowProblem.value !== ``) {
         const id = nowProblem.value.split(` `)[0];
         if (!id) {
-            NotifyPlugin.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
+            NotifyPlugin.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未找到` });
             return;
         }
         const x = problemList.value.filter((item) => {
             return item.pid == id;
         })[0];
         if (!x) {
-            NotifyPlugin.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未扎到` });
+            NotifyPlugin.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未找到` });
+            return;
+        }
+        if (props.upproblems.includes(x)) {
+            NotifyPlugin.warning({ title: `题目已存在`, content: `您选择的题目 ${nowProblem.value} 已经存在，你可以拖动改变位置` });
             return;
         }
         emit(`update:upproblems`, props.upproblems.concat([x]))
+        console.log(props.upproblems);
         nowProblem.value = ``;
     }
     else {
         return;
     }
 }
-// const handleChange = (_data: TableData[]) => {
-//     problems.value = _data as IProblem[];
-// };
+function removeFromTable(pid: string) {
+    emit(`update:upproblems`, props.upproblems.filter((item) => { return item.pid !== pid }));
+}
+const handleChange = (_data: IProblem[]) => {
+    emit(`update:upproblems`,_data);
+};
 </script>
 <template>
     <div>
@@ -62,13 +70,14 @@ function addToTable() {
             placeholder="请输入题目编号或标题" style="width: 280px;display: inline-block;" />
         <Button @click="addToTable()">确认</Button>
 
-        <Table style="margin-top: 20px;" :data="upproblems" :draggable="{ type: 'handle', width: 40 }">
+        <Table @change="handleChange as Function" style="margin-top: 20px;" :data="upproblems"
+            :draggable="{ type: 'handle', width: 40 }">
             <template #columns>
                 <TableColumn title="题号" data-index="pid">
                 </TableColumn>
                 <TableColumn title="题目名称" data-index="title">
                     <template #cell="{ record }">
-                        <Link :href="`/problem#/${record}`">
+                        <Link :href="`/problem#/${record.pid}`">
                         <span style="font-weight: 800;">
                             {{ record.title }}
                         </span>
@@ -80,6 +89,11 @@ function addToTable() {
                         <Tag :color="translateColor(record.difficult)">
                             {{ translateDiff(record.difficult) }}
                         </Tag>
+                    </template>
+                </TableColumn>
+                <TableColumn title="移除" data-index="difficult">
+                    <template #cell="{ record }">
+                        <Button @click="removeFromTable(record.pid)">移除题目</Button>
                     </template>
                 </TableColumn>
             </template>

@@ -1,13 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { ip } from "@/modules/ip";
 import axios from "axios";
 import { ref } from "vue";
-import { Card, List } from '@arco-design/web-vue';
+import { List } from '@arco-design/web-vue';
+import { Input, InputGroup, Option, Select } from "tdesign-vue-next";
+import { Ref } from "vue";
+import UserSign from "@/modules/user/userSign.vue";
 const tot = ref(0);
-const records = ref([]);
+const records:Ref<any[]> = ref([]);
 const nowPage = window.location.href;
 if (nowPage.split(`?`).length > 1) {
-    axios.get(`${ip}/searchRecord?${nowPage.split(`?`)[1]}`).then(async (res) => {
+    axios.get(`${ip}/searchRecord?${nowPage.split(`?`)[1]}`).then((res) => {
         tot.value = res.data.length;
         records.value = res.data;
         records.value.reverse();
@@ -15,32 +18,21 @@ if (nowPage.split(`?`).length > 1) {
         console.error(err);
     });
 }
+const searchOpinion: Ref<{ [key: string]: string }> = ref({})
+
 function getrecord() {
-    const recordid = document.getElementById(`recordid`).value;
-    const pid = document.getElementById(`pid`).value;
-    const uid = document.getElementById(`user`).value;
-    const state = document.getElementById(`state`).value;
-    if (recordid !== ``) {
-        window.location.href = `/record#/${recordid}`;
+
+    if (searchOpinion.value["recordId"] && searchOpinion.value["recordId"] !== ``) {
+        window.location.href = `/record#/${searchOpinion.value["recordId"]}`;
         return;
     }
-    const searchOption = {};
-    if (pid != `` && pid) {
-        searchOption.problem = pid;
-    }
-    if (uid != `` && uid) {
-        searchOption.user = uid;
-    }
-    if (state != `` && state) {
-        searchOption.state = state;
-    }
-    if (Object.keys(searchOption).length === 0) {
+    if (Object.keys(searchOpinion.value).length === 0) {
         window.alert(`不提供所有提交记录的查询`);
         return;
     }
     let url = `/record#/list?`;
-    for (const now in searchOption) {
-        url += `${now}=${searchOption[now]}&`;
+    for (const now in searchOpinion.value) {
+        url += `${now}=${searchOpinion.value[now]}&`;
     }
     window.location.href = url;
     window.location.reload();
@@ -49,75 +41,82 @@ function getrecord() {
 </script>
 
 <template>
-    <main>
-        <Card style="height: 4rem;">
-            <div style="margin-left: 15rem;">
-                <span style="margin: 20px;margin-top: 5rem !important;">
-                    <form action="" style="display: inline;">
-                        <select name="state" id="state">
-                            <option value="">全部状态</option>
-                            <option value="Accept">Accept</option>
-                            <option value="Unaccept">Unaccept</option>
-                            <option value="Compile Error">Compile Error</option>
-                        </select>
-                    </form>
-                    <input id="recordid" placeholder="记录编号" style="width: 12rem;height: 2rem;" />
-                    <input id="pid" placeholder="题目编号" style="width: 12rem;height: 2rem;">
-                    <input id="user" placeholder="用户" style="width: 12rem;height: 2rem;">
-
+    <main style="width: 85%;">
+        <div class="card">
+            <div>
+                <span style="margin-top: 5rem !important;">
+                    <InputGroup separate>
+                        <Select v-model="searchOpinion.state" placeholder="请选择记录状态" name="state" id="state"
+                            style="width: 10rem;">
+                            <Option value="">全部状态</Option>
+                            <Option value="Accept">Accept</Option>
+                            <Option value="UnAccept">UnAccept</Option>
+                            <Option value="Compile Error">Compile Error</Option>
+                        </Select>
+                        <Input v-model="searchOpinion.recordId" placeholder="记录编号"
+                            style="margin-left: 20px;display: inline-block;width: 12rem;height: 2rem;" />
+                        <Input v-model="searchOpinion.pid" placeholder="题目编号"
+                            style="display: inline-block;width: 12rem;height: 2rem;" />
+                        <Input v-model="searchOpinion.user" placeholder="用户"
+                            style="display: inline-block;width: 12rem;height: 2rem;" />
+                    </InputGroup>
                     <button @click="getrecord()"> 确认 </button>
                 </span>
                 <span style="margin-right: 15px;"> 共 <b>{{ tot }}</b> 条记录 </span>
             </div>
-        </Card>
-
-        <List style="margin-top: 1rem;width: 90%;margin-left: 5%;" :data="records" :paginationProps="{
-            total: records.length,
-            pageSize: 10
-        }">
-            <template #item="{ item }">
-                <div
-                    style="font-size: 15px;padding-bottom: 10px;height: 2.3rem;border-bottom-style: outset;border-bottom-width: 2px;border-bottom-color: rgba(100, 100, 100, .2);padding-top: 1.2rem;">
-                    <div style="display: inline-block;margin-left: 3rem;width: 32%;">
-                        <span style="margin-right: 1rem;width: 30%;">
-                            <a :href="`/user/${item.user}`">
-                                <span style="font-weight: bold;">
-                                    {{ item.username }}
-                                </span>
-                            </a>
-                        </span>
-                        <span class="lfe-caption" style="width: 40%;">
-                            {{ item.submitTime }}
-                        </span>
-                    </div>
-                    <div style="width: 12%;display: inline-block;">
-                        <a :href="`/record#/${item.id}`">
-                            <span :class="`State-${item.state}`.replace(/\s/g, ``)"
-                                style="padding:1px 2px;font-size: large;font-weight: 420;">
-                                {{ item.state }}
-                            </span>
-                        </a>
-                    </div>
-                    <div class="problem" style="width: 10%;display: inline-block;">
-                        <div>
-                            <a :href="`/problem#/${item.problem}`" style="color: rgb(10, 10, 230);">
-                                <span class="pid">
-                                    <b>{{ item.problem }}</b>
-                                    {{ item.title }}
+        </div>
+        <div style="margin-top: 40px;" class="card">
+            <List :data="records" :paginationProps="{
+                total: records.length,
+                pageSize: 15
+            }">
+                <template #item="{ item }">
+                    <div class="listItem" style="">
+                        <div style="margin-left: 1rem;width: 30%;">
+                            <UserSign fontColor="black" showTag showHeadImg :uid="item.user"></UserSign>
+                        </div>
+                        <div style="margin-left: 20px;width: 15%;">
+                            {{ new Date(item.submitTime).toLocaleString() }}
+                        </div>
+                        <div style="width: 15%;">
+                            <a :href="`/record#/${item.id}`">
+                                <span :class="`State-${item.state}`.replace(/\s/g, ``)"
+                                    style="padding:1px 2px;font-size: large;font-weight: 420;">
+                                    {{ item.state }}
                                 </span>
                             </a>
                         </div>
+                        <div class="problem" style="width: 10%;">
+                            <div>
+                                <a :href="`/problem#/${item.problem}`" style="color: rgb(10, 10, 230);">
+                                    <span class="pid">
+                                        <b>{{ item.problem }}</b>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="detail lfe-caption" style="display: inline-block;color: rgba(200,200,200,.9);">
+                            <span>最大时间 {{ item.maxtime }}ms</span>
+                            <span>总时间 {{ item.sumtime }}ms</span>
+                            <span>内存 {{ item.memory }}MB</span>
+                        </div>
                     </div>
-                    <div class="detail lfe-caption" style="display: inline-block;">
-                        {{ item.sumtime }}ms
-                        / {{ item.maxtime }}ms
-                    </div>
-                </div>
-            </template>
-        </List>
+                </template>
+            </List>
+        </div>
     </main>
 </template>
-
+<style scoped>
+.listItem {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    height: 3.5rem;
+    border-bottom-style: outset;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(100, 100, 100, .2);
+}
+</style>
 <style>
 .State-Accept {
     color: rgb(82, 196, 26) !important;

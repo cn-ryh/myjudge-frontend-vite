@@ -1,4 +1,3 @@
-cp -r ./docs/src/.vuepress/public ../public
 pnpm install 
 pnpm run build
 cd ./docs

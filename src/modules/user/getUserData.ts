@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ip } from "@/modules/ip";
 import { currectUser } from "./currectUser";
-import { setCookie } from "../cookie";
+import { getCookie, setCookie } from "../cookie";
 export class UserLoginData {
     uid = 0;
     username = ``
@@ -50,8 +50,8 @@ export class AdminType {
 function keepLogin(): Promise<UserLoginData> {
     return new Promise((resolve) => {
         const uid = currectUser.uid;
-    const usertoken = currectUser.token;
-        
+        const usertoken = currectUser.token;
+
         if (!uid || !usertoken) {
             resolve(new UserLoginData());
             return;
@@ -77,7 +77,12 @@ function keepLogin(): Promise<UserLoginData> {
 }
 function getUserData(uid: number) {
     return new Promise<UserPublicData>((resolve, reject) => {
+        const userCache = JSON.parse(getCookie(`userCache`) ?? `{}`);
+        if (userCache[uid]) {
+            return userCache[uid];
+        }
         axios.get(`${ip}/getUserData/${uid}`).then((res) => {
+            userCache[uid] = userCache;
             resolve(res.data);
             return;
         }).catch((err) => {
