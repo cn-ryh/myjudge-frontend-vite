@@ -86,13 +86,13 @@ function getrecord() {
 function changeView() {
     if (nowView.value == `Code`) {
         nowView.value = `Details`;
-        document.getElementsByClassName(`recordDetails`)[0].style.width = `60%`;
-        document.getElementById(`changeView`).innerText = `查看代码`;
+        $(`#recordDetails`).get()[0].style.width = `60%`;
+        document.getElementById(`changeView`)!.innerText = `查看代码`;
     }
     else {
         nowView.value = `Code`;
-        document.getElementsByClassName(`recordDetails`)[0].style.width = `80%`;
-        document.getElementById(`changeView`).innerText = `查看测试点`;
+        $(`#recordDetails`).get()[0].style.width = `80%`;
+        document.getElementById(`changeView`)!.innerText = `查看测试点`;
 
     }
 }

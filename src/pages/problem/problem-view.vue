@@ -4,11 +4,10 @@ import axio from "axios";
 import { ip } from '@/modules/ip';
 import { keepLogin } from "@/modules/user/getUserData";
 import { Notification, Button, Link } from '@arco-design/web-vue';
-import * as monaco from 'monaco-editor'
-import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution';
-let monacoInstance: monaco.editor.IStandaloneCodeEditor;
+import {editor}  from 'monaco-editor'
+let monacoInstance: editor.IStandaloneCodeEditor;
 setTimeout(() => {
-    monacoInstance = monaco.editor.create(document.getElementById("codeInputer")!, {
+    monacoInstance = editor.create(document.getElementById("codeInputer")!, {
         value: `#include <bits/stdc++.h>
 using namespace std;
 signed main()
