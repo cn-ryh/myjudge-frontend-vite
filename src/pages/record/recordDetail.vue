@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { ip } from "@/modules/ip";
 import axios from "axios";
-import { ref } from "vue";
-const lastres = ref([]);
+import { Ref, ref } from "vue";
+const lastres:Ref<any[]> = ref([]);
 const user = ref(``);
 const time = ref(``);
 const memory = ref(``);
@@ -13,6 +13,7 @@ const title = ref(``);
 const point = ref(0);
 const problem = ref(``);
 import { Link } from '@arco-design/web-vue';
+import hljs from "highlight.js";
 
 function showResult(res) {
 
@@ -50,7 +51,7 @@ function tranformState(state) {
 const codes = ref(``);
 
 function getrecord() {
-    return new Promise((resolve) => {
+    return new Promise<void>((reslove) => {
         const args = (window.location.href.split(`/`));
         const recordid = args[args.length - 1];
         axios.get(`${ip}/getRecord/${recordid}`).then((res) => {
@@ -66,18 +67,19 @@ function getrecord() {
                 memory.value = record.memory + `MB`;
                 codes.value = record.code;
                 point.value = record.point;
-                document.getElementById(`code-View`).innerHTML = hljs.highlight(codes.value, { language: `cpp` }).value;
-                resolve();
+                document.getElementById(`code-View`)!.innerHTML = hljs.highlight(codes.value, { language: `cpp` }).value;
                 axios.get(`${ip}/getProblem/${problem.value}`).then((problemData) => {
                     title.value = problemData.data.title;
+                    reslove();
                 });
-
             }
             else {
                 window.alert(`未找到提交记录`);
                 window.location.href = `/`;
             }
         });
+    }).catch((err)=>{
+        console.error(err);
     });
 
 }
@@ -95,8 +97,9 @@ function changeView() {
     }
 }
 function tryGetting() {
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
         getrecord().then(() => {
+            console.log(`getting`)
             if (state.value === 'Waiting' || state.value === 'Judging') {
                 setTimeout(() => {
                     tryGetting().then(() => {

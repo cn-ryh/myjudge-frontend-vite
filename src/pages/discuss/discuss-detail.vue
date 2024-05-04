@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import $ from 'jquery'
 import { Ref, ref } from 'vue';
 import { markdownit } from '@/modules/MarkdownIt/markdown';
 import { IDiscussion, discussType, processType } from '@/modules/interface';
@@ -8,7 +9,7 @@ import { ip } from '@/modules/ip';
 import CommentView from './commentView.vue';
 import { currectUser } from '@/modules/user/currectUser';
 
-const discussion: Ref<IDiscussion> = ref({ problem: null,title:``, type: discussType.problem, id: 0, value: ``, process: processType.open, creater: 0, createTime: 0, replyTime: 0, replys: [] });
+const discussion: Ref<IDiscussion> = ref({ problem: null, title: ``, type: discussType.problem, id: 0, value: ``, process: processType.open, creater: 0, createTime: 0, replyTime: 0, replys: [] });
 discussion.value.id = +window.location.hash.split(`/`)[1];
 axios.get(`${ip}/getDiscussion/${discussion.value.id}`).then((discussionRes) => {
     console.log(discussionRes);
@@ -41,7 +42,7 @@ function replyToReplys(id: string) {
     console.log(id);
     replyParentId.value = id;
     replyReply.value = true;
-    document.getElementById(id)!.scrollIntoView();
+    $(`#replyInputer`)[0].scrollIntoView();
 }
 function makeReply() {
     if (!replyParentId.value || replyParentId.value === ``) {
@@ -85,9 +86,7 @@ function makeReply() {
             })
         })
     }
-    else
-    {
-
+    else {
         axios.post(`${ip}/replyDiscussion`, {
             sender: currectUser.uid,
             token: currectUser.token,
@@ -116,19 +115,20 @@ function makeReply() {
     }
 }
 function toView(id: string) {
-    document.getElementById(id)!.scrollIntoView();
-    document.getElementById(id)!.parentElement!.parentElement!.style.background = `rgb(131 131 255 / 55%)`;
+    const commentDiv = $(`#${id}`).parents(`.reply.card`).get()[0] as HTMLDivElement;
+    commentDiv.style.background = `rgb(131 131 255 / 55%)`;
+    commentDiv.scrollIntoView();
     for (let i = 1; i <= 5; i++) {
         if (i & 1) {
             setTimeout(() => {
-                document.getElementById(id)!.parentElement!.parentElement!.style.background = `#FFFFFF`;
-            }, 250 * i + i);
+                commentDiv.style.background = `#FFFFFF`;
+            }, 300 * i + i * i * 10 + 250);
         }
         else {
 
             setTimeout(() => {
-                document.getElementById(id)!.parentElement!.parentElement!.style.background = `rgb(131 131 255 / 55%)`;
-            }, 250 * i);
+                commentDiv.style.background = `rgb(131 131 255 / 55%)`;
+            }, 300 * i + i * i * 10 + 250);
         }
     }
 }
