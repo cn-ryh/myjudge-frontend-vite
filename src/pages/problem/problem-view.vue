@@ -5,7 +5,6 @@ import { ip } from '@/modules/ip';
 import { keepLogin } from "@/modules/user/getUserData";
 import { Button, Link, NotifyPlugin } from "tdesign-vue-next";
 import { editor } from 'monaco-editor'
-import { title } from "process";
 let monacoInstance: editor.IStandaloneCodeEditor;
 setTimeout(() => {
     monacoInstance = editor.create(document.getElementById("codeInputer")!, {
