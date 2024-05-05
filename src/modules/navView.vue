@@ -38,7 +38,7 @@ function jumpHome() {
 <template>
     <HeadMenu id="headMenu" theme="dark" expand-type="popup">
         <template #logo>
-            <Image src="/logo.png" style="width: 6vh;height: 6vh;" @click="jumpHome"></Image>
+            <Image src="/logo.svg" style="width: 6vh;height: 6vh;border-radius: 50%;" @click="jumpHome"></Image>
         </template>
         <Submenu value="apps" title="应用" style="font-size: 1.1rem;">
             <MenuItem value="apps-files" :href="`/files`">

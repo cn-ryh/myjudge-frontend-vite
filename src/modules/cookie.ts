@@ -8,7 +8,7 @@ export const setCookie = (label: string, value: string, cookieExpires: number) =
 export const getCookie = (label: string) => {
     const value = Cookies.get(label);
     if (value) return value;
-    else return false;
+    else return null;
 };
 
 export const delCookie = (label: string) => {

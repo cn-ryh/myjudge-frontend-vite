@@ -11,23 +11,27 @@ const description = ref(``);
 const problems = ref([]);
 const author = ref(``);
 import { Tabs, TabPane, Table, TableColumn, Tag, Link, Card } from '@arco-design/web-vue';
+import markdownIt from "markdown-it";
+import { markdownit } from "@/modules/MarkdownIt/markdown";
 axios.get(`${ip}/getTraining/${id.value}`).then((res) => {
     title.value = res.data.title;
     description.value = res.data.description;
     problems.value = res.data.problems;
+    console.log(problems.value);
     author.value = res.data.author;
-    document.getElementById(`description`).innerHTML = description.value;
+    document.getElementById(`description`).innerHTML = markdownit.render(description.value);
 });
 
 </script>
 <template>
-    <div id="main">
-        <h1 style="width: 90%;text-align: center;">{{ title }}</h1>
-        <Card style="width: 96%;">
+
+    <main>
+        <h1 style="text-align: center;">{{ title }}</h1>
+        <Card>
             <Tabs default-active-key="1">
                 <TabPane key="1" title="题单介绍">
                     <div>
-                        <span id="description"></span>
+                        <span id="description" style="font-size: 15px;"></span>
                     </div>
                 </TabPane>
                 <TabPane key="2" title="题目列表">
@@ -58,5 +62,5 @@ axios.get(`${ip}/getTraining/${id.value}`).then((res) => {
                 </TabPane>
             </Tabs>
         </Card>
-    </div>
+    </main>
 </template>
