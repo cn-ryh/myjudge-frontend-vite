@@ -3,8 +3,9 @@ import { ref } from "vue";
 import axio from "axios";
 import { ip } from '@/modules/ip';
 import { keepLogin } from "@/modules/user/getUserData";
-import { Notification, Button, Link } from '@arco-design/web-vue';
-import {editor}  from 'monaco-editor'
+import { Button, Link, NotifyPlugin } from "tdesign-vue-next";
+import { editor } from 'monaco-editor'
+import { title } from "process";
 let monacoInstance: editor.IStandaloneCodeEditor;
 setTimeout(() => {
     monacoInstance = editor.create(document.getElementById("codeInputer")!, {
@@ -91,10 +92,10 @@ function changView() {
             const closeButton = document.createElement(`Button`);
             closeButton.innerHTML = `关闭`;
             if (res.logined == false) {
-                Notification.error({
+                NotifyPlugin.error({
                     title: '请登录',
                     content: '三秒后自动跳转到登录界面',
-                    closable: true,
+                    closeBtn: true
                 });
                 setTimeout(() => {
                     window.location.href = `/login`;
@@ -127,15 +128,18 @@ function submit() {
         if (flag) {
             axio.get(`${ip}/getContest/${flag}`).then((res) => {
                 if (Timer.getTime() > res.data.endtime) {
-                    Notification.error(`比赛已结束`);
+                    NotifyPlugin.error({
+                        title: `比赛已结束`,
+                        content: `请至练习界面提交题目`
+                    });
                     return;
                 }
                 keepLogin().then((res) => {
                     if (res.logined == false) {
-                        Notification.error({
+                        NotifyPlugin.error({
                             title: '请登录',
                             content: '三秒后自动跳转到登录界面',
-                            closable: true,
+                            closeBtn: true,
                         });
                         setTimeout(() => {
                             window.location.href = `/login`;
@@ -156,21 +160,20 @@ function submit() {
             });
             return;
         }
-
     }
     keepLogin().then((res) => {
         if (res.logined == false) {
-            Notification.error({
+            NotifyPlugin.error({
                 title: '请登录',
                 content: '三秒后自动跳转到登录界面',
-                closable: true,
+                closeBtn: true,
             });
             setTimeout(() => {
                 window.location.href = `/login`;
             }, 3000);
         }
         else {
-            axio.post(ip + `/problem-submit`, {
+            axio.post(`${ip}/problem-submit`, {
                 user: res.uid,
                 submittime: `${Timer.getFullYear()}-${Timer.getMonth() + 1}-${Timer.getDate()}  ${Timer.getHours()}:${Timer.getMinutes()}:${Timer.getSeconds()}`,
                 problem: problemId.value,
@@ -193,12 +196,12 @@ function submit() {
             </div>
         </div>
         <div id="header">
-            <Button @click="changView" id="changeViewButton" type="primary" status="success" size="large"
+            <Button @click="changView" id="changeViewButton" type="button" theme="primary" status="success" size="large"
                 style="padding: 10px;margin-right: 20px !important">
                 提交题目
             </Button>
-            <Button @click="submit" id="Submit" v-show="showsubmit" type="primary" status="success" size="large"
-                style="padding: 10px;">
+            <Button @click="submit" id="Submit" v-show="showsubmit" type="button" theme="primary" status="success"
+                size="large" style="padding: 10px;">
                 提交
             </Button>
         </div>
@@ -224,8 +227,6 @@ function submit() {
 </template>
 
 <style>
-
-
 button {
     border-radius: 5px;
     margin-right: 0 !important;
@@ -254,16 +255,19 @@ button {
 </style>
 
 <style>
-#problem #description h1,h2,h3,h4
-{
+#problem #description h1,
+h2,
+h3,
+h4 {
     margin-bottom: 10px;
     margin-top: 20px;
 }
-#problem #description
-{
+
+#problem #description {
     font-size: 17px;
     line-height: 29px;
 }
+
 #problem table {
     width: 100%;
     border-collapse: collapse;

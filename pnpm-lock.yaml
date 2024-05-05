@@ -111,6 +111,9 @@ importers:
       eslint-plugin-vue:
         specifier: ^9.25.0
         version: 9.25.0(eslint@9.2.0)
+      less:
+        specifier: ^4.2.0
+        version: 4.2.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -2693,7 +2696,6 @@ snapshots:
   copy-anything@2.0.6:
     dependencies:
       is-what: 3.14.1
-    optional: true
 
   cross-spawn@7.0.3:
     dependencies:
@@ -3077,8 +3079,7 @@ snapshots:
 
   is-path-inside@3.0.3: {}
 
-  is-what@3.14.1:
-    optional: true
+  is-what@3.14.1: {}
 
   isexe@2.0.0: {}
 
@@ -3144,7 +3145,6 @@ snapshots:
       mime: 1.6.0
       needle: 3.3.1
       source-map: 0.6.1
-    optional: true
 
   levn@0.4.1:
     dependencies:
@@ -3299,8 +3299,7 @@ snapshots:
     dependencies:
       callsites: 3.1.0
 
-  parse-node-version@1.0.1:
-    optional: true
+  parse-node-version@1.0.1: {}
 
   parse5-htmlparser2-tree-adapter@6.0.1:
     dependencies:
