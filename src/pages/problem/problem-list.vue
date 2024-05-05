@@ -3,7 +3,7 @@ import { Ref, ref } from 'vue';
 import { getProblem, Problem } from './getProblems';
 import { Table, TableColumn, Tag } from "@arco-design/web-vue";
 import { translateColor, translateDiff } from '@/modules/problem/translate';
-import { AutoComplete, Input, InputGroup } from 'tdesign-vue-next';
+import { AutoComplete, InputGroup } from 'tdesign-vue-next';
 // window.location.
 document.title = `题目列表`;
 const problemList: Ref<Problem[]> = ref([]);
