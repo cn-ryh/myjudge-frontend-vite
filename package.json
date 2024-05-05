@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --host 192.168.1.4",
+        "dev": "vite --host localhost",
         "build": "vue-tsc && vite build",
         "preview": "vite preview",
         "docs:build": "bash ./buildDoc.sh"
