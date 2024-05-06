@@ -3,7 +3,7 @@ import { markdownit } from '@/modules/MarkdownIt/markdown';
 import { getAnotherUser } from '@/modules/chat/func';
 import { ip } from '@/modules/ip';
 import { currectUser } from '@/modules/user/currectUser';
-import { keepLogin } from '@/modules/user/getUserData';
+import { getUserData, keepLogin } from '@/modules/user/getUserData';
 import UserSign from '@/modules/user/userSign.vue';
 import axios from 'axios';
 import { NotifyPlugin, Button, Drawer } from 'tdesign-vue-next';
@@ -35,6 +35,13 @@ function getChat() {
         if (getChatRes.data.code === 0) {
             console.log(getChatRes.data.data);
             Chat.value = getChatRes.data.data.chat;
+            for (let now of Chat.value.users) {
+                if (!userImages.value[now]) {
+                    getUserData(now).then((user) => {
+                        userImages.value[now] = user.headImg;
+                    })
+                }
+            }
             messages.value = getChatRes.data.data.messages;
             setTimeout(() => {
                 document.getElementById(`messageView`)?.scroll({
@@ -194,14 +201,14 @@ function sendMessage() {
     }
 }
 const self = ref(currectUser.uid)
-
+const userImages: Ref<{ [key: number]: string }> = ref({});
 </script>
 <template>
     <div v-if="Chat != null" style="height: 100%;">
         <div id="header">
             <div id="chatName">
-                <UserSign :show-tag="true" :font-color="`black`" v-if="$props.chatId.includes(`&`)"
-                    :uid="+getAnotherUser($props.chatId)">
+                <UserSign style="justify-content: center;" :show-tag="true" :font-color="`black`"
+                    v-if="$props.chatId.includes(`&`)" :uid="+getAnotherUser($props.chatId)">
                 </UserSign>
                 <div v-if="Chat.name" style="width: auto;margin-left: auto;margin-right: auto;text-align: center;">{{
                     Chat.name }}</div>
@@ -215,8 +222,12 @@ const self = ref(currectUser.uid)
             <div v-if="Chat.messages.length > 30 * loadedPage"
                 style="width: 100%;text-align: center;color: rgba(170,170,170,.8);">显示更多信息</div>
             <div class="message-item" v-for="(item, index) of messages" :key="index">
+                <UserSign :uid="item.sender" font-color="rgb(175 175 175 / 89%)" :style="{
+                    flexDirection: item.sender == self ? `row-reverse` : `row`
+                }"></UserSign>
                 <div :class="item.sender == self ? `message self` : `message other`">
-                    <div class="message-block" v-html="markdownit.render(item.value)"></div>
+                    <img style="width: 30px;height: 30px;border-radius: 50%;" :src="userImages[item.sender]" />
+                    <div style="margin: 0px 5px;" class="message-block" v-html="markdownit.render(item.value)"></div>
                 </div>
             </div>
             <div id="bottom"></div>
@@ -240,22 +251,32 @@ const self = ref(currectUser.uid)
 <style>
 .message {
     width: auto;
-    margin: 10px 5px;
+    margin: 5px 5px 10px 5px;
     display: inline-block;
     height: auto;
 }
 
 .message .message-block {
-    display: inline-block;
     border-radius: 10px;
     padding: 5px 5px;
     max-width: 70%;
+}
+
+.message {
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+}
+
+.message-item .userName {
+    font-size: smaller !important;
 }
 
 .message.self {
     display: flex;
     flex-direction: row-reverse;
 }
+
 
 .message.self .message-block {
     background-color: rgb(122, 204, 255);

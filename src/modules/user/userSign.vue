@@ -43,13 +43,9 @@ watch(props, () => {
     <div style="display: flex;align-items: center;">
         <img :style="{ width: $props.headImgSize, height: $props.headImgSize }" class="headImg"
             v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
-        <span :style="{
+        <span class="userName" :style="{
             color: $props.fontColor, fontSize: `large`, fontWeight: 600, marginRight: `10px`,
-            marginTop: `2px`,
-            display: `inline-block`,
-            height: `auto`,
-            whiteSpace: `nowrap`,
-            marginLeft: `10px`
+
         }">{{ username }}</span>
         <div v-if="showTag">
             <Tag size="medium"
@@ -67,5 +63,13 @@ watch(props, () => {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+}
+
+.userName {
+    margin-top: 2px;
+    display: inline-block;
+    height: auto;
+    white-space: nowrap;
+    margin-left: 10px;
 }
 </style>
