@@ -43,16 +43,19 @@ watch(nowChatId, () => {
                     <div style="width: 100%;text-align: center;">
                         <h2>消息列表</h2>
                     </div>
-                    <div style="margin-top: 10px;">
+                    <div id="chatList" style="margin-top: 10px;">
                         <div style="width: 100%;" v-for="(item, index) of chatList" :key="index">
                             <Badge :count="unReadMessages[item.id]" style="width: 100%;">
                                 <div @click="nowChatId = item.id"
-                                    style="border-style: solid none none none;border-color: rgba(10,10,10,0.2);padding: 15px 15px;width: calc(100% - 30px);">
+                                    style="border-style: solid none none none;border-color: rgba(10,10,10,0.2);padding: 10px 15px;width: calc(100% - 30px);">
                                     {{ item.name }}
                                     <div v-if="item.name"></div>
                                     <div v-if="!item.name">
-                                        <UserSign font-color="black" :uid="+getAnotherUser(item.id)"></UserSign>
-                                        <span style="float: right;">{{ getTime(item.mx) }}</span>
+                                        <UserSign show-head-img font-color="black" :uid="+getAnotherUser(item.id)">
+                                            <template #after>
+                                                <span style="float: right;">{{ getTime(item.mx) }}</span>
+                                            </template>
+                                        </UserSign>
                                     </div>
                                 </div>
                             </Badge>
@@ -73,5 +76,9 @@ watch(nowChatId, () => {
 .layui-col-md3 .t-badge--circle {
     margin-top: 13px;
     margin-right: 10px;
+}
+#chatList .userName
+{
+    flex: 1 1;
 }
 </style>
