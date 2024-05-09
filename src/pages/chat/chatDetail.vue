@@ -8,7 +8,13 @@ import UserSign from '@/modules/user/userSign.vue';
 import axios from 'axios';
 import { NotifyPlugin, Button, Drawer } from 'tdesign-vue-next';
 import { ref, Ref, watch } from 'vue';
-
+keepLogin().then((loginRes) => {
+    if (!loginRes.logined) {
+        NotifyPlugin.error({ title: `请登录` });
+        return;
+    }
+    getChat();
+});
 const props = defineProps<{ chatId: string }>()
 const Chat: Ref<any> = ref(null);
 const messages: Ref<any[]> = ref([]);
@@ -18,10 +24,32 @@ function showPreview() {
     previewing.value = true;
     previewHTML.value = markdownit.render(document.getElementById(`messageInputer`)?.innerText ?? ``);
 }
-// const onList: Ref<boolean> = ref(window.location.hash.includes(`list`))
-// function loadMore() {
+function loadMore(time: number = 0) {
+    if (time > 5) {
+        NotifyPlugin.error({
+            content: `获取失败`
+        })
+        return;
+    }
+    axios.post(`${ip}/getMessages`, {
+        chatId: props.chatId,
+        uid: currectUser.uid,
+        token: currectUser.token,
+        pages: loadedPage.value + 1
+    }).then((messageRes) => {
+        if (messageRes.data.code === 0) {
+            messages.value = [...messages.value, ...messageRes.data.data]
+            ++loadedPage.value;
+        }
+        else {
+            setTimeout(() => { loadMore(time + 1) }, 200);
+        }
+    }).catch((err) => {
+        console.error(err);
+        setTimeout(() => { loadMore(time + 1) }, 200)
 
-// }
+    })
+}
 function getChat() {
     if (!props.chatId || props.chatId == ``) {
         return;
@@ -31,7 +59,6 @@ function getChat() {
         token: currectUser.token,
         chatId: props.chatId
     }).then((getChatRes) => {
-        console.log(getChatRes.data)
         if (getChatRes.data.code === 0) {
             console.log(getChatRes.data.data);
             Chat.value = getChatRes.data.data.chat;
@@ -43,11 +70,13 @@ function getChat() {
                 }
             }
             messages.value = getChatRes.data.data.messages;
-            setTimeout(() => {
-                document.getElementById(`messageView`)?.scroll({
-                    top: 10000000
-                });
-            }, 10)
+            for (let i = 1; i <= 10; i++) {
+                setTimeout(() => {
+                    document.getElementById(`messageView`)?.scroll({
+                        top: 100000
+                    });
+                }, 20 * i)
+            }
         }
         else {
             console.error(getChatRes.data);
@@ -64,13 +93,7 @@ function getChat() {
         })
     });
 }
-keepLogin().then((loginRes) => {
-    if (!loginRes.logined) {
-        NotifyPlugin.error({ title: `请登录` });
-        return;
-    }
-    getChat();
-});
+
 let lastTime = 0;
 let timer = 0;
 let toMany = false;
@@ -219,7 +242,7 @@ const userImages: Ref<{ [key: number]: string }> = ref({});
         </div>
         <div id="messageView"
             style="overflow-y: auto;border-style:none none groove none;width: 99%;margin-left: auto;margin-right: auto;margin-top: 10px;height: 70%;">
-            <div v-if="Chat.messages.length > 30 * loadedPage"
+            <div @click="loadMore(0)" v-if="Chat.messages.length > 30 * loadedPage"
                 style="width: 100%;text-align: center;color: rgba(170,170,170,.8);">显示更多信息</div>
             <div class="message-item" v-for="(item, index) of messages" :key="index">
                 <UserSign :uid="item.sender" font-color="rgb(175 175 175 / 89%)" :style="{

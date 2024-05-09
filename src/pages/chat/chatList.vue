@@ -7,7 +7,7 @@ import { Ref, watch } from 'vue';
 import { ref } from 'vue';
 import UserSign from '@/modules/user/userSign.vue';
 import ChatDetail from './chatDetail.vue';
-import { Badge, NotifyPlugin } from 'tdesign-vue-next';
+import { Avatar, Badge, NotifyPlugin } from 'tdesign-vue-next';
 import { keepLogin } from '@/modules/user/getUserData';
 const chatList: Ref<any[]> = ref([]);
 keepLogin().then((loginRes) => {
@@ -47,9 +47,12 @@ watch(nowChatId, () => {
                         <div style="width: 100%;" v-for="(item, index) of chatList" :key="index">
                             <Badge :count="unReadMessages[item.id]" style="width: 100%;">
                                 <div @click="nowChatId = item.id"
-                                    style="border-style: solid none none none;border-color: rgba(10,10,10,0.2);padding: 10px 15px;width: calc(100% - 30px);">
-                                    {{ item.name }}
-                                    <div v-if="item.name"></div>
+                                    style="border-style: solid none none none;border-color: rgba(10,10,10,0.2);padding: 10px 15px;width: calc(100% - 30px);">                                    
+                                    <div v-if="item.name">
+                                        <Avatar size="50px">群</Avatar>
+                                        <strong style="margin-left: 10px;">{{ item.name }}</strong>
+                                    </div>
+
                                     <div v-if="!item.name">
                                         <UserSign show-head-img font-color="black" :uid="+getAnotherUser(item.id)">
                                             <template #after>

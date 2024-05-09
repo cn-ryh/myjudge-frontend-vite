@@ -7,8 +7,27 @@ import { Input, InputGroup, Option, Select } from "tdesign-vue-next";
 import { Ref } from "vue";
 import UserSign from "@/modules/user/userSign.vue";
 const tot = ref(0);
-const records:Ref<any[]> = ref([]);
+const records: Ref<any[]> = ref([]);
 const nowPage = window.location.href;
+function getQueryVariable(variable: string) {
+    const query = window.location.href.split(`?`)[1];
+    if (!query) {
+        return null;
+    }
+    const vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+    }
+    return (null);
+}
+const searchOpinion: Ref<{ [key: string]: string }> = ref({})
+
+searchOpinion.value.problem = getQueryVariable(`problem`)??``;
+searchOpinion.value.user = getQueryVariable(`user`)??``;
+searchOpinion.value.state = getQueryVariable(`state`)??``;
 if (nowPage.split(`?`).length > 1) {
     axios.get(`${ip}/searchRecord?${nowPage.split(`?`)[1]}`).then((res) => {
         tot.value = res.data.length;
@@ -18,7 +37,6 @@ if (nowPage.split(`?`).length > 1) {
         console.error(err);
     });
 }
-const searchOpinion: Ref<{ [key: string]: string }> = ref({})
 
 function getrecord() {
 
@@ -32,7 +50,10 @@ function getrecord() {
     }
     let url = `/record#/list?`;
     for (const now in searchOpinion.value) {
-        url += `${now}=${searchOpinion.value[now]}&`;
+        if (searchOpinion.value[now] && searchOpinion.value[now] != ``)
+        {
+            url += `${now}=${searchOpinion.value[now]}&`;
+        }
     }
     window.location.href = url;
     window.location.reload();
@@ -55,7 +76,7 @@ function getrecord() {
                         </Select>
                         <Input v-model="searchOpinion.recordId" placeholder="记录编号"
                             style="margin-left: 20px;display: inline-block;width: 12rem;height: 2rem;" />
-                        <Input v-model="searchOpinion.pid" placeholder="题目编号"
+                        <Input v-model="searchOpinion.problem" placeholder="题目编号"
                             style="display: inline-block;width: 12rem;height: 2rem;" />
                         <Input v-model="searchOpinion.user" placeholder="用户"
                             style="display: inline-block;width: 12rem;height: 2rem;" />
@@ -72,13 +93,13 @@ function getrecord() {
             }">
                 <template #item="{ item }">
                     <div class="listItem" style="">
-                        <div style="margin-left: 1rem;width: 30%;">
+                        <div style="margin-left: 1rem;width: 28%;">
                             <UserSign fontColor="black" showTag showHeadImg :uid="item.user"></UserSign>
                         </div>
                         <div style="margin-left: 20px;width: 15%;">
                             {{ new Date(item.submitTime).toLocaleString() }}
                         </div>
-                        <div style="width: 15%;">
+                        <div style="width: 12%;">
                             <a :href="`/record#/${item.id}`">
                                 <span :class="`State-${item.state}`.replace(/\s/g, ``)"
                                     style="padding:1px 2px;font-size: large;font-weight: 420;">
@@ -96,9 +117,13 @@ function getrecord() {
                             </div>
                         </div>
                         <div class="detail lfe-caption" style="display: inline-block;color: rgba(200,200,200,.9);">
-                            <span>最大时间 {{ item.maxtime }}ms</span>
-                            <span>总时间 {{ item.sumtime }}ms</span>
-                            <span>内存 {{ item.memory }}MB</span>
+                            <span style="display: inline-block;width: 7.5rem;">最大时间 {{ item.maxtime < 1000 ?
+                                `${item.maxtime}ms` : `${(item.maxtime / 1000.00).toFixed(2)}s` }}</span>
+                                    <span style="display: inline-block;width: 7.5rem;margin-left: 1rem;">总时间 {{
+                                        item.sumtime < 1000 ? `${item.sumtime}ms` : `${(item.sumtime /
+                                            1000.00).toFixed(2)}s` }}</span>
+                                            <span style="display: inline-block;margin-left: 1rem;">内存 {{ item.memory
+                                                }}MB</span>
                         </div>
                     </div>
                 </template>

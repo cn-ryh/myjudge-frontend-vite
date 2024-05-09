@@ -1,7 +1,7 @@
 class IProblem {
     pid = ``
     title = ``
-    author = `cn_ryh`
+    author = 1
     difficult = 0
     TimeLimit = 1000
     MemoryLimit = 512
