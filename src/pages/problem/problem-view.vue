@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { translateColor, translateDiff } from "@/modules/problem/translate";
+import { Ref, ref } from "vue";
 import axio from "axios";
 import { ip } from '@/modules/ip';
 import { keepLogin } from "@/modules/user/getUserData";
-import { Button, Link, NotifyPlugin } from "tdesign-vue-next";
+import { Button, Link, NotifyPlugin, Tag } from "tdesign-vue-next";
 import { editor } from 'monaco-editor'
+import UserSign from "@/modules/user/userSign.vue";
+import { IDiscussion, IProblem } from "@/modules/interface";
 let monacoInstance: editor.IStandaloneCodeEditor;
 setTimeout(() => {
     monacoInstance = editor.create(document.getElementById("codeInputer")!, {
@@ -57,28 +60,29 @@ signed main()
     })
     monacoInstance;
 }, 1000)
-const problemName = ref(``);
-
+const problem: Ref<IProblem> = ref(new IProblem)
 const problemId = ref(window.location.href.split('/')[window.location.href.split('/').length - 1].split(`?`)[0]);
-document.title = problemId.value;
-const TimeLimit = ref(0);
-const MemoryLimit = ref(0);
-const problemDescription = ref(``);
+document.title = `11OJ | ` + problemId.value;
+const discussions: Ref<IDiscussion[]> = ref([])
 axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
     if (res.data == ``) {
         alert(`不存在的题目`);
         location.replace(`/problem#/list`);
     }
-    problemName.value = res.data.title;
-    document.title = problemName.value;
-    problemDescription.value = res.data.description;
-    TimeLimit.value = res.data.TimeLimit;
-    MemoryLimit.value = res.data.MemoryLimit;
+    problem.value = res.data;
 });
+axio.post(`${ip}/getDiscussionList`, {
+    type: `problem`,
+    problem: problemId.value
+}).then((discussionRes) => {
+    if (discussionRes.data.code === 0) {
+        discussions.value = discussionRes.data.data;
+    }
+})
 const showsubmit = ref(false);
 const showAdmin = ref(false);
 keepLogin().then((res) => {
-    if (res.admin) {
+    if (res.admin.problem) {
         showAdmin.value = true;
     }
 });
@@ -190,8 +194,7 @@ function submit() {
     <main>
         <div class="content-header ui-content-header">
             <div class="container" style="text-align: center;">
-                <h1 class="content-heading">{{ problemId }} {{ problemName }}</h1>
-                <p>时间限制：{{ TimeLimit }}ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 空间限制：{{ MemoryLimit }}MB</p>
+                <h1 class="content-heading">{{ problemId }} {{ problem.title }}</h1>
             </div>
         </div>
         <div id="header">
@@ -207,18 +210,64 @@ function submit() {
 
         <div v-show="showsubmit" id="codeInputer">
         </div>
-        <div v-show="(showsubmit == false)" id="problem" style="margin-top: 20px;" class="layui-row layui-col-space64">
-            <div class="layui-col-md8" id="description">
-                <div class="card" v-html="problemDescription" style="padding: 20px 30px;"></div>
+        <div v-show="(showsubmit == false)" id="problem" style="margin-top: 20px;" class="layui-row layui-col-space32">
+            <div class="layui-col-md8 layui-col-sm9" id="description">
+                <div class="card" v-html="problem.description" style="padding: 20px 30px;"></div>
             </div>
-            <div class="layui-col-md4">
-                <div class="card" style="padding: 20px 30px;">
-                    <Link :href="`/record#/list?problem=${problemId}`">
+            <div class="layui-col-md4 layui-col-sm3">
+                <div class="card">
+                    <div id="problemInfo">
+                        <div class="row">
+                            <span>题目提供者</span>
+                            <div>
+                                <UserSign show-tag font-color="black" :uid="problem.author"></UserSign>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span>题目难度</span>
+                            <div>
+                                <Tag :color="translateColor(problem.difficult)">{{ translateDiff(problem.difficult) }}
+                                </Tag>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span>时间限制</span>
+                            <div>
+                                <span>{{ problem.TimeLimit }}ms</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span>空间限制</span>
+                            <div>
+                                <span>{{ problem.MemoryLimit }}MB</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <span>测试点数量</span>
+                            <div>
+                                <span>{{ problem.datanumber }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="padding: 20px 30px;margin-top: 20px;">
+                    <Link theme="primary" :href="`/record#/list?problem=${problemId}`">
                     <span>提交记录</span>
                     </Link>
-                    <Link :href="`/admin#/problem/${problemId}`" v-show="showAdmin">
-                    题目管理
+                    <Link style="margin-left: 10px;" theme="primary" :href="`/admin#/problem/${problemId}`"
+                        v-show="showAdmin">
+                    <span>题目管理</span>
                     </Link>
+                </div>
+                <div style="margin-top: 30px;" class="card">
+                    <h2 style="margin-top: 2px;">相关讨论</h2>
+                    <div v-if="!discussions.length">
+                        <span>暂无讨论</span>
+                    </div>
+                    <div v-for="(item, index) of discussions" :key="index">
+                        <Link theme="primary" :href="`/discuss#/${item.id}`">{{ item.title }}</Link>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -226,6 +275,19 @@ function submit() {
 </template>
 
 <style>
+#problemInfo .row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#problemInfo .row span {
+    flex: 1 1;
+    font-weight: 500;
+    font-size: large;
+    margin-top: 2px;
+}
+
 button {
     border-radius: 5px;
     margin-right: 0 !important;

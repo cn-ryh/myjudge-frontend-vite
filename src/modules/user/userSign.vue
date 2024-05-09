@@ -45,11 +45,11 @@ watch(props, () => {
             v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
         <span class="userName" :style="{
             color: $props.fontColor, fontSize: `large`, fontWeight: 600, marginRight: `10px`,
-
+            marginTop: `-2px`
         }">{{ username }}</span>
-        <div v-if="showTag">
+        <div class="userTags" v-if="showTag">
             <Tag size="medium"
-                :style="`margin-top:-5px;margin-right:10px;text-color:${item.textcolor};font-weight:450;font-size:15px`"
+                :style="`text-color:${item.textcolor};font-weight:450;font-size:15px`"
                 v-for="(item, index) of tagOpt" :color="item.color" :key="index">{{
                     item.text }}</Tag>
         </div>
@@ -64,7 +64,10 @@ watch(props, () => {
     height: 50px;
     border-radius: 50%;
 }
-
+.userTags :not(:last-child)
+{
+    margin-right: 10px;
+}
 .userName {
     margin-top: 2px;
     display: inline-block;
