@@ -68,6 +68,7 @@ watch(props, () => {
 {
     margin-right: 10px;
 }
+
 .userName {
     margin-top: 2px;
     display: inline-block;

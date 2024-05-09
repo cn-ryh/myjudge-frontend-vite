@@ -8,6 +8,7 @@ import { Button, Link, NotifyPlugin, Tag } from "tdesign-vue-next";
 import { editor } from 'monaco-editor'
 import UserSign from "@/modules/user/userSign.vue";
 import { IDiscussion, IProblem } from "@/modules/interface";
+
 let monacoInstance: editor.IStandaloneCodeEditor;
 setTimeout(() => {
     monacoInstance = editor.create(document.getElementById("codeInputer")!, {
