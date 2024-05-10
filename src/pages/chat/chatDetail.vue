@@ -62,7 +62,6 @@ function getChat() {
         if (getChatRes.data.code === 0) {
             console.log(getChatRes.data.data);
             Chat.value = getChatRes.data.data.chat;
-            console.log(Chat.value.messages.length);
             for (let now of Chat.value.users) {
                 if (!userImages.value[now]) {
                     getUserData(now).then((user) => {
