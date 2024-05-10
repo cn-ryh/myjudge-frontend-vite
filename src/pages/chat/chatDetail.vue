@@ -390,3 +390,12 @@ const userImages: Ref<{ [key: number]: string }> = ref({});
     flex: 1 1;
 }
 </style>
+<style>
+.message-block a
+{
+    color: red;
+}
+.message-block a:after {
+    content: "\2197";
+}
+</style>

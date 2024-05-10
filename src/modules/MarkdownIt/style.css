@@ -7701,3 +7701,78 @@ html[data-theme=dark] .custom-container.hint .custom-container-title:before {
 .search-pro-result-item.active strong {
     color: var(--white)
 }
+
+
+table {
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table caption {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 1em 0;
+}
+
+th,
+td {
+    border: 1px solid #999 !important;
+    text-align: center;
+    padding: 15px 10px;
+}
+
+table thead tr {
+    background-color: #008c8c !important;
+    color: #fff !important;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #eee !important;
+}
+
+table tbody tr:hover {
+    background-color: #ccc !important;
+}
+
+table tbody tr td:first-child {
+    color: #f40 !important;
+}
+
+table tfoot tr td {
+    text-align: right;
+    padding-right: 20px;
+}
+
+*:not(pre)code {
+    background-color: aliceblue;
+}
+
+em {
+    font-weight: 800;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+ol {
+    margin-left: 1.2rem;
+}
+
+pre {
+    background-color: black;
+    font-size: medium;
+    color: white;
+    line-height: 19px;
+}
+
+pre code {
+    background-color: black !important;
+    font-size: large;
+    color: white;
+}
+
+blockquote {
+    background-color: rgba(247, 247, 247, 0.829);
+    border-left-width: 10px;
+    border-left-style: inset;
+    border-left-color: rgb(148, 146, 146);
+}
