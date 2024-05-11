@@ -2,6 +2,7 @@
 import { ip } from '@/modules/ip';
 import axios from 'axios';
 import { ref } from 'vue';
+
 import { Upload, Card, TabPane, Tabs, Select, Option, Steps, Step } from '@arco-design/web-vue';
 import { NotifyPlugin, Button } from 'tdesign-vue-next';
 const title = ref(``);
@@ -48,6 +49,12 @@ function uploadGen() {
             })
         }
     });
+}
+function showSuccess()
+{
+    NotifyPlugin.success({
+        title: `上传成功`
+    })
 }
 </script>
 <template>
@@ -158,8 +165,7 @@ function uploadGen() {
                     <TabPane key="2" title="上传压缩包">
                         <span>
                             <p>数据上传</p>
-                            <Upload draggable :action="`${ip}/uploadData`" :name="pid"
-                                @success="(res) => { console.log(res.response.successUpload) }" />
+                            <Upload draggable :action="`${ip}/uploadData`" :name="pid" @success="showSuccess()" />
                         </span>
                     </TabPane>
                 </Tabs>

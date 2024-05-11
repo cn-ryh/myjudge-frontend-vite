@@ -12,7 +12,6 @@ import { currectUser } from '@/modules/user/currectUser';
 const discussion: Ref<IDiscussion> = ref({ problem: null, title: ``, type: discussType.problem, id: 0, value: ``, process: processType.open, creater: 0, createTime: 0, replyTime: 0, replys: [] });
 discussion.value.id = +window.location.hash.split(`/`)[1];
 axios.get(`${ip}/getDiscussion/${discussion.value.id}`).then((discussionRes) => {
-    console.log(discussionRes);
     if (discussionRes.data.code === 0) {
         discussion.value = discussionRes.data.data;
     }
@@ -39,7 +38,6 @@ function changeReply() {
     replyParentId.value = discussion.value.id.toString();
 }
 function replyToReplys(id: string) {
-    console.log(id);
     replyParentId.value = id;
     replyReply.value = true;
     $(`#replyInputer`)[0].scrollIntoView();

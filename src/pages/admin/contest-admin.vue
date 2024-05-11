@@ -41,9 +41,6 @@ function changeTraining() {
         });
     });
 }
-setInterval(() => {
-    console.log(TimeRange.value)
-}, 1000);
 </script>
 <template>
     <Card style="width: 90%;margin: 5%;">

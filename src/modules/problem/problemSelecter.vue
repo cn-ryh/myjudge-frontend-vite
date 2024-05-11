@@ -49,7 +49,6 @@ function addToTable() {
             return;
         }
         emit(`update:upproblems`, props.upproblems.concat([x]))
-        console.log(props.upproblems);
         nowProblem.value = ``;
     }
     else {

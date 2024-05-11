@@ -10,7 +10,6 @@ if (chatId.value == `` || (!chatId.value.includes(`&`) && !chatId.value.includes
         content: `请检查网址`
     })
 }
-console.log(chatId.value)
 </script>
 <template>
     <main style="height: 80vh;overflow-y: auto;overflow-x: hidden;padding: 4px;" class="card">

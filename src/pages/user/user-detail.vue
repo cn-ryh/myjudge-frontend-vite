@@ -6,6 +6,7 @@ import { translateColor, translateDiff } from "@/modules/problem/translate";
 import axios from "axios";
 import { Ref, ref } from "vue";
 import { currectUser } from "@/modules/user/currectUser";
+import { delCookie, setCookie } from "@/modules/cookie";
 const uid = window.location.href.substring(window.location.href.lastIndexOf(`/`) + 1);
 const acceptedProblems: Ref<string[]> = ref([]);
 const triedProblems: Ref<string[]> = ref([]);
@@ -27,6 +28,12 @@ axios.get(`${ip}/getUserData/${uid}`).then((res) => {
 });
 function getChatHref() {
     return `/chat#/${Math.min(+uid, currectUser.uid)}&${Math.max(+uid, currectUser.uid)}`;
+}
+function logOut()
+{
+    delCookie(`uid`);
+    delCookie(`token`);
+    window.location.reload();
 }
 </script>
 
@@ -68,13 +75,14 @@ function getChatHref() {
                         <h2>
                             <span style="color: black;">{{ username.substring(0, 1) }}</span><span
                                 style="color: red;">{{
-                                    username.substring(1) }}</span>
+                                username.substring(1) }}</span>
                         </h2>
                         <br />
                         <img :src="headImg" style="width: 50%;border-radius: 50%;" />
                         <br />
                         <Button v-if="+uid != currectUser.uid" :href="getChatHref()">私信</Button>
-                        <Button :href="`/user#/setting`"  v-if="+uid === currectUser.uid">个人设置</Button>
+                        <Button :href="`/user#/setting`" v-if="+uid === currectUser.uid">个人设置</Button>
+                        <Button @click="logOut" v-if="+uid === currectUser.uid">退出登录</Button>
                     </center>
                 </div>
             </div>

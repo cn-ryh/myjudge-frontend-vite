@@ -20,7 +20,6 @@ function changeTraining() {
     {
         problems.push(now.pid);
     }
-    console.log(problems);
     axios.post(`${ip}/changeTraining/${page.substring(page.lastIndexOf(`/`) + 1)}`, {
         title: title.value,
         description: description.value,

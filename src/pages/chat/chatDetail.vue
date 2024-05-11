@@ -60,7 +60,6 @@ function getChat() {
         chatId: props.chatId
     }).then((getChatRes) => {
         if (getChatRes.data.code === 0) {
-            console.log(getChatRes.data.data);
             Chat.value = getChatRes.data.data.chat;
             for (let now of Chat.value.users) {
                 if (!userImages.value[now]) {
@@ -225,6 +224,10 @@ function sendMessage() {
 }
 const self = ref(currectUser.uid)
 const userImages: Ref<{ [key: number]: string }> = ref({});
+function jump(uid:number)
+{
+    window.open(`/user#/${uid}`);
+}
 </script>
 <template>
     <div v-if="Chat != null" style="height: 100%;">
@@ -245,12 +248,16 @@ const userImages: Ref<{ [key: number]: string }> = ref({});
             <div @click="loadMore(0)" v-if="Chat.messages.length > 30 * loadedPage"
                 style="width: 100%;text-align: center;color: rgba(170,170,170,.8);">显示更多信息</div>
             <div class="message-item" v-for="(item, index) of messages" :key="index">
-                <UserSign :uid="item.sender" font-color="rgb(175 175 175 / 89%)" :style="{
-                    flexDirection: item.sender == self ? `row-reverse` : `row`
-                }"></UserSign>
                 <div :class="item.sender == self ? `message self` : `message other`">
-                    <img style="width: 30px;height: 30px;border-radius: 50%;" :src="userImages[item.sender]" />
-                    <div style="margin: 0px 5px;" class="message-block" v-html="markdownit.render(item.value)"></div>
+                    <img @click="jump(item.sender)" style="width: 30px;height: 30px;border-radius: 50%;" :src="userImages[item.sender]" />
+                    <div style="margin: 0px 5px;" class="message-block">
+                        <UserSign :uid="item.sender" font-color="rgb(175 175 175 / 89%)" :style="{
+                            flexDirection: item.sender == self ? `row-reverse` : `row`
+                        }"></UserSign>
+
+                        <div class="message-detail" v-html="markdownit.render(item.value)"></div>
+                    </div>
+
                 </div>
             </div>
             <div id="bottom"></div>
@@ -278,11 +285,20 @@ const userImages: Ref<{ [key: number]: string }> = ref({});
     display: inline-block;
     height: auto;
 }
-
-.message .message-block {
+.message .message-block
+{
+    max-width: 70%;
+}
+.message-block .userName
+{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-bottom: 5px;
+}
+.message .message-block .message-detail {
     border-radius: 10px;
     padding: 5px 5px;
-    max-width: 70%;
+    width: auto;
 }
 
 .message {
@@ -301,12 +317,12 @@ const userImages: Ref<{ [key: number]: string }> = ref({});
 }
 
 
-.message.self .message-block {
+.message.self .message-block .message-detail {
     background-color: rgb(122, 204, 255);
     padding: 10px;
 }
 
-.message.other .message-block {
+.message.other .message-block .message-detail {
     background-color: rgb(156, 156, 156);
 }
 

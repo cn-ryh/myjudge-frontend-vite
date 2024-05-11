@@ -18,7 +18,6 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
     title.value = res.data.title;
     description.value = res.data.description;
     problems.value = res.data.problems;
-    console.log(problems.value);
     author.value = res.data.author;
     TimeRange.value[0] = res.data.begintime;
     TimeRange.value[1] = res.data.endtime;
@@ -28,12 +27,11 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
     }, 1000);
 });
 axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
-    console.log(res.data);
     dashboard.value = res.data.detail;
 });
 </script>
 <template>
-    <div id="main">
+    <main>
         <h1 style="width: 90%;text-align: center;">{{ title }}</h1>
         <div style="width: 90%;text-align: center;">
             <Tag>{{ type }}</Tag>
@@ -91,5 +89,5 @@ axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
                 </TabPane>
             </Tabs>
         </Card>
-    </div>
+    </main>
 </template>

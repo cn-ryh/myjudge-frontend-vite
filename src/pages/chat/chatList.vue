@@ -18,7 +18,6 @@ keepLogin().then((loginRes) => {
     axios.post(`${ip}/getChatList`, {
         uid: currectUser.uid, token: currectUser.token
     }).then((data) => {
-        console.log(data);
         chatList.value = data.data.data;
     }); axios.post(`${ip}/getUnReadMessageNum`, {
         uid: currectUser.uid,

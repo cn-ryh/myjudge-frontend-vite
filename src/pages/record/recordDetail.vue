@@ -99,7 +99,6 @@ function changeView() {
 function tryGetting() {
     return new Promise<void>((resolve) => {
         getrecord().then(() => {
-            console.log(`getting`)
             if (state.value === 'Waiting' || state.value === 'Judging') {
                 setTimeout(() => {
                     tryGetting().then(() => {

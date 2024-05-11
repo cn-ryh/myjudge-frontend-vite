@@ -21,7 +21,7 @@ function translateTime(date: Date) {
     <main>
         <h1 style="text-align: center">比赛列表</h1>
         <div class="card">
-            <div class="grid-demo-background" style="text-align: center;">
+            <div class="" style="text-align: center;">
                 <a :href="`./contest.html#/${item.id}`" v-for="(item, index) of contests" :key="index">
                     <Card size="small" style="width: 30%;display: inline-block;height: auto;margin: 3% 2%;"
                         :title="item.title">

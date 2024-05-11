@@ -52,8 +52,6 @@ getPrivateUser().then((user)=>
     console.error(err);
 })
 function updateImg(context) {
-    console.log(userSetting.value.headImg);
-    console.log(context.response);
     userSetting.value.headImg = context.response.url;
 }
 function updateUserSetting() {

@@ -37,10 +37,14 @@ watch(props, () => {
         username.value = res.username;
     })
 })
-
+function jump(uid: number) {
+    window.open(`/user#/${uid}`);
+}
 </script>
 <template>
-    <div style="display: flex;align-items: center;">
+    <div @click="jump($props.uid||1)" style="display: flex;align-items: center;">
+        <slot name="before">
+        </slot>
         <img :style="{ width: $props.headImgSize, height: $props.headImgSize }" class="headImg"
             v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
         <span class="userName" :style="{
@@ -48,10 +52,9 @@ watch(props, () => {
             marginTop: `-2px`
         }">{{ username }}</span>
         <div class="userTags" v-if="showTag">
-            <Tag size="medium"
-                :style="`text-color:${item.textcolor};font-weight:450;font-size:15px`"
+            <Tag size="medium" :style="`text-color:${item.textcolor};font-weight:450;font-size:15px`"
                 v-for="(item, index) of tagOpt" :color="item.color" :key="index">{{
-                    item.text }}</Tag>
+                item.text }}</Tag>
         </div>
         <img class="headImg" v-if="$props.showHeadImg && ($props.headImgPos == `right`)" :src="headImg" />
         <slot name="after">
