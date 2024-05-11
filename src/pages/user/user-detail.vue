@@ -6,7 +6,7 @@ import { translateColor, translateDiff } from "@/modules/problem/translate";
 import axios from "axios";
 import { Ref, ref } from "vue";
 import { currectUser } from "@/modules/user/currectUser";
-import { delCookie, setCookie } from "@/modules/cookie";
+import { delCookie } from "@/modules/cookie";
 const uid = window.location.href.substring(window.location.href.lastIndexOf(`/`) + 1);
 const acceptedProblems: Ref<string[]> = ref([]);
 const triedProblems: Ref<string[]> = ref([]);
