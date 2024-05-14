@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { Notification, Button, Select, Option, Tabs, TabPane } from '@arco-design/web-vue';
 import '@/modules/main.css'
+import { currectUser } from '@/modules/user/currectUser';
 document.title = `新建题目`;
 const title = ref(``);
 const description = ref(``);
@@ -12,7 +13,7 @@ function newProblem() {
     axios.post(`${ip}/newProblem`, {
         title: title.value,
         description: description.value,
-        author: "cn_ryh",
+        author: currectUser.uid,
         difficult: diff.value
     }).then((res) => {
         if (res.data.success == true) {
