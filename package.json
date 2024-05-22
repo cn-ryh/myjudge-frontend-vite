@@ -49,6 +49,7 @@
         "less": "^4.2.0",
         "typescript": "^5.4.5",
         "vite": "^5.2.11",
+        "vite-plugin-sitemap": "^0.5.3",
         "vue-tsc": "^2.0.16"
     }
 }

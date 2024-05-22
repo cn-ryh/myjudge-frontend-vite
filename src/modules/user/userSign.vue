@@ -42,12 +42,12 @@ function jump(uid: number) {
 }
 </script>
 <template>
-    <div @click="jump($props.uid||1)" style="display: flex;align-items: center;">
+    <div style="display: flex;align-items: center;">
         <slot name="before">
         </slot>
-        <img :style="{ width: $props.headImgSize, height: $props.headImgSize }" class="headImg"
-            v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
-        <span class="userName" :style="{
+        <img @click="jump($props.uid || 1)" :style="{ width: $props.headImgSize, height: $props.headImgSize }"
+            class="headImg" v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
+        <span @click="jump($props.uid || 1)" class="userName" :style="{
             color: $props.fontColor, fontSize: `large`, fontWeight: 600, marginRight: `10px`,
             marginTop: `-2px`
         }">{{ username }}</span>

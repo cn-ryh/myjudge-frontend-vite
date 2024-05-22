@@ -120,6 +120,9 @@ importers:
       vite:
         specifier: ^5.2.11
         version: 5.2.11(@types/node@20.12.8)(less@4.2.0)(terser@5.31.0)
+      vite-plugin-sitemap:
+        specifier: ^0.5.3
+        version: 0.5.3
       vue-tsc:
         specifier: ^2.0.16
         version: 2.0.16(typescript@5.4.5)
@@ -1802,6 +1805,9 @@ packages:
     resolution: {integrity: sha512-MlipLjS7HE+PFAcnfW33RdG06ygxBq07g/msC+NDBXx6WPjrI1dBudfKtgj2KXYRZe10fC7PQzqgZM+L7dyExw==}
     peerDependencies:
       vite: '>=4.0.0'
+
+  vite-plugin-sitemap@0.5.3:
+    resolution: {integrity: sha512-DSqZLAkXaNgoJLcaxjJHrfWjIIiZRSuZIseE7ihJYUvPFG4OsvXn/+Oujmzbs+6tV7yu1dn7uhWXpV7QuiH/1g==}
 
   vite@5.2.11:
     resolution: {integrity: sha512-HndV31LWW05i1BLPMUCE1B9E9GFbOu1MbenhS58FuK6owSO5qHm7GiCotrNY1YE5rMeQSFBGmT5ZaLEjFizgiQ==}
@@ -3605,6 +3611,8 @@ snapshots:
       connect-history-api-fallback: 1.6.0
       ejs: 3.1.10
       vite: 5.2.11(@types/node@20.12.8)(less@4.2.0)(terser@5.31.0)
+
+  vite-plugin-sitemap@0.5.3: {}
 
   vite@5.2.11(@types/node@20.12.8)(less@4.2.0)(terser@5.31.0):
     dependencies:

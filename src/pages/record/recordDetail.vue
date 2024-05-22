@@ -60,7 +60,7 @@ function getrecord() {
                 showResult(record);
                 user.value = record.user;
                 problem.value = record.problem;
-                submitTime.value = record.submitTime;
+                submitTime.value = new Date(record.submitTime).toLocaleString();
                 user.value = record.username;
                 state.value = record.state;
                 time.value = (record.sumtime > 60000 ? `${(record.sumtime / 60000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)));
@@ -116,70 +116,82 @@ tryGetting();
 </script>
 
 <template>
-    <div class="recordDetails">
-        <button id="changeView" @click="changeView()">查看代码</button>
-        <div v-show="nowView == `Details`" style="width: 90%;">
-            <div v-for="(item, index) in lastres" class="testcase" :key="index">
-                <div :class="'testcase' + tranformState(item.state)"
-                    style="text-align: center;width: 100%;height: 100%;">
-                    <div style="padding-top: .7em;">
-                        {{ `#${(index + 1)}` }}
-                        <br />
-                        {{ tranformState(item.state) }}
-                        <br />
-                        {{ item.time }}ms
 
+    <main>
+    <div v-show="nowView == `Code`">
+        <pre id="code-View"></pre>
+    </div>
+
+
+    <div class="layui-row layui-col-space64">
+        <div class="layui-col-md8">
+            <button id="changeView" @click="changeView()">查看代码</button>
+            <div v-show="nowView == `Details`">
+                <div v-for="(item, index) in lastres" class="testcase" :key="index">
+                    <div :class="'testcase' + tranformState(item.state)"
+                        style="text-align: center;width: 100%;height: 100%;">
+                        <div style="padding-top: .7em;">
+                            {{ `#${(index + 1)}` }}
+                            <br />
+                            {{ tranformState(item.state) }}
+                            <br />
+                            <span>{{ item.time }}ms</span>
+                            <br />
+                            <span>{{ item.memory.toFixed(1) }}MB</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-show="nowView == `Code`">
-            <pre id="code-View"></pre>
+        <div class="layui-col-md4">
+            <div class="recordInfo" v-show="nowView == `Details`">
+                <div style="margin:4%;font-size: large;">
+                    <div class="info-row">
+                        提交者：{{ user }}
+                    </div>
+                    <div style="flex:1 0 auto;">
+                        <div>
+                            <span>
+                                所属题目：
+                            </span>
+                            <Link :href="`/problem#/${problem}`" class="link color-default"
+                                style="font-size: medium;margin-bottom: 0 !important;">
+                            {{ (problem + ` ` + title).length < 20 ? (problem + ` ` + title) : ((problem + ` ` +
+                                title).substring(0, 16) +`...`) }} </Link>
+                        </div>
+                        <div>
+                            <span>评测状态：</span>
+                            <span :class="`State-${state}`" style="font-weight: 800;">
+                                {{ state }}
+                            </span>
+                        </div>
+                        <div>
+                            <span>得分：</span>
+                            <span id="point" style="font-weight: bold;"
+                                :class="(point <= 30 ? `pointLow` : (point >= 70 ? `pointHigh` : `pointMid`))">
+                                {{ point }}
+                            </span>
+                        </div>
+                        <div>
+                            <span>用时：</span>
+                            <span>{{ time }} </span>
+                        </div>
+                        <div>
+                            <span>空间占用：</span>
+                            <span>{{ memory }} </span>
+                        </div>
+                        <div>
+                            <span>提交时间：</span>
+                            <span>{{ submitTime }} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="recordInfo" v-show="nowView == `Details`">
-        <div style="margin:4%;font-size: large;">
-            <div class="info-row">
-                提交者：{{ user }}
-            </div>
-            <div style="flex:1 0 auto;">
-                <div>
-                    <span>
-                        所属题目：
-                    </span>
-                    <Link :href="`/problem#/${problem}`" class="link color-default"
-                        style="font-size: medium;margin-bottom: 0 !important;">
-                    {{ (problem + ` ` + title).length < 20 ? (problem + ` ` + title) : ((problem + ` ` +
-                        title).substring(0,16)+`...`) }} </Link>
-                </div>
-                <div>
-                    <span>评测状态：</span>
-                    <span :class="`State-${state}`" style="font-weight: 800;">
-                        {{ state }}
-                    </span>
-                </div>
-                <div>
-                    <span>得分：</span>
-                    <span id="point" style="font-weight: bold;"
-                        :class="(point <= 30 ? `pointLow` : (point >= 70 ? `pointHigh` : `pointMid`))">
-                        {{ point }}
-                    </span>
-                </div>
-                <div>
-                    <span>用时：</span>
-                    <span>{{ time }} </span>
-                </div>
-                <div>
-                    <span>空间占用：</span>
-                    <span>{{ memory }} </span>
-                </div>
-                <div>
-                    <span>提交时间：</span>
-                    <span>{{ submitTime }} </span>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
+
+
 </template>
 
 <style>
@@ -229,11 +241,6 @@ body * {
 }
 
 .recordInfo {
-    position: fixed;
-    left: 67%;
-    top: 10%;
-    width: 30%;
-    height: 22rem;
     background-color: #c5cee5;
 }
 
@@ -297,14 +304,13 @@ button {
     vertical-align: top;
     cursor: pointer;
     font-weight: 700;
-    margin: 0.35em;
-    height: 6em;
-    width: 6em;
+    margin: 0.55rem;
+    height: 6rem;
+    width: 6rem;
     padding: 0;
     color: #fff;
     display: inline-block;
-    border-radius: 25px;
-
+    border-radius: 45px;
 }
 
 code {

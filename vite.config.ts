@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import Sitemap from 'vite-plugin-sitemap'
 import vue from '@vitejs/plugin-vue'
 import mpaPlugin from 'vite-plugin-mpa-plus'
 import path from 'path'
@@ -35,7 +36,7 @@ function creatEntry() {
 export default defineConfig({
     plugins: [vue(), mpaPlugin({
         pages: creatEntry()
-    })], resolve: {
+    }), Sitemap()], resolve: {
         alias: {
             // 设置路径 这里resolve和join可自行选用
             '~': path.resolve(__dirname, './'),
