@@ -2,7 +2,7 @@
 import { ip } from "@/modules/ip";
 import axios from "axios";
 import { Ref, ref } from "vue";
-const lastres:Ref<any[]> = ref([]);
+const lastres: Ref<any[]> = ref([]);
 const user = ref(``);
 const time = ref(``);
 const memory = ref(``);
@@ -14,6 +14,7 @@ const point = ref(0);
 const problem = ref(``);
 import { Link } from '@arco-design/web-vue';
 import hljs from "highlight.js";
+import 'highlight.js/styles/atom-one-light.min.css'
 
 function showResult(res) {
 
@@ -67,7 +68,8 @@ function getrecord() {
                 memory.value = record.memory + `MB`;
                 codes.value = record.code;
                 point.value = record.point;
-                document.getElementById(`code-View`)!.innerHTML = hljs.highlight(codes.value, { language: `cpp` }).value;
+                document.getElementById(`code-View`)!.innerHTML = hljs.highlight(codes.value,{language:`cpp`}).value;
+                hljs.highlightAll();
                 axios.get(`${ip}/getProblem/${problem.value}`).then((problemData) => {
                     title.value = problemData.data.title;
                     reslove();
@@ -78,7 +80,7 @@ function getrecord() {
                 window.location.href = `/`;
             }
         });
-    }).catch((err)=>{
+    }).catch((err) => {
         console.error(err);
     });
 
@@ -116,82 +118,78 @@ tryGetting();
 </script>
 
 <template>
-
     <main>
-    <div v-show="nowView == `Code`">
-        <pre id="code-View"></pre>
-    </div>
-
-
-    <div class="layui-row layui-col-space64">
-        <div class="layui-col-md8">
-            <button id="changeView" @click="changeView()">查看代码</button>
-            <div v-show="nowView == `Details`">
-                <div v-for="(item, index) in lastres" class="testcase" :key="index">
-                    <div :class="'testcase' + tranformState(item.state)"
-                        style="text-align: center;width: 100%;height: 100%;">
-                        <div style="padding-top: .7em;">
-                            {{ `#${(index + 1)}` }}
-                            <br />
-                            {{ tranformState(item.state) }}
-                            <br />
-                            <span>{{ item.time }}ms</span>
-                            <br />
-                            <span>{{ item.memory.toFixed(1) }}MB</span>
+        <div class="layui-row layui-col-space64">
+            <div class="layui-col-md8">
+                <button id="changeView" @click="changeView()">查看代码</button>
+                <div v-show="nowView == `Details`">
+                    <div v-for="(item, index) in lastres" class="testcase" :key="index">
+                        <div :class="'testcase' + tranformState(item.state)"
+                            style="text-align: center;width: 100%;height: 100%;">
+                            <div style="padding-top: .7em;">
+                                {{ `#${(index + 1)}` }}
+                                <br />
+                                {{ tranformState(item.state) }}
+                                <br />
+                                <span>{{ item.time }}ms</span>
+                                <br />
+                                <span>{{ item.memory.toFixed(1) }}MB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-show="nowView == `Code`">
+                    <pre><code id="code-View" style="font-size: larger;font-weight: 650;"></code></pre>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="recordInfo">
+                    <div style="margin:4%;font-size: large;">
+                        <div class="info-row">
+                            提交者：{{ user }}
+                        </div>
+                        <div style="flex:1 0 auto;">
+                            <div>
+                                <span>
+                                    所属题目：
+                                </span>
+                                <Link :href="`/problem#/${problem}`" class="link color-default"
+                                    style="font-size: medium;margin-bottom: 0 !important;">
+                                {{ (problem + ` ` + title).length < 20 ? (problem + ` ` + title) : ((problem + ` ` +
+                                    title).substring(0, 16) + `...`) }} </Link>
+                            </div>
+                            <div>
+                                <span>评测状态：</span>
+                                <span :class="`State-${state}`" style="font-weight: 800;">
+                                    {{ state }}
+                                </span>
+                            </div>
+                            <div>
+                                <span>得分：</span>
+                                <span id="point" style="font-weight: bold;"
+                                    :class="(point <= 30 ? `pointLow` : (point >= 70 ? `pointHigh` : `pointMid`))">
+                                    {{ point }}
+                                </span>
+                            </div>
+                            <div>
+                                <span>用时：</span>
+                                <span>{{ time }} </span>
+                            </div>
+                            <div>
+                                <span>空间占用：</span>
+                                <span>{{ memory }} </span>
+                            </div>
+                            <div>
+                                <span>提交时间：</span>
+                                <span>{{ submitTime }} </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="layui-col-md4">
-            <div class="recordInfo" v-show="nowView == `Details`">
-                <div style="margin:4%;font-size: large;">
-                    <div class="info-row">
-                        提交者：{{ user }}
-                    </div>
-                    <div style="flex:1 0 auto;">
-                        <div>
-                            <span>
-                                所属题目：
-                            </span>
-                            <Link :href="`/problem#/${problem}`" class="link color-default"
-                                style="font-size: medium;margin-bottom: 0 !important;">
-                            {{ (problem + ` ` + title).length < 20 ? (problem + ` ` + title) : ((problem + ` ` +
-                                title).substring(0, 16) +`...`) }} </Link>
-                        </div>
-                        <div>
-                            <span>评测状态：</span>
-                            <span :class="`State-${state}`" style="font-weight: 800;">
-                                {{ state }}
-                            </span>
-                        </div>
-                        <div>
-                            <span>得分：</span>
-                            <span id="point" style="font-weight: bold;"
-                                :class="(point <= 30 ? `pointLow` : (point >= 70 ? `pointHigh` : `pointMid`))">
-                                {{ point }}
-                            </span>
-                        </div>
-                        <div>
-                            <span>用时：</span>
-                            <span>{{ time }} </span>
-                        </div>
-                        <div>
-                            <span>空间占用：</span>
-                            <span>{{ memory }} </span>
-                        </div>
-                        <div>
-                            <span>提交时间：</span>
-                            <span>{{ submitTime }} </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     </main>
-
-
 </template>
 
 <style>
@@ -318,12 +316,4 @@ code {
     font-size: medium !important;
 }
 
-pre {
-    background-color: rgb(253, 243, 140, .61);
-    display: block;
-    padding: 13px;
-    overflow-x: auto;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-weight: 400;
-}
 </style>

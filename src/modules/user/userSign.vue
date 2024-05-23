@@ -29,12 +29,12 @@ getUserData(props.uid).then((res) => {
     tagOpt.value = res.tag;
     username.value = res.username;
     headImg.value = res.headImg;
-
 })
 watch(props, () => {
     getUserData(props.uid).then((res) => {
         tagOpt.value = res.tag;
         username.value = res.username;
+        headImg.value = res.headImg;
     })
 })
 function jump(uid: number) {
