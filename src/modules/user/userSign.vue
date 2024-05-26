@@ -10,7 +10,8 @@ const props = withDefaults(defineProps<{
     showHeadImg?: boolean,
     headImgPos?: "left" | "right",
     headImgSize?: string,
-    tagsize?: "small" | "medium"
+    tagsize?: "small" | "medium",
+    disableJump?: boolean
 }>(), {
     uid: 1,
     showTag: false,
@@ -18,7 +19,8 @@ const props = withDefaults(defineProps<{
     showHeadImg: false,
     headImgPos: `left`,
     headImgSize: `50px`,
-    tagsize: `medium`
+    tagsize: `medium`,
+    disableJump:false
 });
 const emit = defineEmits(['update:showTag'])
 if (!props.showTag) {
@@ -47,9 +49,19 @@ function jump(uid: number) {
     <div style="display: flex;align-items: center;">
         <slot name="before">
         </slot>
-        <img @click="jump($props.uid || 1)" :style="{ width: $props.headImgSize, height: $props.headImgSize }"
-            class="headImg" v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
-        <span @click="jump($props.uid || 1)" class="userName" :style="{
+        <img @click="()=>{
+            if($props.disableJump)
+            {
+                return;
+            }
+            jump($props.uid || 1)}" :style="{ width: $props.headImgSize, height: $props.headImgSize }" class="headImg"
+            v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
+        <span @click="() => {
+            if ($props.disableJump) {
+                return;
+            }
+            jump($props.uid || 1)
+        }" class="userName" :style="{
             color: $props.fontColor, fontSize: `large`, fontWeight: 600, marginRight: `10px`,
             marginTop: `-2px`
         }">{{ username }}</span>
@@ -58,7 +70,13 @@ function jump(uid: number) {
                 v-for="(item, index) of tagOpt" :color="item.color" :key="index">{{
                 item.text }}</Tag>
         </div>
-        <img class="headImg" v-if="$props.showHeadImg && ($props.headImgPos == `right`)" :src="headImg" />
+        <img @click="() => {
+            if ($props.disableJump) {
+                return;
+            }
+            jump($props.uid || 1)
+        }" class="headImg" v-if="$props.showHeadImg && ($props.headImgPos == `right`)"
+            :src="headImg" />
         <slot name="after">
         </slot>
     </div>

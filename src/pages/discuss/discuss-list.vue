@@ -94,11 +94,14 @@ axios.post(`${ip}/getDiscussionList`, { page: page.value, type: type.value }).th
                         </div>
                     </div>
                     <div class="layui-col-md9">
-                        <div  @click="jump(`/discuss#/${item.id}`)" style="margin-bottom: 20px;padding: 20px;"
+                        <div  @click="jump(`/discuss#/${item.id}`)" style="margin-bottom: 20px;padding: 15px 20px;"
                             v-for="(item, index) of list" :key="index" class="discussionListItem card">
-                            <h3>{{ item.title }}</h3>
-                            <div style="width: 100%;margin-top: 10px;">
-                                <UserSign :uid="item.creater" show-tag :font-color="`black`"></UserSign>
+                            <div style="width: 100%;">
+                                <UserSign style="display: flex;margin-bottom: 10px;" :uid="item.creater" show-tag :font-color="`black`">
+                                    <template #before>
+                                        <h3 style="flex: 1 1;color: rgba(200,100,100,0.8);">{{ item.title }}</h3>
+                                    </template>
+                                </UserSign>
                                 <span>
                                     {{ translateTime(new Date(item.createTime)) }}
                                 </span>

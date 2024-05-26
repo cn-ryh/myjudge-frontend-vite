@@ -1173,13 +1173,6 @@ html[data-theme=dark] .vp-code-demo-toggle-button:hover {
     }
 }
 
-.vp-code-demo-codes>div[class*=language-]:first-child pre {
-    margin-top: 0 !important
-}
-
-.vp-code-demo-codes>div[class*=language-].language-json {
-    display: none
-}
 
 .vp-code-demo-codes>div[class*=language-].line-numbers-mode:after {
     border-radius: 0
@@ -6096,10 +6089,6 @@ table {
 }
 
 
-pre {
-    direction: ltr
-}
-
 @page {
     margin: 2cm;
     font-size: 12pt;
@@ -6150,8 +6139,7 @@ pre {
         color: inherit
     }
 
-    blockquote,
-    pre {
+    blockquote{
         orphans: 5;
         widows: 5
     }
@@ -6200,9 +6188,6 @@ code {
     font-family: var(--font-family-mono)
 }
 
-html[data-theme=dark] code {
-    background: #333
-}
 
 blockquote {
     border-color: #eee;
@@ -7744,9 +7729,6 @@ table tfoot tr td {
     padding-right: 20px;
 }
 
-*:not(pre) code {
-    background-color: aliceblue;
-}
 
 em {
     font-weight: 800;

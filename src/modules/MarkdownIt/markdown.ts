@@ -6,7 +6,7 @@ import { tasklist } from "@mdit/plugin-tasklist";
 import { container } from "@mdit/plugin-container"
 import mathjax from "markdown-it-mathjax3"
 import highlight from 'highlight.js'
-
+import 'highlight.js/styles/atom-one-light.min.css'
 import './style.css'
 const markdownit = new MarkdownIt({
     html: true, highlight: function (str, lang) {
