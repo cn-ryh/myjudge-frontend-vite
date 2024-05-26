@@ -152,7 +152,7 @@ function submit() {
                     else {
                         axio.post(ip + `/problem-submit`, {
                             user: res.uid,
-                            submittime: `${Timer.getFullYear()}-${Timer.getMonth() + 1}-${Timer.getDate()}  ${Timer.getHours()}:${Timer.getMinutes()}:${Timer.getSeconds()}`,
+                            submittime: new Date().getTime(),
                             problem: problemId.value,
                             codes: monacoInstance.getValue(),
                             contestId: flag
@@ -179,7 +179,7 @@ function submit() {
         else {
             axio.post(`${ip}/problem-submit`, {
                 user: res.uid,
-                submittime: `${Timer.getFullYear()}-${Timer.getMonth() + 1}-${Timer.getDate()}  ${Timer.getHours()}:${Timer.getMinutes()}:${Timer.getSeconds()}`,
+                submittime: new Date().getTime(),
                 problem: problemId.value,
                 codes: monacoInstance.getValue(),
                 contestEnd: 0

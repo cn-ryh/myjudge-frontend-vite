@@ -9,12 +9,14 @@ document.title = `新建题目`;
 const title = ref(``);
 const description = ref(``);
 const diff = ref(0);
+const type = ref(`P`);
 function newProblem() {
     axios.post(`${ip}/newProblem`, {
         title: title.value,
         description: description.value,
         author: currectUser.uid,
-        difficult: diff.value
+        difficult: diff.value,
+        type: type.value
     }).then((res) => {
         if (res.data.success == true) {
             Notification.success({
@@ -31,23 +33,32 @@ function newProblem() {
 
 </script>
 <template>
-    <div class="card" style="">
+    <div class="card">
         <div>
             <span> 题目编号 </span>
             <input placeholder="自动分配" id="problemIdInputer" disabled>
         </div>
         <Tabs default-active-key="1">
             <TabPane key="1" title="管理">
-                <div style="width: 40%; height: 32px;display: flex;">
-                    <span>题目名称：</span>
-                    <input v-model="title" id="title" style="outline: 0;flex: 1;font-size: large;" />
+                <div>
+                    <span>题库：</span>
+                    <Select v-model="type" style="width:280px;margin-left: 2%;" placeholder="请选择题库">
+                        <Option :value="`B`">入门题库</Option>
+                        <Option :value="`P`">主题库</Option>
+                        <Option :value="`M`">精英题库</Option>
+                    </Select>
+                </div><br>
+
+
+                <div style="height: 32px;display: flex;">
+                    <span style="flex: 1 1 7rem; font-size: 1.1rem;">题目名称：</span>
+                    <input v-model="title" id="title" style="width: 100%;outline: 0;font-size: large;" />
                 </div><br>
                 <br>
-                <div>
-                    <span>题目描述</span>
-                    <br>
+                <div style="display: flex;flex-direction: row;">
+                    <span style="flex: 1 1 7rem; font-size: 1.1rem;">题目描述：</span>
                     <textarea v-model="description" class="inputarea"
-                        style="height: 28rem;width: 90%;resize: none;margin-left: 6%;padding: 5px 5px;"
+                        style="height: 28rem;width: 100%;resize: none;padding: 5px 5px;"
                         placeholder="请输入题目描述，支持Markdown。"></textarea>
                 </div>
                 <br>

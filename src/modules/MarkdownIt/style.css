@@ -7744,7 +7744,7 @@ table tfoot tr td {
     padding-right: 20px;
 }
 
-*:not(pre)code {
+*:not(pre) code {
     background-color: aliceblue;
 }
 
@@ -7757,18 +7757,6 @@ ol {
     margin-left: 1.2rem;
 }
 
-pre {
-    background-color: black;
-    font-size: medium;
-    color: white;
-    line-height: 19px;
-}
-
-pre code {
-    background-color: black !important;
-    font-size: large;
-    color: white;
-}
 
 blockquote {
     background-color: rgba(247, 247, 247, 0.829);

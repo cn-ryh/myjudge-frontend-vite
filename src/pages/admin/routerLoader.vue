@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import NavView from '@/modules/navView.vue';
 import adminNav from './adminNav.vue';
 import { keepLogin } from '@/modules/user/getUserData';
-import '@/modules/layui-v2.9.8/layui/css/layui.css'
-import { Notification } from '@arco-design/web-vue';
+import { NotifyPlugin } from 'tdesign-vue-next';
 import { ref, Ref } from 'vue';
 window.onhashchange = () => {
     window.location.reload();
 };
-let haveAdmin:Ref<boolean> = ref(false);
+let haveAdmin: Ref<boolean> = ref(false);
 keepLogin().then((res) => {
     for (let now in res.admin) {
         if (res.admin[now]) {
@@ -16,10 +16,9 @@ keepLogin().then((res) => {
         }
     }
     if (!haveAdmin.value) {
-        Notification.error({
+        NotifyPlugin.error({
             title: `无访问权限`,
             content: `无管理权限或未登录`,
-            closable: false
         });
         setTimeout(() => { window.location.href = `/`; }, 3000);
     }
@@ -27,7 +26,8 @@ keepLogin().then((res) => {
 </script>
 
 <template>
-    <div class="layui-row" style="width: 95%;">
+    <NavView></NavView>
+    <div class="layui-row layui-col-space64" style="width: 100vw;">
         <div class="layui-col-sm2 layui-col-md2">
             <adminNav></adminNav>
         </div>
@@ -37,7 +37,4 @@ keepLogin().then((res) => {
     </div>
 </template>
 <style>
-body {
-    margin: 0% !important;
-}
 </style>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { translateTime } from '@/modules/functions'
 import { ip } from "@/modules/ip";
 import navView from "@/modules/navView.vue";
 import { Card } from "@arco-design/web-vue";
@@ -7,7 +8,7 @@ import axios from "axios";
 import { NotifyPlugin } from "tdesign-vue-next";
 
 import { Ref, ref } from "vue";
-import { IDiscussion,discussType } from "@/modules/interface";
+import { IDiscussion, discussType } from "@/modules/interface";
 import UserSign from "@/modules/user/userSign.vue";
 window.onhashchange = () => {
     window.location.reload();
@@ -50,15 +51,7 @@ const contests: Ref<any[]> = ref([]);
 axios.get(`${ip}/getContestList`).then((res) => {
     contests.value = res.data;
 });
-function translateTime(date: Date) {
-    const year = date.getFullYear().toString().padStart(4, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const hour = date.getHours().toString().padStart(2, '0');
-    const minute = date.getMinutes().toString().padStart(2, '0');
-    const second = date.getSeconds().toString().padStart(2, '0');
-    return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-}
+
 const discussionList: Ref<IDiscussion[]> = ref([]);
 axios.post(`${ip}/getDiscussionList`, { page: 1 }).then((getListRes) => {
     if (getListRes.data.code === 0) {
@@ -104,17 +97,18 @@ function jump(url: string) {
                     <br />
                     <div class="layui-row layui-col-space32">
                         <div class="layui-col-md6" v-for="(item, idx) of contests" :key="idx">
-                            <Card @click="jump(`/contest#/${item.id}`)" size="small" style="width: 100%;display: inline-block;height: auto;margin: 3% 2%;"
+                            <Card @click="jump(`/contest#/${item.id}`)" size="small"
+                                style="width: 100%;display: inline-block;height: auto;margin: 3% 2%;"
                                 :title="item.title">
-                        
+
                                 <center>
                                     <Tag>{{ item.type }}</Tag>
                                 </center>
                                 <br>
                                 <span>
                                     {{
-                                    `${translateTime(new Date(item.begintime))}~ ${translateTime(new
-                                    Date(item.endtime))}`
+                                        `${translateTime(new Date(item.begintime))}~ ${translateTime(new
+                                            Date(item.endtime))}`
                                     }}
                                 </span>
                             </Card>
@@ -126,26 +120,24 @@ function jump(url: string) {
                 <div class="card">
                     <h2>最近讨论</h2>
                     <br />
-
                     <div @click="jump(`/discuss#/${item.id}`)"
                         style="margin-bottom: 20px;padding: 20px;border: 1px solid var(--color-danger-light-4);"
                         v-for="(item, index) of discussionList" :key="index" class="discussionListItem card">
                         <div>
-                            <UserSign :uid="item.creater" show-tag :font-color="`black`">
-                                <template #before>
-                                    <h3 style="color: rgb(255,75,75);">{{ item.title }}</h3>
-                                </template>
+                            <h3 style="color: rgb(255,75,75);">{{ item.title }}</h3>
+
+                            <UserSign tagsize="small" :uid="item.creater" show-tag :font-color="`black`">
                             </UserSign>
 
                         </div>
                         <div style="width: 100%;margin-top: 10px;">
                             <span>
-                                {{ new Date(item.createTime).toLocaleString() }}
+                                {{ translateTime(new Date(item.createTime)) }}
                             </span>
                             <span v-if="item.type === discussType.problem" style="margin-left: 10px;">{{ item.problem
                                 }}</span>
-                            <span style="float: right;">最近回复：{{ !item.replyTime ? `无` : new
-                                Date(item.replyTime).toLocaleString()
+                            <span style="float: right;">最近回复：{{ !item.replyTime ? `无` : translateTime(new
+                                Date(item.replyTime))
                                 }}</span>
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 import { Divider, Button, NotifyPlugin } from 'tdesign-vue-next'
 import { IReply } from '@/modules/interface';
 import { markdownit } from '@/modules/MarkdownIt/markdown';
+import { translateTime } from '@/modules/functions';
 import UserSign from '@/modules/user/userSign.vue';
 import { ref, Ref } from 'vue';
 import axios from 'axios';
@@ -44,7 +45,7 @@ function showReply() {
                 :uid="$props.item.sender">
                 <template #after>
                     <div style="margin-left: auto;display: flex;align-items: center;">
-                        <span>{{ new Date(item.sendTime).toLocaleString() }}</span>
+                        <span>{{ translateTime(new Date(item.sendTime)) }}</span>
                         <span style="color: rgba(10,10,10,.3);margin-left: 10px;font-size: 10px;" :id="item.id">id:{{
                             item.id }}</span>
                         <Button @click="$props.replyToReplys(item.id)" style="float: right;" variant="text"

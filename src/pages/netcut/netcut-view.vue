@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ip } from '@/modules/ip';
+import { translateTime } from '@/modules/functions';
 import { Card, Notification } from '@arco-design/web-vue';
 import { Form, FormItem, Input, Switch, Button, Skeleton } from 'tdesign-vue-next'
 import { markdownit } from '@/modules/MarkdownIt/markdown';
@@ -171,8 +172,8 @@ function editClick() {
                 <p>剪切板已加密，输入密码解锁剪切板</p>
                 <span>创建者：<userSign :uid="netcut.creater"></userSign></span>
                 <br>
-                <span>创建时间：{{ new Date(netcut.createTime).toLocaleString() }}</span>
-                <span>修改时间：{{ new Date(netcut.updateTime).toLocaleString() }}</span>
+                <span>创建时间：{{ translateTime(new Date(netcut.createTime)) }}</span>
+                <span>修改时间：{{ translateTime(new Date(netcut.updateTime)) }}</span>
                 <Input v-model="password"></Input>
                 <Button @click="getNetcutByPassword(password)">确认</Button>
             </Card>

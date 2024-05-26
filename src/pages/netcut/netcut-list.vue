@@ -2,6 +2,7 @@
 import { getCookie } from '@/modules/cookie';
 import { ip } from '@/modules/ip';
 import { Notification, Table, TableColumn } from '@arco-design/web-vue';
+import { translateTime } from '@/modules/functions';
 import { Link, Button, Popconfirm } from 'tdesign-vue-next';
 import axios from 'axios';
 import { Ref, ref } from 'vue';
@@ -64,14 +65,14 @@ function deleteNetcut(path: string) {
                 <TableColumn title="创建时间" data-index="paths">
                     <template #cell="{ record }">
                         <span style="font-weight: 800;">
-                            {{ (new Date(record.createTime)).toLocaleString() }}
+                            {{ translateTime(new Date(record.createTime))}}
                         </span>
                     </template>
                 </TableColumn>
                 <TableColumn title="修改时间" data-index="paths">
                     <template #cell="{ record }">
                         <span style="font-weight: 800;">
-                            {{ (new Date(record.updateTime)).toLocaleString() }}
+                            {{ translateTime(new Date(record.updateTime)) }}
                         </span>
                     </template>
                 </TableColumn>

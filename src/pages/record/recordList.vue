@@ -6,6 +6,7 @@ import { List } from '@arco-design/web-vue';
 import { Input, InputGroup, Option, Select } from "tdesign-vue-next";
 import { Ref } from "vue";
 import UserSign from "@/modules/user/userSign.vue";
+import { translateTime } from "@/modules/functions";
 const tot = ref(0);
 const records: Ref<any[]> = ref([]);
 const nowPage = window.location.href;
@@ -97,7 +98,7 @@ function getrecord() {
                             <UserSign fontColor="black" showTag showHeadImg :uid="item.user"></UserSign>
                         </div>
                         <div style="margin-left: 20px;width: 15%;">
-                            {{ new Date(item.submitTime).toLocaleString() }}
+                            {{ translateTime(new Date(item.submitTime)) }}
                         </div>
                         <div style="width: 12%;">
                             <a :href="`/record#/${item.id}`">

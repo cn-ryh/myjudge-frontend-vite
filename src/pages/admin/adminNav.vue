@@ -66,9 +66,5 @@ const changeCollapsed = () => {
 </script>
 
 <style scoped>
-#adminNav {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 10vh;
-}
+
 </style>

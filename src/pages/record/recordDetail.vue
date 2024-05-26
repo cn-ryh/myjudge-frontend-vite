@@ -15,6 +15,7 @@ const problem = ref(``);
 import { Link } from '@arco-design/web-vue';
 import hljs from "highlight.js";
 import 'highlight.js/styles/atom-one-light.min.css'
+import { translateTime } from "@/modules/functions";
 
 function showResult(res) {
 
@@ -61,14 +62,14 @@ function getrecord() {
                 showResult(record);
                 user.value = record.user;
                 problem.value = record.problem;
-                submitTime.value = new Date(record.submitTime).toLocaleString();
+                submitTime.value = translateTime(new Date(record.submitTime));
                 user.value = record.username;
                 state.value = record.state;
                 time.value = (record.sumtime > 60000 ? `${(record.sumtime / 60000.00).toFixed(2)} min` : (record.sumtime > 1000 ? (`${(record.sumtime / 1000.00).toFixed(2)} s`) : (`${record.sumtime} ms`)));
                 memory.value = record.memory + `MB`;
                 codes.value = record.code;
                 point.value = record.point;
-                document.getElementById(`code-View`)!.innerHTML = hljs.highlight(codes.value,{language:`cpp`}).value;
+                document.getElementById(`code-View`)!.innerHTML = hljs.highlight(codes.value, { language: `cpp` }).value;
                 hljs.highlightAll();
                 axios.get(`${ip}/getProblem/${problem.value}`).then((problemData) => {
                     title.value = problemData.data.title;
@@ -315,5 +316,4 @@ code {
     font-family: Courier !important;
     font-size: medium !important;
 }
-
 </style>

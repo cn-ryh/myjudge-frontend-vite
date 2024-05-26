@@ -11,6 +11,8 @@ import '@arco-design/web-vue/es/select/style/css.js';
 import '@arco-design/web-vue/es/tag/style/css.js';
 import '@arco-design/web-vue/es/link/style/css.js';
 import '@arco-design/web-vue/es/steps/style/css.js';
+import '@/modules/layui-v2.9.8/layui/css/layui.css'
+import '@/modules/normalize.css'
 
 app.use(router);
 app.mount(`#admin`);

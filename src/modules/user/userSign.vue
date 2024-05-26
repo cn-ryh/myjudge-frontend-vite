@@ -9,14 +9,16 @@ const props = withDefaults(defineProps<{
     fontColor?: string,
     showHeadImg?: boolean,
     headImgPos?: "left" | "right",
-    headImgSize?: string
+    headImgSize?: string,
+    tagsize?: "small" | "medium"
 }>(), {
     uid: 1,
     showTag: false,
     fontColor: `white`,
     showHeadImg: false,
     headImgPos: `left`,
-    headImgSize: `50px`
+    headImgSize: `50px`,
+    tagsize: `medium`
 });
 const emit = defineEmits(['update:showTag'])
 if (!props.showTag) {
@@ -52,7 +54,7 @@ function jump(uid: number) {
             marginTop: `-2px`
         }">{{ username }}</span>
         <div class="userTags" v-if="showTag">
-            <Tag size="medium" :style="`text-color:${item.textcolor};font-weight:450;font-size:15px`"
+            <Tag :size="$props.tagsize??`medium`" :style="`text-color:${item.textcolor};`"
                 v-for="(item, index) of tagOpt" :color="item.color" :key="index">{{
                 item.text }}</Tag>
         </div>

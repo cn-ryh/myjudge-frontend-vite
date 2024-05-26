@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Link, Button, NotifyPlugin } from 'tdesign-vue-next';
 import { markdownit } from '@/modules/MarkdownIt/markdown'
+import { translateTime } from '@/modules/functions';
 import { Ref, ref } from 'vue';
 import axios from 'axios';
 import { ip } from '@/modules/ip';
@@ -99,12 +100,12 @@ axios.post(`${ip}/getDiscussionList`, { page: page.value, type: type.value }).th
                             <div style="width: 100%;margin-top: 10px;">
                                 <UserSign :uid="item.creater" show-tag :font-color="`black`"></UserSign>
                                 <span>
-                                    {{ new Date(item.createTime).toLocaleString() }}
+                                    {{ translateTime(new Date(item.createTime)) }}
                                 </span>
                                 <span v-if="item.type === discussType.problem" style="margin-left: 10px;">{{ item.problem
                                     }}</span>
-                                <span style="float: right;">最近回复：{{ !item.replyTime ? `无` : new
-                                    Date(item.replyTime).toLocaleString()
+                                <span style="float: right;">最近回复：{{ !item.replyTime ? `无` : 
+                                    translateTime(new Date(item.replyTime))
                                     }}</span>
                             </div>
                         </div>

@@ -3,6 +3,7 @@ import { ip } from '@/modules/ip';
 import axios from 'axios';
 import { Ref, ref } from 'vue';
 import { TabPane, Tabs, Card, Table, TableColumn, Link, Tag } from '@arco-design/web-vue';
+import { translateTime } from '@/modules/functions';
 const id = ref(0);
 const src = window.location.href;
 id.value = +src.substring(src.lastIndexOf('/') + 1);
@@ -38,7 +39,7 @@ axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
             &emsp;
             <Tag size="large">
                 <div style="font-size: 1.05rem;">
-                    {{ new Date(TimeRange[0]).toLocaleString() }}~{{ new Date(TimeRange[1]).toLocaleString() }}
+                    {{ translateTime(new Date(TimeRange[0])) }}~{{ translateTime(new Date(TimeRange[1])) }}
                 </div>
             </Tag>
         </div>

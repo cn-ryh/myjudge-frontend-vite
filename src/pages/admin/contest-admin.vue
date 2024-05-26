@@ -2,10 +2,11 @@
 import { ip } from '@/modules/ip';
 import axios from 'axios';
 import { Ref, ref } from 'vue';
-import {  Card, Tabs, TabPane, Button } from '@arco-design/web-vue';
+import { Card, Tabs, TabPane, Button } from '@arco-design/web-vue';
 import { DateRangePicker, NotifyPlugin } from 'tdesign-vue-next';
 import ProblemSelecter from '@/modules/problem/problemSelecter.vue';
 import { IProblem } from '@/modules/interface';
+import { translateTime } from '@/modules/functions';
 const upproblems: Ref<IProblem[]> = ref([])
 const title = ref('');
 const description = ref('');
@@ -23,8 +24,8 @@ if (page.substring(page.lastIndexOf('/') + 1) !== 'contest') {
         const l = new Date(contest.begintime), r = new Date(contest.endtime);
 
         TimeRange.value = [
-            l.toLocaleString(),
-            r.toLocaleString()];
+            translateTime(l), translateTime(r)
+        ];
     });
 }
 
