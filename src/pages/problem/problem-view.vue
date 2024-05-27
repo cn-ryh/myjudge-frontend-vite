@@ -68,8 +68,8 @@ const problemId = ref(window.location.href.split('/')[window.location.href.split
 const contestId = ref(getQueryVariable(`contestId`) ?? ``)
 document.title = `11OJ | ` + problemId.value;
 const discussions: Ref<IDiscussion[]> = ref([])
-axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
-    if (res.data == ``) {
+axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
+    if (problemres.data == ``) {
         alert(`不存在的题目`);
         location.replace(`/problem#/list`);
     }
@@ -89,7 +89,7 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
                 });
                 return;
             }
-            problem.value = res.data;
+            problem.value = problemres.data;
         });
     }
 
