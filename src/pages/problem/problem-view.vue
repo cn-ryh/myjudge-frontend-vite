@@ -95,7 +95,18 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
     }
     else
     {
-        problem.value = problemres.data;
+        if(problemres.data.contests.length)
+        {
+            NotifyPlugin.error({
+                title: `题目在比赛中`,
+                content: `请在比赛中查看`
+            })
+        }
+        else
+        {
+            problem.value = problemres.data;
+
+        }
     }
 });
 axio.post(`${ip}/getDiscussionList`, {
