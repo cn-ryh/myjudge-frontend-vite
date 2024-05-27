@@ -17,6 +17,7 @@ import hljs from "highlight.js";
 import 'highlight.js/styles/atom-one-light.min.css'
 import { translateTime } from "@/modules/functions";
 import { currectUser } from "@/modules/user/currectUser";
+import { NotifyPlugin } from "tdesign-vue-next";
 
 function showResult(res) {
 
@@ -57,6 +58,13 @@ function getrecord() {
     return new Promise<void>((reslove) => {
         const args = (window.location.href.split(`/`));
         const recordid = args[args.length - 1];
+        if(!currectUser.uid || isNaN(currectUser.uid))
+        {
+            NotifyPlugin.error({
+                title: `请先登录`
+            });
+            return ;
+        }
         axios.post(`${ip}/getRecord/${recordid}`, {
             uid: currectUser.uid,
             token: currectUser.token

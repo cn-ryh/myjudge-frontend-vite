@@ -9,6 +9,7 @@ import { editor } from 'monaco-editor'
 import UserSign from "@/modules/user/userSign.vue";
 import { IDiscussion, IProblem } from "@/modules/interface";
 
+import { markdownit } from "@/modules/MarkdownIt/markdown";
 let monacoInstance: editor.IStandaloneCodeEditor;
 setTimeout(() => {
     monacoInstance = editor.create(document.getElementById("codeInputer")!, {
@@ -213,7 +214,7 @@ function submit() {
         </div>
         <div v-show="(showsubmit == false)" id="problem" style="margin-top: 20px;" class="layui-row layui-col-space32">
             <div class="layui-col-md8 layui-col-sm9" id="description">
-                <div class="card" v-html="problem.description" style="padding: 20px 30px;"></div>
+                <div class="card" v-html="markdownit.render(problem.descriptionmd)" style="padding: 20px 30px;"></div>
             </div>
             <div class="layui-col-md4 layui-col-sm3">
                 <div class="card">

@@ -22,11 +22,11 @@ function translateTime(date: Date) {
         <h1 style="text-align: center">比赛列表</h1>
         <div class="card">
             <div class="" style="text-align: center;">
-                <a :href="`./contest.html#/${item.id}`" v-for="(item, index) of contests" :key="index">
+                <a :href="`./contest#/${item.id}`" v-for="(item, index) of contests" :key="index">
                     <Card size="small" style="width: 30%;display: inline-block;height: auto;margin: 3% 2%;"
                         :title="item.title">
                         <template #extra>
-                            <Link :href="`./contest.html#/${item.id}`">查看详情</Link>
+                            <Link :href="`./contest#/${item.id}`">查看详情</Link>
                         </template>
                         <Tag>{{ item.type }}</Tag>
                         <br>
