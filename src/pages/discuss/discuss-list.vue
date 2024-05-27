@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Link, Button, NotifyPlugin } from 'tdesign-vue-next';
 import { markdownit } from '@/modules/MarkdownIt/markdown'
-import { translateTime } from '@/modules/functions';
+import { getQueryVariable, translateTime } from '@/modules/functions';
 import { Ref, ref } from 'vue';
 import axios from 'axios';
 import { ip } from '@/modules/ip';
@@ -20,20 +20,7 @@ const discussTypesRules: Ref<{
     "other": `如有其他讨论需求，请在这里发布讨论`
 });
 
-function getQueryVariable(variable: string) {
-    const query = window.location.href.split(`?`)[1];
-    if (!query) {
-        return null;
-    }
-    const vars = query.split("&");
-    for (let i = 0; i < vars.length; i++) {
-        const pair = vars[i].split("=");
-        if (pair[0] == variable) {
-            return pair[1];
-        }
-    }
-    return (null);
-}
+
 const type: Ref<string> = ref(getQueryVariable(`type`) ?? ``);
 function jump(url: string) {
     window.location.href = url;

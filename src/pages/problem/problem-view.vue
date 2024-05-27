@@ -10,6 +10,7 @@ import UserSign from "@/modules/user/userSign.vue";
 import { IDiscussion, IProblem } from "@/modules/interface";
 
 import { markdownit } from "@/modules/MarkdownIt/markdown";
+import { getQueryVariable, translateTime } from "@/modules/functions";
 let monacoInstance: editor.IStandaloneCodeEditor;
 setTimeout(() => {
     monacoInstance = editor.create(document.getElementById("codeInputer")!, {
@@ -64,6 +65,7 @@ signed main()
 }, 1000)
 const problem: Ref<IProblem> = ref(new IProblem)
 const problemId = ref(window.location.href.split('/')[window.location.href.split('/').length - 1].split(`?`)[0]);
+const contestId = ref(getQueryVariable(`contestId`) ?? ``)
 document.title = `11OJ | ` + problemId.value;
 const discussions: Ref<IDiscussion[]> = ref([])
 axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
@@ -71,7 +73,26 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((res) => {
         alert(`不存在的题目`);
         location.replace(`/problem#/list`);
     }
-    problem.value = res.data;
+    if (contestId) {
+        axio.get(`${ip}/getContest/${contestId.value}`).then((res) => {
+            if (new Date().getTime() > res.data.endtime) {
+                NotifyPlugin.error({
+                    title: `比赛已结束`,
+                    content: `请至练习界面提交题目`
+                });
+                return;
+            }
+            else if (new Date().getTime() < res.data.begintime) {
+                NotifyPlugin.error({
+                    title: `比赛未开始`,
+                    content: `比赛开始时间：${translateTime(new Date(res.data.begintime))}`
+                });
+                return;
+            }
+            problem.value = res.data;
+        });
+    }
+
 });
 axio.post(`${ip}/getDiscussionList`, {
     type: `problem`,

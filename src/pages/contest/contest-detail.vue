@@ -13,8 +13,8 @@ const description = ref('');
 const problems: Ref<any[]> = ref([]);
 const author = ref('');
 const dashboard = ref([]);
-const type: Ref<string> = ref(``);
-const TimeRange: Ref<number[]> = ref([]);
+const type: Ref<string> = ref(`OI`);
+const TimeRange: Ref<number[]> = ref([5999999999999,5999999999999]);
 const nowTime = new Date().getTime();
 axios.get(`${ip}/getContest/${id.value}`).then((res) => {
     title.value = res.data.title;
@@ -34,7 +34,7 @@ axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
 </script>
 <template>
     <main>
-        <h1 style="width: 90%;text-align: center;">{{ title }}</h1>
+        <h1 style="width: 90%;text-align: center;height: 40px;">{{ title }}</h1>
         <div style="width: 90%;text-align: center;">
             <Tag>{{ type }}</Tag>
             &emsp;
@@ -52,7 +52,7 @@ axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
                         </span>
                     </div>
                 </TabPane>
-                <TabPane key="2" title="题目列表">
+                <TabPane v-if="(() => { return new Date().getTime() > TimeRange[0]; })()" key="2" title="题目列表">
                     <div>
                         <Table :data="problems" size="medium">
                             <template #columns>

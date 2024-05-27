@@ -17,7 +17,7 @@ const id = ref('');
 if (page.substring(page.lastIndexOf('/') + 1) !== 'contest') {
     axios.get(`${ip}/getContest/${page.substring(page.lastIndexOf('/') + 1)}`).then((res) => {
         const contest = res.data;
-        description.value = contest.descriptionmd;
+        description.value = contest.description;
         id.value = contest.id;
         title.value = contest.title;
         upproblems.value = contest.problems;

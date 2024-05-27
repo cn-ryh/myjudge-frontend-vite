@@ -7,5 +7,21 @@ function translateTime(date: Date) {
     const second = date.getSeconds().toString().padStart(2, '0');
     return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
-
-export {translateTime}
+function getQueryVariable(variable: string) {
+    const query = window.location.href.split(`?`)[1];
+    if (!query) {
+        return null;
+    }
+    const vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+    }
+    return (null);
+}
+function jump(url: string) {
+    window.open(url);
+}
+export { translateTime, getQueryVariable, jump }
