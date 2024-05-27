@@ -73,7 +73,8 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
         alert(`不存在的题目`);
         location.replace(`/problem#/list`);
     }
-    if (contestId) {
+    console.log(contestId.value);
+    if (contestId.value != `` && contestId.value) {
         axio.get(`${ip}/getContest/${contestId.value}`).then((res) => {
             if (new Date().getTime() > res.data.endtime) {
                 NotifyPlugin.error({
@@ -92,7 +93,10 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
             problem.value = problemres.data;
         });
     }
-
+    else
+    {
+        problem.value = problemres.data;
+    }
 });
 axio.post(`${ip}/getDiscussionList`, {
     type: `problem`,
