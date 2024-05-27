@@ -16,6 +16,7 @@ import { Link } from '@arco-design/web-vue';
 import hljs from "highlight.js";
 import 'highlight.js/styles/atom-one-light.min.css'
 import { translateTime } from "@/modules/functions";
+import { currectUser } from "@/modules/user/currectUser";
 
 function showResult(res) {
 
@@ -56,7 +57,10 @@ function getrecord() {
     return new Promise<void>((reslove) => {
         const args = (window.location.href.split(`/`));
         const recordid = args[args.length - 1];
-        axios.get(`${ip}/getRecord/${recordid}`).then((res) => {
+        axios.post(`${ip}/getRecord/${recordid}`, {
+            uid: currectUser.uid,
+            token: currectUser.token
+        }).then((res) => {
             const record = res.data;
             if (record != null && record != `` && record != undefined) {
                 showResult(record);
