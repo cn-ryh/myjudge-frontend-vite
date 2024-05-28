@@ -105,7 +105,6 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
         else
         {
             problem.value = problemres.data;
-
         }
     }
 });

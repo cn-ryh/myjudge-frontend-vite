@@ -13,7 +13,7 @@ const pid = ref(``);
 if (page.substring(page.lastIndexOf(`/`) + 1) !== `problem`) {
     axios.get(`${ip}/getProblem/${page.substring(page.lastIndexOf(`/`) + 1)}`).then((res) => {
         const problem = res.data;
-        description.value = problem.descriptionmd;
+        description.value = problem.description;
         pid.value = problem.pid;
         title.value = problem.title;
         diff.value = problem.difficult;
