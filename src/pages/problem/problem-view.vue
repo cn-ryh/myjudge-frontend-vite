@@ -247,11 +247,14 @@ function submit() {
 
         <div v-show="showsubmit" id="codeInputer">
         </div>
-        <div v-show="(showsubmit == false)" id="problem" style="margin-top: 20px;" class="layui-row layui-col-space32">
-            <div class="layui-col-md8 layui-col-sm9" id="description">
+        <div v-show="(showsubmit == false)" id="problem" style="margin-top: 20px;display: flex !important;"
+            class="layui-row layui-col-space32">
+
+            <div class="layui-col-md8 layui-col-sm8" id="description">
                 <div class="card" v-html="markdownit.render(problem.description)" style="padding: 20px 30px;"></div>
             </div>
-            <div class="layui-col-md4 layui-col-sm3">
+
+            <div id="problemInfo" class="layui-col-md4 layui-col-sm4">
                 <div class="card">
                     <div id="problemInfo">
                         <div class="row">
@@ -312,6 +315,25 @@ function submit() {
 </template>
 
 <style>
+@media screen and (max-width: 1000px){
+    #problem
+    {
+        flex-direction: column-reverse !important;
+    }
+    #description,
+    #problemInfo
+    {
+        width: 90% !important;
+        margin-left: 5%;
+    }
+}
+@media screen and (max-width: 800px) {
+    #description,
+    #problemInfo {
+        width: 95% !important;
+        margin-left: 2.5%;
+    }
+}
 #problemInfo .row {
     display: flex;
     align-items: center;
