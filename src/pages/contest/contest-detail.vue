@@ -5,6 +5,8 @@ import { Ref, ref } from 'vue';
 import { TabPane, Tabs, Card, Table, TableColumn, Link, Tag } from '@arco-design/web-vue';
 import { translateTime } from '@/modules/functions';
 import { markdownit } from '@/modules/MarkdownIt/markdown';
+import { currectUser } from '@/modules/user/currectUser';
+import { keepLogin } from '@/modules/user/getUserData';
 const id = ref(0);
 const src = window.location.href;
 id.value = +src.substring(src.lastIndexOf('/') + 1);
@@ -12,9 +14,17 @@ const title = ref('');
 const description = ref('');
 const problems: Ref<any[]> = ref([]);
 const author = ref('');
-const dashboard = ref([]);
+const dashboard:Ref<any[]> = ref([]);
 const type: Ref<string> = ref(`OI`);
 const TimeRange: Ref<number[]> = ref([5999999999999,5999999999999]);
+let admin:Ref<boolean> = ref(false);
+keepLogin().then((loginRes)=>
+{
+    if(loginRes.admin.contest)
+    {
+        admin.value = true;
+    }
+})
 const nowTime = new Date().getTime();
 axios.get(`${ip}/getContest/${id.value}`).then((res) => {
     title.value = res.data.title;
@@ -28,8 +38,18 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
         document.getElementById('description')!.innerHTML = markdownit.render(description.value);
     }, 1000);
 });
-axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
+axios.post(`${ip}/getDashBoard/${id.value}`,{
+    uid: currectUser.uid,
+    token:currectUser.token
+}).then((res) => {
+    console.log(res);
     dashboard.value = res.data.detail;
+    dashboard.value.sort((a,b)=>{
+        return b.totPoint - a.totPoint;
+    })
+}).catch((err)=>
+{
+    console.error(err);
 });
 </script>
 <template>
@@ -73,7 +93,7 @@ axios.get(`${ip}/getDashBoard/${id.value}`).then((res) => {
                     </div>
                 </TabPane>
 
-                <TabPane key="3" title="排行榜" v-if="((type !== `OI`) || (TimeRange[1] < nowTime))">
+                <TabPane key="3" title="排行榜" v-if="((type !== `OI`) || (TimeRange[1] < nowTime) || admin)">
                     <Table :data="dashboard" size="medium">
                         <template #columns>
                             <TableColumn title="用户名" data-index="username">
