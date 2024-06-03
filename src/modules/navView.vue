@@ -76,7 +76,8 @@ function jumpHome() {
                     <span class="operator" style="color:white;font-size: large;">登录</span>
                 </Button>
                 <Badge style="margin-top: 10px;" :count="unReadMessageNum" :max-count="99">
-                    <Button :href="`/chat#/list`" v-if="logined" size="large" variant="text" style="padding: 0px;height: 32px;">
+                    <Button :href="`/chat#/list`" v-if="logined" size="large" variant="text"
+                        style="padding: 0px;height: 32px;">
                         <template #icon>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"
                                 fill="#b77676">
@@ -88,7 +89,7 @@ function jumpHome() {
                 </Badge>
                 <Link variant="text" v-if="logined" shape="square" :href="`/user#/${uid}`"
                     style="margin-left: 1vw;min-width: 3rem;">
-                    <userSign :uid="uid" :headImgPos="`right`" :showHeadImg="true"></UserSign>
+                <userSign disableJump :uid="uid" :headImgPos="`right`" :showHeadImg="true"></UserSign>
                 </Link>
             </div>
         </template>

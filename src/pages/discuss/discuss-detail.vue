@@ -136,6 +136,7 @@ function toView(id: string) {
     <main style="margin-top: 20px;">
         <div class="layui-row layui-col-space32">
             <div class="layui-col-lg8 layui-col-sm9">
+                <h2 style="color: red;">{{ discussion.title }}</h2>
                 <div class="discussion card" v-html="markdownit.render(discussion.value)" style="margin-bottom: 50px;">
                 </div>
                 <p>回复：</p>
@@ -171,5 +172,8 @@ function toView(id: string) {
 
 main {
     padding: 10px 20px;
+}
+p {
+    font-size: 18px;
 }
 </style>
