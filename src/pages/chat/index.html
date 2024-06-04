@@ -6,26 +6,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>通讯</title>
     </head>
-    <script async="async">
-        console.log(2);
-        var httpRequest = new XMLHttpRequest(); //第一步：建立所需的对象
-        httpRequest.open('GET', 'https://webapi-pc.meitu.com/common/ip_location', true); //第二步：打开连接  将请求参数写在url中  ps:"./Ptest.php?name=test&nameone=testone"
-        httpRequest.send(); //第三步：发送请求  将请求参数写在URL中
-        /**
-            * 获取数据后的处理程序
-            */
-        httpRequest.onreadystatechange = function () {
-            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                const json = JSON.prase(httpRequest.responseText); //获取到json字符串，还需解析
-                if(json.data.province !== `吉林`)
-                {
-                    window.alert(`地理信息错误！\n\n本网站仅限十一高使用，如有疑问请联系 cn_ryh.`);
-                    location.href = "https://www.luogu.com.cn";
-                }
-            }
-        };
-    </script>
     <body>
+        <div id="ipCheck" style="width:100vw;height:100vh">
+            <center><h1 style="margin-top:40vh">ip 检查中，请等待</h1></center>
+        </div>
         <div id="chat"></div>
         <footer>
             <p>本站由 cn_ryh 建立和维护。</p>
