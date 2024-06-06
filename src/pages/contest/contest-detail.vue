@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Ref, ref } from 'vue';
 import { TabPane, Tabs, Card, Table, TableColumn, Link, Tag } from '@arco-design/web-vue';
 import { translateTime } from '@/modules/functions';
-import { markdownit } from '@/modules/MarkdownIt/markdown';
+import { render } from '@/modules/MarkdownIt/markdown';
 import { currectUser } from '@/modules/user/currectUser';
 import { keepLogin } from '@/modules/user/getUserData';
 const id = ref(0);
@@ -35,7 +35,7 @@ axios.get(`${ip}/getContest/${id.value}`).then((res) => {
     TimeRange.value[1] = res.data.endtime;
     type.value = res.data.type;
     setTimeout(() => {
-        document.getElementById('description')!.innerHTML = markdownit.render(description.value);
+        document.getElementById('description')!.innerHTML = render(description.value);
     }, 1000);
 });
 axios.post(`${ip}/getDashBoard/${id.value}`,{

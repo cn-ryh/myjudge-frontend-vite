@@ -3,7 +3,7 @@ import { ip } from '@/modules/ip';
 import { translateTime } from '@/modules/functions';
 import { Card, Notification } from '@arco-design/web-vue';
 import { Form, FormItem, Input, Switch, Button, Skeleton } from 'tdesign-vue-next'
-import { markdownit } from '@/modules/MarkdownIt/markdown';
+import { render } from '@/modules/MarkdownIt/markdown';
 import userSign from '@/modules/user/userSign.vue';
 import axios from 'axios';
 import { ref, Ref } from 'vue';
@@ -161,7 +161,7 @@ function editClick() {
             <br />
             <Card style="margin-top: 1vh; width: 85vw;margin-left: 2vw;">
                 <Skeleton :loading="!loaded" animation="gradient">
-                    <div v-html="markdownit.render(netcut.value)" v-if="!onEditing"></div>
+                    <div v-html="render(netcut.value)" v-if="!onEditing"></div>
                     <br />
                     <textarea v-if="onEditing" v-model="netcut.value" style="width: 70vw;height: 40vh;"></textarea>
                 </Skeleton>

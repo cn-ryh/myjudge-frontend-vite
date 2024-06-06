@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Link, Button, NotifyPlugin } from 'tdesign-vue-next';
-import { markdownit } from '@/modules/MarkdownIt/markdown'
+import { render } from '@/modules/MarkdownIt/markdown'
 import { getQueryVariable, translateTime } from '@/modules/functions';
 import { Ref, ref } from 'vue';
 import axios from 'axios';
@@ -73,7 +73,7 @@ axios.post(`${ip}/getDiscussionList`, { page: page.value, type: type.value }).th
                             </div>
                         </div>
                         <div v-if="type !== ``" class="card" style="margin-top: 3vh;padding: 15px 10px;font-size: 15px;"
-                            v-html="markdownit.render(discussTypesRules[type])">
+                            v-html="render(discussTypesRules[type])">
                         </div>
                         <div v-if="type !== ``" class="card"
                             style="margin-top: 3vh;padding: 15px 10px;font-size: 15px;">

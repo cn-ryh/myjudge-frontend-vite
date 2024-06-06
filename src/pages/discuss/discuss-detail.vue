@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import $ from 'jquery'
 import { Ref, ref } from 'vue';
-import { markdownit } from '@/modules/MarkdownIt/markdown';
+import { render } from '@/modules/MarkdownIt/markdown';
 import { IDiscussion, discussType, processType } from '@/modules/interface';
 import { NotifyPlugin, Button } from 'tdesign-vue-next';
 import axios from 'axios';
@@ -137,7 +137,7 @@ function toView(id: string) {
         <div class="layui-row layui-col-space32">
             <div class="layui-col-lg8 layui-col-sm9">
                 <h2 style="color: red;">{{ discussion.title }}</h2>
-                <div class="discussion card" v-html="markdownit.render(discussion.value)" style="margin-bottom: 50px;">
+                <div class="discussion card" v-html="render(discussion.value)" style="margin-bottom: 50px;">
                 </div>
                 <p>回复：</p>
                 <CommentView :key="index" :item="now" :reply-to-replys="replyToReplys"

@@ -5,15 +5,32 @@ import axio from "axios";
 import { ip } from '@/modules/ip';
 import { keepLogin } from "@/modules/user/getUserData";
 import { Button, Link, NotifyPlugin, Tag } from "tdesign-vue-next";
-import { editor } from 'monaco-editor'
-import UserSign from "@/modules/user/userSign.vue";
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
+import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+import "monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution"; // 代码高亮&提示
+import "monaco-editor/esm/vs/language/typescript/monaco.contribution"; // 代码高亮&提示
+import 'monaco-editor/esm/vs/editor/contrib/contextmenu/browser/contextmenu.js'; // 右键显示菜单
+import 'monaco-editor/esm/vs/editor/contrib/folding/browser/folding.js'; // 折叠
+
+self.MonacoEnvironment = {
+    getWorker: function (_workerId, label) {
+        switch (label) {
+            case 'typescript':
+            case 'javascript':
+                return new tsWorker();
+            default:
+                return new editorWorker();
+        }
+    }
+}; import UserSign from "@/modules/user/userSign.vue";
 import { IDiscussion, IProblem } from "@/modules/interface";
 
-import { markdownit } from "@/modules/MarkdownIt/markdown";
+import { render } from "@/modules/MarkdownIt/markdown";
 import { getQueryVariable, translateTime } from "@/modules/functions";
-let monacoInstance: editor.IStandaloneCodeEditor;
+let monacoInstance: monaco.editor.IStandaloneCodeEditor;
 setTimeout(() => {
-    monacoInstance = editor.create(document.getElementById("codeInputer")!, {
+    monacoInstance = monaco.editor.create(document.getElementById("codeInputer")!, {
         value: `#include <bits/stdc++.h>
 using namespace std;
 signed main()
@@ -68,7 +85,9 @@ const problemId = ref(window.location.href.split('/')[window.location.href.split
 const contestId = ref(getQueryVariable(`contestId`) ?? ``)
 document.title = `11OJ | ` + problemId.value;
 const discussions: Ref<IDiscussion[]> = ref([])
+const renderBlock:Ref<Element[]> = ref([]);
 axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
+    renderBlock.value = [document.getElementById(`problem`)!];
     if (problemres.data == ``) {
         alert(`不存在的题目`);
         location.replace(`/problem#/list`);
@@ -91,20 +110,23 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
                 return;
             }
             problem.value = problemres.data;
+            // setTimeout(() => {
+            //     window.MathJax.typeset()
+            // }, 500)
         });
     }
-    else
-    {
-        if(problemres.data.contests.length)
-        {
+    else {
+        if (problemres.data.contests.length) {
             NotifyPlugin.error({
                 title: `题目在比赛中`,
                 content: `请在比赛中查看`
             })
         }
-        else
-        {
+        else {
             problem.value = problemres.data;
+            // setTimeout(() => {
+            //     window.MathJax.typeset()
+            // }, 500)
         }
     }
 });
@@ -251,7 +273,7 @@ function submit() {
             class="layui-row layui-col-space32">
 
             <div class="layui-col-md8 layui-col-sm8" id="description">
-                <div class="card" v-html="markdownit.render(problem.description)" style="padding: 20px 30px;"></div>
+                <div class="card" v-html="render(problem.description,500,renderBlock)" style="padding: 20px 30px;"></div>
             </div>
 
             <div id="problemInfo" class="layui-col-md4 layui-col-sm4">
@@ -315,25 +337,27 @@ function submit() {
 </template>
 
 <style>
-@media screen and (max-width: 1000px){
-    #problem
-    {
+@media screen and (max-width: 1000px) {
+    #problem {
         flex-direction: column-reverse !important;
     }
+
     #description,
-    #problemInfo
-    {
+    #problemInfo {
         width: 90% !important;
         margin-left: 5%;
     }
 }
+
 @media screen and (max-width: 800px) {
+
     #description,
     #problemInfo {
         width: 95% !important;
         margin-left: 2.5%;
     }
 }
+
 #problemInfo .row {
     display: flex;
     align-items: center;
@@ -428,7 +452,7 @@ h4 {
     padding-right: 20px;
 }
 
-#problem *:not(pre)code {
+#problem *:not(pre) code {
     background-color: aliceblue;
 }
 

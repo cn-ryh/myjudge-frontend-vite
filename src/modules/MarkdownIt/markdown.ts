@@ -4,7 +4,6 @@ import { tab } from "@mdit/plugin-tab";
 import { mark } from "@mdit/plugin-mark";
 import { tasklist } from "@mdit/plugin-tasklist";
 import { container } from "@mdit/plugin-container"
-import mathjax from "markdown-it-mathjax3"
 import highlight from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.min.css'
 import './style.css'
@@ -24,7 +23,7 @@ const markdownit = new MarkdownIt({
             return str;
         }
     }
-}).use(align).use(mathjax).use(tab).use(tasklist).use(mark).use(container, {
+}).use(align).use(tab).use(tasklist).use(mark).use(container, {
     name: "hint",
     openRender: (tokens, index) => {
         const info = tokens[index].info.trim().slice(4).trim();
@@ -74,4 +73,31 @@ const markdownit = new MarkdownIt({
             }</p>\n`;
     }
 });
-export { markdownit }
+function render(value: string, timer: number = 200, renderBlock?: any[]) {
+    const res = markdownit.render(value);
+    const realRenderBlock:Element[] = [];
+    for(let now of renderBlock??[])
+    {
+        if(typeof now === `string`)
+        {
+            const elem = document.querySelector(now);
+            if(elem)
+            {
+                realRenderBlock.push(elem);
+            }
+            else
+            {
+                console.log(`null`)
+            }
+        }
+        else
+        {
+            realRenderBlock.push(now as Element);
+        }
+    }
+    setTimeout(() => {
+        window.MathJax.typeset(realRenderBlock);
+    }, timer)
+    return res;
+}
+export { markdownit, render }

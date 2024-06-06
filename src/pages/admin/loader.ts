@@ -1,7 +1,6 @@
 // 1. 定义路由组件.
 // 也可以从其他文件导入
 import * as VueRouter from 'vue-router';
-import problemAdminVue from './problem-admin.vue';
 import problemNewVue from './problem-new.vue';
 import userAdminVue from './user-admin.vue';
 import trainingNewVue from './training-new.vue';
@@ -14,8 +13,8 @@ import AdminHome from './admin-home.vue';
 // 我们后面再讨论嵌套路由。
 
 const routes = [
-    { path: '/problem/:pid', component: problemAdminVue },
-    { path: '/newproblem', component: problemNewVue },
+    { path: '/problem/:pid', component: import(`./problem-admin.vue`) },
+    { path: '/newproblem', component: import(`./problem-new.vue`) },
     { path: '/newProblem', component: problemNewVue },
     { path: '/userAdmin', component: userAdminVue },
     { path: '/newtraining', component: trainingNewVue },

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { markdownit } from '@/modules/MarkdownIt/markdown';
+import { render } from '@/modules/MarkdownIt/markdown';
 import { getAnotherUser } from '@/modules/chat/func';
 import { ip } from '@/modules/ip';
 import { currectUser } from '@/modules/user/currectUser';
@@ -22,7 +22,7 @@ const loadedPage: Ref<number> = ref(1);
 const previewing: Ref<boolean> = ref(false), previewHTML = ref(``);
 function showPreview() {
     previewing.value = true;
-    previewHTML.value = markdownit.render(document.getElementById(`messageInputer`)?.innerText ?? ``);
+    previewHTML.value = render(document.getElementById(`messageInputer`)?.innerText ?? ``, 200, [document.getElementById(`preview`)]);
 }
 function loadMore(time: number = 0) {
     if (time > 5) {
@@ -145,6 +145,18 @@ watch(props, (_lastVal, newVal) => {
         time: new Date().getTime()
     })
 })
+function renderMathjax(id: string, times = 0) {
+    setTimeout(() => {
+        if (document.getElementById(id) === null && times <= 50) {
+            console.log(`p`);
+            renderMathjax(id, times + 1)
+        }
+        else{
+            console.log(1);
+            window.MathJax.typeset([document.getElementById(id)]);
+        }
+    }, 200)
+}
 function sendMessage() {
     const value = document.getElementById(`messageInputer`)?.innerText;
     if (!value || value == ``) {
@@ -161,17 +173,21 @@ function sendMessage() {
             value
         }).then((res) => {
             if (res.data.code === 0) {
+                console.log(res.data)
                 messages.value.push({
                     sender: currectUser.uid,
-                    value
+                    value,
+                    id: res.data.data.id
                 })
                 document.getElementById(`messageInputer`)!.innerText = ``;
                 setTimeout(() => {
                     document.getElementById(`messageView`)?.scroll({
                         top: 10000000
                     });
-
                 }, 10)
+                setTimeout(() => {
+                    renderMathjax(`message-`+res.data.data.id);
+                }, 400)
             }
             else {
                 NotifyPlugin.error({
@@ -224,10 +240,10 @@ function sendMessage() {
 }
 const self = ref(currectUser.uid)
 const userImages: Ref<{ [key: number]: string }> = ref({});
-function jump(uid:number)
-{
+function jump(uid: number) {
     window.open(`/user#/${uid}`);
 }
+
 </script>
 <template>
     <div v-if="Chat != null" style="height: 100%;">
@@ -249,13 +265,15 @@ function jump(uid:number)
                 style="width: 100%;text-align: center;color: rgba(170,170,170,.8);">显示更多信息</div>
             <div class="message-item" v-for="(item, index) of messages" :key="index">
                 <div :class="item.sender == self ? `message self` : `message other`">
-                    <img @click="jump(item.sender)" style="width: 30px;height: 30px;border-radius: 50%;" :src="userImages[item.sender]" />
+                    <img @click="jump(item.sender)" style="width: 30px;height: 30px;border-radius: 50%;"
+                        :src="userImages[item.sender]" />
                     <div style="margin: 0px 5px;" class="message-block">
                         <UserSign :uid="item.sender" font-color="rgb(175 175 175 / 89%)" :style="{
                             flexDirection: item.sender == self ? `row-reverse` : `row`
                         }"></UserSign>
 
-                        <div class="message-detail" v-html="markdownit.render(item.value)"></div>
+                        <div :id="`message-` + item.id" class="message-detail"
+                            v-html="render(item.value, 900, [`#message-${item.id}`])"></div>
                     </div>
 
                 </div>
@@ -285,16 +303,17 @@ function jump(uid:number)
     display: inline-block;
     height: auto;
 }
-.message .message-block
-{
+
+.message .message-block {
     max-width: 70%;
 }
-.message-block .userName
-{
+
+.message-block .userName {
     margin-left: 0px !important;
     margin-right: 0px !important;
     margin-bottom: 5px;
 }
+
 .message .message-block .message-detail {
     border-radius: 10px;
     padding: 5px 5px;
@@ -407,10 +426,10 @@ function jump(uid:number)
 }
 </style>
 <style>
-.message-block a
-{
+.message-block a {
     color: red;
 }
+
 .message-block a:after {
     content: "\2197";
 }

@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import Sitemap from 'vite-plugin-sitemap'
 import vue from '@vitejs/plugin-vue'
 import mpaPlugin from 'vite-plugin-mpa-plus'
+import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 import { glob } from 'glob';
 import os from 'os';
@@ -12,7 +13,7 @@ function creatEntry() {
         }
     } = {};
     glob.sync('./src/pages/*/index.html').forEach(val => {
-        const url = val.split(`pages${os.type() == `Linux` ? '/' : '\\'}`)[1].split((os.type() == `Linux` )? '/' : '\\')[0];
+        const url = val.split(`pages${os.type() == `Linux` ? '/' : '\\'}`)[1].split((os.type() == `Linux`) ? '/' : '\\')[0];
         if (url == `index`) {
             entryObj[url] = {
                 entry: `./src/pages/${url}/main.ts`,
@@ -36,7 +37,7 @@ function creatEntry() {
 export default defineConfig({
     plugins: [vue(), mpaPlugin({
         pages: creatEntry()
-    }), Sitemap()], resolve: {
+    }), Sitemap(), visualizer({open:true})], resolve: {
         alias: {
             // 设置路径 这里resolve和join可自行选用
             '~': path.resolve(__dirname, './'),
@@ -44,5 +45,8 @@ export default defineConfig({
             '@': path.resolve(__dirname, './src')
         },
         extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+    },
+    build: {
+        target: ['edge90', 'chrome90', 'firefox90', 'safari15']
     }
 })

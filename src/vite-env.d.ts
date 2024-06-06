@@ -8,4 +8,12 @@ declare module '*.vue' {
 
 declare interface Window {
     ipChecked: boolean;
+    MathJax: {
+        typeset: (element?: any[]) => void,
+    }
+}
+
+declare let Mathjax
+{
+    function typesetPromise(eles:Element[]):Promise<any>
 }

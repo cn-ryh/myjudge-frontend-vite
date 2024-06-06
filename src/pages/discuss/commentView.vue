@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Divider, Button, NotifyPlugin } from 'tdesign-vue-next'
 import { IReply } from '@/modules/interface';
-import { markdownit } from '@/modules/MarkdownIt/markdown';
+import { render } from '@/modules/MarkdownIt/markdown';
 import { translateTime } from '@/modules/functions';
 import UserSign from '@/modules/user/userSign.vue';
 import { ref, Ref } from 'vue';
@@ -56,7 +56,7 @@ function showReply() {
             </UserSign>
         </div>
         <Divider></Divider>
-        <div v-html="markdownit.render(item.value)" style="padding: 10px 20px;"></div>
+        <div v-html="render(item.value)" style="padding: 10px 20px;"></div>
         <div v-if="!showedReply">
             <span>共有 {{ item.children.length }} 条回复</span><span v-if="item.children.length"
                 style="text-decoration:underline;margin-left: 10px;" @click="showReply">点击查看</span>
