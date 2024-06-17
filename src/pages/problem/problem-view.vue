@@ -29,6 +29,7 @@ import { IDiscussion, IProblem } from "@/modules/interface";
 import { render } from "@/modules/MarkdownIt/markdown";
 import { getQueryVariable, translateTime } from "@/modules/functions";
 let monacoInstance: monaco.editor.IStandaloneCodeEditor;
+// 懒得 onload
 setTimeout(() => {
     monacoInstance = monaco.editor.create(document.getElementById("codeInputer")!, {
         value: `#include <bits/stdc++.h>
@@ -85,7 +86,8 @@ const problemId = ref(window.location.href.split('/')[window.location.href.split
 const contestId = ref(getQueryVariable(`contestId`) ?? ``)
 document.title = `11OJ | ` + problemId.value;
 const discussions: Ref<IDiscussion[]> = ref([])
-const renderBlock:Ref<Element[]> = ref([]);
+const renderBlock: Ref<Element[]> = ref([]);
+
 axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
     renderBlock.value = [document.getElementById(`problem`)!];
     if (problemres.data == ``) {
@@ -93,13 +95,19 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
         location.replace(`/problem#/list`);
     }
     console.log(contestId.value);
-    if (contestId.value != `` && contestId.value) {
+    // 当前打开的是比赛界面的题目
+    if (contestId!.value && contestId.value != ``) {
+        // 获取对应的比赛
         axio.get(`${ip}/getContest/${contestId.value}`).then((res) => {
             if (new Date().getTime() > res.data.endtime) {
                 NotifyPlugin.error({
                     title: `比赛已结束`,
-                    content: `请至练习界面提交题目`
+                    content: `即将跳转到练习界面`
                 });
+                setTimeout(()=>
+                {
+                    window.location.href = `/problem#/${problemId.value}`
+                },3000);
                 return;
             }
             else if (new Date().getTime() < res.data.begintime) {
@@ -110,11 +118,15 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
                 return;
             }
             problem.value = problemres.data;
-            // setTimeout(() => {
-            //     window.MathJax.typeset()
-            // }, 500)
+        }).catch((err) => {
+            console.error(err);
+            NotifyPlugin.error({
+                title: `发生错误`,
+                content: `请查看日志`
+            })
         });
     }
+    // 当前打开的是题库题目
     else {
         if (problemres.data.contests.length) {
             NotifyPlugin.error({
@@ -124,9 +136,6 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
         }
         else {
             problem.value = problemres.data;
-            // setTimeout(() => {
-            //     window.MathJax.typeset()
-            // }, 500)
         }
     }
 });
@@ -273,7 +282,8 @@ function submit() {
             class="layui-row layui-col-space32">
 
             <div class="layui-col-md8 layui-col-sm8" id="description">
-                <div class="card" v-html="render(problem.description,500,renderBlock)" style="padding: 20px 30px;"></div>
+                <div class="card" v-html="render(problem.description, 500, renderBlock)" style="padding: 20px 30px;">
+                </div>
             </div>
 
             <div id="problemInfo" class="layui-col-md4 layui-col-sm4">
