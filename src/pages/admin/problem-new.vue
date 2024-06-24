@@ -10,6 +10,7 @@ const title = ref(``);
 const description = ref(``);
 const diff = ref(0);
 const type = ref(`P`);
+console.log(1);
 function newProblem() {
     axios.post(`${ip}/newProblem`, {
         title: title.value,

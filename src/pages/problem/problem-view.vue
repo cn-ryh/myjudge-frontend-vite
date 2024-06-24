@@ -6,24 +6,8 @@ import { ip } from '@/modules/ip';
 import { keepLogin } from "@/modules/user/getUserData";
 import { Button, Link, NotifyPlugin, Tag } from "tdesign-vue-next";
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import "monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution"; // 代码高亮&提示
-import "monaco-editor/esm/vs/language/typescript/monaco.contribution"; // 代码高亮&提示
-import 'monaco-editor/esm/vs/editor/contrib/contextmenu/browser/contextmenu.js'; // 右键显示菜单
-import 'monaco-editor/esm/vs/editor/contrib/folding/browser/folding.js'; // 折叠
-
-self.MonacoEnvironment = {
-    getWorker: function (_workerId, label) {
-        switch (label) {
-            case 'typescript':
-            case 'javascript':
-                return new tsWorker();
-            default:
-                return new editorWorker();
-        }
-    }
-}; import UserSign from "@/modules/user/userSign.vue";
+import UserSign from "@/modules/user/userSign.vue";
 import { IDiscussion, IProblem } from "@/modules/interface";
 
 import { render } from "@/modules/MarkdownIt/markdown";

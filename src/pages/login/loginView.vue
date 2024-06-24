@@ -21,14 +21,15 @@ function login(username: string, password: string) {
         head: username,
         password: password
     }).then((res) => {
-        if (res.data.nouser == true) {
+        console.log(res);
+        if (res.data.nouser === true) {
             NotifyPlugin.error({
                 title: `登录失败`,
                 content: `用户不存在`
             });
             return;
         }
-        if (res.data.login == true) {
+        if (res.data.login === true) {
             setCookie(`uid`, res.data.uid, 1000);
             setCookie(`token`, res.data.usertoken, 1000);
             NotifyPlugin.success({
@@ -41,7 +42,10 @@ function login(username: string, password: string) {
 
         }
         else {
-            window.alert(`用户名或密码错误，请重试！`);
+            NotifyPlugin.error({
+                title: `用户名或密码错误`,
+                content: `请检查后重试`
+            })
         }
     }).catch((err) => {
         console.error(err);

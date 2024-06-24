@@ -1,28 +1,19 @@
-// 1. 定义路由组件.
-// 也可以从其他文件导入
+
 import * as VueRouter from 'vue-router';
-import problemNewVue from './problem-new.vue';
-import userAdminVue from './user-admin.vue';
-import trainingNewVue from './training-new.vue';
-import trainingAdminVue from './training-admin.vue';
-import contestNewVue from './contest-new.vue';
-import contestAdminVue from './contest-admin.vue';
-import AdminHome from './admin-home.vue';
-// 2. 定义一些路由
-// 每个路由都需要映射到一个组件。
-// 我们后面再讨论嵌套路由。
 
 const routes = [
-    { path: '/problem/:pid', component: import(`./problem-admin.vue`) },
-    { path: '/newproblem', component: import(`./problem-new.vue`) },
-    { path: '/newProblem', component: problemNewVue },
-    { path: '/userAdmin', component: userAdminVue },
-    { path: '/newtraining', component: trainingNewVue },
-    { path: '/training/:id', component: trainingAdminVue },
-    { path: '/contest/:id', component: contestAdminVue },
-    { path: '/newcontest', component: contestNewVue },
-    { path: '/', component: AdminHome },
-    { path: '/:pathMatch(.*)*', component: AdminHome },
+    // 主页
+    { path: '/', component: () => import(`./admin-home.vue`) },
+    // 新建题目
+    { path: '/newproblem', component: () => import(`./problem-new.vue`) },
+    // 
+    { path: '/problem/:pid', component: ()=> import(`./problem-admin.vue`) },
+    { path: '/userAdmin', component: ()=> import(`./user-admin.vue`) },
+    { path: '/newtraining', component: ()=>import(`./training-new.vue`) },
+    { path: '/training/:id', component: ()=> import(`./training-admin.vue`) },
+    { path: '/contest/:id', component: ()=> import(`./contest-admin.vue`) },
+    { path: '/newcontest', component: ()=> import(`./contest-new.vue`) },
+    { path: '/:pathMatch(.*)*', component: ()=> import(`./admin-home.vue`) },
 ];
 
 const router = VueRouter.createRouter({
