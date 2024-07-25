@@ -291,7 +291,7 @@ function jump(uid: number) {
                 <Button id="previewMessage" @click="showPreview">预览</Button>
             </div>
         </div>
-        <Drawer sizeDraggable :size="`70vw`" v-model:visible="previewing" close-btn :cancel-btn="false">
+        <Drawer sizeDraggable :size="`70vw`" v-model:visible="previewing" close-btn>
             <div id="preview" style="width: 80%;" v-html="previewHTML"></div>
         </Drawer>
     </div>
