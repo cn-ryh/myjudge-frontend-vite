@@ -41,7 +41,7 @@ export default hopeTheme({
     plugins: {
         comment: {
             provider: "Waline",
-            serverURL: "https://lenovo.cnryh.cn:38888/blog-comment/", // your server url
+            serverURL: "https://waline.school.frp.cnryh.cn/", // your server url
         },
 
         components: {

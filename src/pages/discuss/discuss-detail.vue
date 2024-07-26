@@ -14,10 +14,13 @@ discussion.value.id = +window.location.hash.split(`/`)[1];
 axios.get(`${ip}/getDiscussion/${discussion.value.id}`).then((discussionRes) => {
     if (discussionRes.data.code === 0) {
         discussion.value = discussionRes.data.data;
+        setTimeout(() => {
+            window.MathJax.typeset([document.querySelector(`main`)]);
+        }, 1000);
     }
     else {
         NotifyPlugin.error({
-            title: `获取剪切板失败`,
+            title: `获取讨论失败`,
             content: `请查看日志`
         })
         console.error(discussionRes.data.error);
@@ -25,7 +28,7 @@ axios.get(`${ip}/getDiscussion/${discussion.value.id}`).then((discussionRes) => 
 }).catch((err) => {
     console.error(err);
     NotifyPlugin.error({
-        title: `获取剪切板失败`,
+        title: `获取讨论失败`,
         content: `请查看日志`
     })
 })
@@ -130,6 +133,7 @@ function toView(id: string) {
         }
     }
 }
+
 </script>
 
 <template>
@@ -173,6 +177,7 @@ function toView(id: string) {
 main {
     padding: 10px 20px;
 }
+
 p {
     font-size: 18px;
 }

@@ -23,7 +23,7 @@ axios.post(`${ip}/getUnReadMessageNum`, {
     unReadMessageNum.value = tot;
 })
 const logined: Ref<boolean> = ref(false), uid: Ref<number> = ref(0);
-const admin:Ref<AdminType> = ref(new AdminType());
+const admin: Ref<AdminType> = ref(new AdminType());
 keepLogin().then((res) => {
     if (res.logined) {
         logined.value = true;
@@ -63,14 +63,15 @@ function jumpHome() {
         <MenuItem value="discussions" :href="`/discuss#/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">讨论</span>
         </MenuItem>
+        <MenuItem value="docs" :href="`/docs`">
+        <span class="menuitem" style="color:white;font-size: 1.1rem;">文档</span>
+        </MenuItem>
+
         <MenuItem value="backend" :href="`/admin#/index`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">后台</span>
         </MenuItem>
         <template #operations>
             <div class="t-demo-menu--dark">
-                <Button variant="text" shape="square" style="min-width: 3rem;" v-if="!logined">
-                    <span class="operator" style="color:white;font-size: larger;">注册</span>
-                </Button>
                 <Button variant="text" shape="square" :href="`/login`" style="margin-left: 1vw;min-width: 3rem;"
                     v-if="!logined">
                     <span class="operator" style="color:white;font-size: large;">登录</span>
@@ -107,11 +108,13 @@ function jumpHome() {
         padding: 0 12px;
     }
 }
+
 @media screen and (max-width: 840px) {
     .t-head-menu .t-menu__item {
         padding: 0 8px;
     }
 }
+
 @media screen and (max-width: 775px) {
     #headMenu {
         display: none;

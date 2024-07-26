@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NotifyPlugin } from 'tdesign-vue-next'
 const local_ip = `https://oj.local.cnryh.cn`
-const frp_ip = `https://server.cnryh.cn:60101`
+const frp_ip = `https://oj.school.frp.cnryh.cn`
 const remote_ip = `https://oj.server.cnryh.cn`
 let ip = local_ip;
 let failTime = 0;
@@ -21,7 +21,8 @@ const checkip = async () => {
     // 当前是本地通信
     if (ip == local_ip) {
         try {
-            await axios.get(ip,{
+            // 连接本地通信
+            await axios.get(ip, {
                 timeout: 1000
             });
             localStorage.setItem(`ip`, local_ip);
@@ -43,7 +44,9 @@ const checkip = async () => {
     else if (ip == frp_ip) {
         try {
             // 尝试恢复本地通信
-            const data = await axios.get(local_ip);
+            const data = await axios.get(local_ip, {
+                timeout: 1000
+            });
             if (data.data.length >= 5) {
                 NotifyPlugin.success({
                     title: `成功连通内网`,
@@ -58,7 +61,9 @@ const checkip = async () => {
         } catch (err) {
             try {
                 // 监测通信是否正常
-                await axios.get(frp_ip);
+                await axios.get(frp_ip, {
+                    timeout: 2000
+                });
             } catch (err) {
                 console.error(err);
                 NotifyPlugin.warning({
@@ -77,7 +82,9 @@ const checkip = async () => {
     else {
         try {
             // 尝试恢复本地通信
-            const data = await axios.get(local_ip);
+            const data = await axios.get(local_ip, {
+                timeout: 1000
+            });
             if (data.data.length >= 5) {
                 NotifyPlugin.success({
                     title: `成功连通内网`,
@@ -91,7 +98,9 @@ const checkip = async () => {
             }
         } catch (err) {
             // 尝试恢复穿透通信
-            const data = await axios.get(frp_ip);
+            const data = await axios.get(frp_ip, {
+                timeout: 1000
+            });
             if (data.data.length >= 5) {
                 NotifyPlugin.success({
                     title: `成功连通穿透服务器`,
@@ -107,6 +116,5 @@ const checkip = async () => {
     }
 }
 checkip();
-checkip();
-const timer = setInterval(checkip, 30000)
+const timer = setInterval(checkip, 60000)
 export { ip };

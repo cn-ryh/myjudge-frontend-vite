@@ -3,14 +3,14 @@ import { ref } from 'vue';
 import axio from 'axios';
 import { ip } from '@/modules/ip';
 import { setCookie } from '@/modules/cookie';
-import { NotifyPlugin } from 'tdesign-vue-next';
+import { NotifyPlugin, Button, Input } from 'tdesign-vue-next';
 import NavView from '@/modules/navView.vue';
 
 window.onhashchange = () => {
     window.location.reload();
 };
-const user = ref(``);
-const pass = ref(``);
+const username = ref(``);
+const password = ref(``);
 /**
  * 登录处理函数
  * @param username 用户名
@@ -51,27 +51,34 @@ function login(username: string, password: string) {
         console.error(err);
     });
 }
-function toRegister() {
-    window.location.href = `/register`;
-}
 </script>
 <template>
     <NavView></NavView>
-    <center>
-        <div id="welcome">
-            <h2><b>
-                    欢迎登录长春市十一高中在线题库
-                </b></h2>
+    <main>
+
+        <div class="card" style="width: 60%;margin-left: 20%;">
+            <center>
+                <div id="welcome" style="margin-top: 20px;">
+                    <h2><b>
+                            欢迎登录长春市十一高中在线题库
+                        </b></h2>
+                </div>
+            </center>
+            <div style="margin-top: 20px;">
+                <div style="display: flex;align-content: center">
+                    <span style="flex: 0 0 4rem;">用户名</span>
+                    <Input :value="username" id="username" />
+                </div>
+                <div style="display: flex;align-content: center;margin-top: 1rem;">
+                    <span style="flex: 0 0 4rem;">密码</span>
+                    <Input :value="password" id="password" type="password" />
+                </div>
+            </div>
+            <div style="">
+                <Button @click="login(username, password)" class="awa" theme="primary">登录</Button>
+            </div>
         </div>
-    </center>
-    <div id="loginblock">
-        <input v-model="user" id="username" class="awa" />
-        <input v-model="pass" id="password" type="password" class="awa" />
-        <div>
-            <button @click="login(user, pass)" class="awa">登录</button>
-            <button @click="toRegister()" class="awa">注册</button>
-        </div>
-    </div>
+    </main>
 </template>
 
 <style>

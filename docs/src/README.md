@@ -61,7 +61,7 @@ highlights:
     bgImageDark: https://theme-hope-assets.vuejs.press/bg/9-dark.svg
     highlights:
       - title: 时间精度
-        details: 基于系统级计时，提供精度为 0.01ms 的评测计时精度
+        details: 基于系统级计时，提供精度为 0.1ms 的评测计时精度
       - title: 内存测量
         details: 内存测量基于 Unix 内核提供，测量实际使用内层
       - title: 性能优异

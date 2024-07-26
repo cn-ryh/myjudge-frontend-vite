@@ -24,11 +24,18 @@ function getQueryVariable(variable: string) {
     }
     return (null);
 }
-const searchOpinion: Ref<{ [key: string]: string }> = ref({})
+const searchOpinion: Ref<{ [key: string]: string }> = ref({
+    user: `1`,
+    problem: ``,
+    state: ``
+})
 
-searchOpinion.value.problem = getQueryVariable(`problem`)??``;
-searchOpinion.value.user = getQueryVariable(`user`)??``;
-searchOpinion.value.state = getQueryVariable(`state`)??``;
+setInterval(() => {
+    console.log(searchOpinion.value);
+}, 2000);
+searchOpinion.value.problem = getQueryVariable(`problem`) ?? ``;
+searchOpinion.value.user = getQueryVariable(`user`) ?? `1`;
+searchOpinion.value.state = getQueryVariable(`state`) ?? ``;
 if (nowPage.split(`?`).length > 1) {
     axios.get(`${ip}/searchRecord?${nowPage.split(`?`)[1]}`).then((res) => {
         tot.value = res.data.length;
@@ -51,13 +58,12 @@ function getrecord() {
     }
     let url = `/record#/list?`;
     for (const now in searchOpinion.value) {
-        if (searchOpinion.value[now] && searchOpinion.value[now] != ``)
-        {
+        if (searchOpinion.value[now] && searchOpinion.value[now] != ``) {
             url += `${now}=${searchOpinion.value[now]}&`;
+            console.log(url);
         }
     }
     window.location.href = url;
-    window.location.reload();
 }
 
 </script>

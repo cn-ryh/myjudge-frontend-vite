@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
     headImgPos: `left`,
     headImgSize: `50px`,
     tagsize: `medium`,
-    disableJump:false
+    disableJump: false
 });
 const emit = defineEmits(['update:showTag'])
 if (!props.showTag) {
@@ -49,12 +49,12 @@ function jump(uid: number) {
     <div style="display: flex;align-items: center;">
         <slot name="before">
         </slot>
-        <img @click="()=>{
-            if($props.disableJump)
-            {
+        <img @click="() => {
+            if ($props.disableJump) {
                 return;
             }
-            jump($props.uid || 1)}" :style="{ width: $props.headImgSize, height: $props.headImgSize }" class="headImg"
+            jump($props.uid || 1)
+        }" :style="{ width: $props.headImgSize, height: $props.headImgSize }" class="headImg"
             v-if="$props.showHeadImg && ($props.headImgPos == `left`)" :src="headImg" />
         <span @click="() => {
             if ($props.disableJump) {
@@ -66,17 +66,16 @@ function jump(uid: number) {
             marginTop: `-2px`
         }">{{ username }}</span>
         <div class="userTags" v-if="showTag">
-            <Tag :size="$props.tagsize??`medium`" :style="`text-color:${item.textcolor};`"
+            <Tag :size="$props.tagsize ?? `medium`" :style="`text-color:${item.textcolor};`"
                 v-for="(item, index) of tagOpt" :color="item.color" :key="index">{{
-                item.text }}</Tag>
+                    item.text }}</Tag>
         </div>
         <img @click="() => {
             if ($props.disableJump) {
                 return;
             }
             jump($props.uid || 1)
-        }" class="headImg" v-if="$props.showHeadImg && ($props.headImgPos == `right`)"
-            :src="headImg" />
+        }" class="headImg" v-if="$props.showHeadImg && ($props.headImgPos == `right`)" :src="headImg" />
         <slot name="after">
         </slot>
     </div>
@@ -87,8 +86,8 @@ function jump(uid: number) {
     height: 50px;
     border-radius: 50%;
 }
-.userTags :not(:last-child)
-{
+
+.userTags :not(:last-child) {
     margin-right: 10px;
 }
 

@@ -20,6 +20,10 @@ function showReply() {
         if (replyRes.data.code === 0) {
             showedReply.value = true;
             replys.value = replyRes.data.data;
+            setTimeout(() => {
+                window.MathJax.typeset([document.querySelector(`main`)]);
+            }, 1000);
+
         }
         else {
             console.error(replyRes.data.error)
