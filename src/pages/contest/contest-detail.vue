@@ -80,7 +80,7 @@ axios.post(`${ip}/getDashBoard/${id.value}`,{
                                 </TableColumn>
                                 <TableColumn title="题目名称" data-index="title">
                                     <template #cell="{ record }">
-                                        <Link :href="`/problem#/${record.pid}?contestId=${id}`">
+                                        <Link :href="`/problem/${record.pid}?contestId=${id}`">
                                         <span style="font-weight: 800;">
                                             {{ record.title }}
                                         </span>

@@ -8,7 +8,7 @@ const routes = [
 
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`contest`),
+    history: VueRouter.createWebHistory(`contest`),
     routes, 
 });
 

@@ -1,19 +1,13 @@
 
 import * as VueRouter from 'vue-router';
-import ProblemList from './problem-list.vue';
-import ProblemView from './problem-view.vue';
-
 
 const routes = [
-    { path: '/list', component: ProblemList },
-    { path: '/:pid', component: ProblemView }
+    { path: '/list', component: ()=> import(`./problem-list.vue`) },
+    { path: '/:pid', component: () => import(`./problem-view.vue`) }
 ];
 
-
-
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`problem`),
+    history: VueRouter.createWebHistory(`problem`),
     routes,
-
 });
 export { router };

@@ -29,15 +29,15 @@ highlights:
       - title: 题库
         icon: fa-solid:book
         details: 逐渐丰富的题目
-        link: https://oj.cnryh.cn/problem#/list
+        link: https://oj.cnryh.cn/problem/list
       - title: 题单
         icon: el:list-alt
         details: 精选不同分类合集题目组成题单，分类练习效率更高
-        link: https://oj.cnryh.cn/training#/list
+        link: https://oj.cnryh.cn/training/list
       - title: 比赛
         icon: ph:ranking-fill
         details: 不定时进行阶段比赛检测，实力检测查漏补缺
-        link: https://oj.cnryh.cn/contest#/list
+        link: https://oj.cnryh.cn/contest/list
       - title: 文件系统
         icon: mdi:file-cloud
         details: 安全、稳定、不限大小和速度的在线文件系统，传输代码数据首选
@@ -45,15 +45,15 @@ highlights:
       - title: 云剪切板
         icon: lets-icons:paper
         details: 临时存放文本，可设置密码
-        link: https://oj.cnryh.cn/netcut#/mine
+        link: https://oj.cnryh.cn/netcut/mine
       - title: 讨论区
         icon: healthicons:group-discussion-meetingx3-negative
         details: 遇到问题随时讨论，不留困惑
-        link: https://oj.cnryh.cn/discuss#/list
+        link: https://oj.cnryh.cn/discuss/list
       - title: 通讯系统
         icon: line-md:chat
         details: 支持私信与群组，交流方便
-        link: https://oj.cnryh.cn/chat#/list
+        link: https://oj.cnryh.cn/chat/list
   - header: 评测特性
     description: 11 Online Judge 使用自研 Judger 系统，提供区别于其他 OJ 的评测体验。
     image: /assets/image/advanced.svg

@@ -19,7 +19,7 @@ axios.get(`${ip}/getTrainingList`).then((res) => {
             }" :split="true">
                 <template #item="{ item, index }">
                     <div style="margin: 10px;border-bottom-style: outset;border-bottom-width: 2px;">
-                        <a :href="`/training#/${item.id}`">
+                        <a :href="`/training/${item.id}`">
                             <ListItem :key="index">
                                 <ListItemMeta :title="item.title" :description="item.title + `题单`">
                                     <template #avatar>

@@ -57,7 +57,7 @@ function deleteNetcut(path: string) {
             <template #columns>
                 <TableColumn title="剪切板路径" data-index="paths">
                     <template #cell="{ record }">
-                        <Link :href="`/netcut#/${record.paths}`">
+                        <Link :href="`/netcut/${record.paths}`">
                         {{ record.paths }}
                         </Link>
                     </template>
@@ -88,7 +88,7 @@ function deleteNetcut(path: string) {
         <br>
         <center>
             <div style="color: blue;font-size: small;">
-                <p>如果你想创建一个剪切板，可以访问：https://oj.cnryh.cn/netcut#/剪切板路径</p>
+                <p>如果你想创建一个剪切板，可以访问：https://oj.cnryh.cn/netcut/剪切板路径</p>
                 <p>在没有相同路径的剪切板时，你会顺利地新建你的剪切板。</p>
                 <p>剪切板有一些保留关键路径，可以参考 <a href="/netcutPrivate.txt" style="color: red;">这里</a>，如果你使用保留关键字，剪切板可能随时被删除。</p>
             </div>

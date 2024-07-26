@@ -42,7 +42,7 @@ watch(props, () => {
     })
 })
 function jump(uid: number) {
-    window.open(`/user#/${uid}`);
+    window.open(`/user/${uid}`);
 }
 </script>
 <template>

@@ -62,13 +62,13 @@ axios.post(`${ip}/getDiscussionList`, { page: page.value, type: type.value }).th
                                 <div class="discussTypeItem" style="height: 5vh;">
                                     <Link class="discussTypeLinkAll"
                                         style="font-size: 1.05rem;font-weight: 200;color: rgba(102,102,102,1);"
-                                        :href="`/discuss#/list`"> 所有板块
+                                        :href="`/discuss/list`"> 所有板块
                                     </Link>
                                 </div>
                                 <div class="discussTypeItem" v-for="(item, index) of discussTypes" style="height: 5vh;"
                                     :key="index">
                                     <Link :class="`discussTypeLink${item}`" style="font-size: 1.05rem;font-weight: 200;"
-                                        :href="`/discuss#/list?type=${item}`"> {{ discussTypesDisplay[index] }} </Link>
+                                        :href="`/discuss/list?type=${item}`"> {{ discussTypesDisplay[index] }} </Link>
                                 </div>
                             </div>
                         </div>
@@ -77,11 +77,11 @@ axios.post(`${ip}/getDiscussionList`, { page: page.value, type: type.value }).th
                         </div>
                         <div v-if="type !== ``" class="card"
                             style="margin-top: 3vh;padding: 15px 10px;font-size: 15px;">
-                            <Button @click="jump(`/discuss#/new?type=${type}`)">创建</Button>
+                            <Button @click="jump(`/discuss/new?type=${type}`)">创建</Button>
                         </div>
                     </div>
                     <div class="layui-col-md9">
-                        <div  @click="jump(`/discuss#/${item.id}`)" style="margin-bottom: 20px;padding: 15px 20px;"
+                        <div  @click="jump(`/discuss/${item.id}`)" style="margin-bottom: 20px;padding: 15px 20px;"
                             v-for="(item, index) of list" :key="index" class="discussionListItem card">
                             <div style="width: 100%;">
                                 <UserSign style="display: flex;margin-bottom: 10px;" :uid="item.creater" show-tag :font-color="`black`">

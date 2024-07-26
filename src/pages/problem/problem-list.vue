@@ -19,7 +19,7 @@ function jumpProblem(val:string)
 {
     const pid = val.split(` `)[0];
     console.log(pid);
-    window.open(`/problem#/${pid}`)
+    window.open(`/problem/${pid}`)
 }
 </script>
 
@@ -39,7 +39,7 @@ function jumpProblem(val:string)
                     </TableColumn>
                     <TableColumn title="题目名称" data-index="title">
                         <template #cell="{ record }">
-                            <a :href="`/problem#/${record.pid}`">
+                            <a :href="`/problem/${record.pid}`">
                                 <span style="font-weight: 800;">
                                     {{ record.title }}
                                 </span>

@@ -11,7 +11,7 @@ const editContestId: Ref<string> = ref(``);
 <template>
     <div class="card" style="width: 100%;height: 100%;">
         <div class="options">
-            <div class="option" @click="jump(`/admin#/newproblem`)">
+            <div class="option" @click="jump(`/admin/newproblem`)">
                 <h2>新建题目</h2>
 
             </div>
@@ -21,13 +21,13 @@ const editContestId: Ref<string> = ref(``);
                 <div>
                     <InputGroup>
                         <Input size="large" v-model="editProblemId"></Input>
-                        <Button size="large" @click="jump(`/admin#/problem/${editProblemId}`)">确定</Button>
+                        <Button size="large" @click="jump(`/admin/problem/${editProblemId}`)">确定</Button>
                     </InputGroup>
                 </div>
             </div>
         </div>
         <div class="options">
-            <div class="option" @click="jump(`/admin#/newtraining`)">
+            <div class="option" @click="jump(`/admin/newtraining`)">
                 <h2>新建题单</h2>
 
             </div>
@@ -37,13 +37,13 @@ const editContestId: Ref<string> = ref(``);
                 <div>
                     <InputGroup>
                         <Input size="large" v-model="editTrainingId"></Input>
-                        <Button size="large" @click="jump(`/admin#/training/${editTrainingId}`)">确定</Button>
+                        <Button size="large" @click="jump(`/admin/training/${editTrainingId}`)">确定</Button>
                     </InputGroup>
                 </div>
             </div>
         </div>
         <div class="options">
-            <div class="option" @click="jump(`/admin#/newcontest`)">
+            <div class="option" @click="jump(`/admin/newcontest`)">
                 <h2>新建比赛</h2>
             </div>
             <div class="option">
@@ -52,7 +52,7 @@ const editContestId: Ref<string> = ref(``);
                 <div>
                     <InputGroup>
                         <Input size="large" v-model="editContestId"></Input>
-                        <Button size="large" @click="jump(`/admin#/contest/${editContestId}`)">确定</Button>
+                        <Button size="large" @click="jump(`/admin/contest/${editContestId}`)">确定</Button>
                     </InputGroup>
                 </div>
             </div>

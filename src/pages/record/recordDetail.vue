@@ -12,15 +12,13 @@ const state = ref(``);
 const title = ref(``);
 const point = ref(0);
 const problem = ref(``);
-import { Link } from '@arco-design/web-vue';
+import { Link, NotifyPlugin } from 'tdesign-vue-next'
 import hljs from "highlight.js";
 import 'highlight.js/styles/atom-one-light.min.css'
 import { translateTime } from "@/modules/functions";
 import { currectUser } from "@/modules/user/currectUser";
-import { NotifyPlugin } from "tdesign-vue-next";
 
 function showResult(res) {
-
     lastres.value = [];
     const num = res.detail.length;
     for (let i = 0; i < num; i++) {
@@ -58,12 +56,11 @@ function getrecord() {
     return new Promise<void>((reslove) => {
         const args = (window.location.href.split(`/`));
         const recordid = args[args.length - 1];
-        if(!currectUser.uid || isNaN(currectUser.uid))
-        {
+        if (!currectUser.uid || isNaN(currectUser.uid)) {
             NotifyPlugin.error({
                 title: `请先登录`
             });
-            return ;
+            return;
         }
         axios.post(`${ip}/getRecord/${recordid}`, {
             uid: currectUser.uid,
@@ -166,7 +163,7 @@ tryGetting();
                                 <span>
                                     所属题目：
                                 </span>
-                                <Link :href="`/problem#/${problem}`" class="link color-default"
+                                <Link :href="`/problem/${problem}`" class="link color-default"
                                     style="font-size: medium;margin-bottom: 0 !important;">
                                 {{ (problem + ` ` + title).length < 20 ? (problem + ` ` + title) : ((problem + ` ` +
                                     title).substring(0, 16) + `...`) }} </Link>

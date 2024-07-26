@@ -67,11 +67,11 @@ function login(username: string, password: string) {
             <div style="margin-top: 20px;">
                 <div style="display: flex;align-content: center">
                     <span style="flex: 0 0 4rem;">用户名</span>
-                    <Input :value="username" id="username" />
+                    <Input v-model="username" id="username" />
                 </div>
                 <div style="display: flex;align-content: center;margin-top: 1rem;">
                     <span style="flex: 0 0 4rem;">密码</span>
-                    <Input :value="password" id="password" type="password" />
+                    <Input v-model="password" id="password" type="password" />
                 </div>
             </div>
             <div style="">

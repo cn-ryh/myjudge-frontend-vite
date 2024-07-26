@@ -97,7 +97,7 @@ function jump(url: string) {
                     <br />
                     <div class="layui-row layui-col-space32">
                         <div class="layui-col-md6" v-for="(item, idx) of contests" :key="idx">
-                            <Card @click="jump(`/contest#/${item.id}`)" size="small"
+                            <Card @click="jump(`/contest/${item.id}`)" size="small"
                                 style="width: 100%;display: inline-block;height: auto;margin: 3% 2%;"
                                 :title="item.title">
 
@@ -120,7 +120,7 @@ function jump(url: string) {
                 <div class="card">
                     <h2>最近讨论</h2>
                     <br />
-                    <div @click="jump(`/discuss#/${item.id}`)"
+                    <div @click="jump(`/discuss/${item.id}`)"
                         style="margin-bottom: 20px;padding: 20px;border: 1px solid var(--color-danger-light-4);"
                         v-for="(item, index) of discussionList" :key="index" class="discussionListItem card">
                         <div>

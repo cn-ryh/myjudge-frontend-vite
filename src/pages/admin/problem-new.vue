@@ -2,7 +2,7 @@
 import { ip } from '@/modules/ip';
 import axios from 'axios';
 import { ref } from 'vue';
-import { Notification, Button, Select, Option, Tabs, TabPane } from '@arco-design/web-vue';
+import { NotifyPlugin, Button, Select, Option, Tabs, TabPanel } from 'tdesign-vue-next';
 import '@/modules/main.css'
 import { currectUser } from '@/modules/user/currectUser';
 document.title = `新建题目`;
@@ -20,12 +20,12 @@ function newProblem() {
         type: type.value
     }).then((res) => {
         if (res.data.success == true) {
-            Notification.success({
+            NotifyPlugin.success({
                 title: "成功",
                 content: `题目创建成功，pid为 ${res.data.pid}`
             });
             setTimeout(() => {
-                window.location.href = `/admin#/problem/${res.data.pid}`;
+                window.location.href = `/admin/problem/${res.data.pid}`;
             }, 3000);
         }
 
@@ -40,7 +40,7 @@ function newProblem() {
             <input placeholder="自动分配" id="problemIdInputer" disabled>
         </div>
         <Tabs default-active-key="1">
-            <TabPane key="1" title="管理">
+            <TabPanel key="1" title="管理">
                 <div>
                     <span>题库：</span>
                     <Select v-model="type" style="width:280px;margin-left: 2%;" placeholder="请选择题库">
@@ -78,13 +78,13 @@ function newProblem() {
                         <Option :value="10">NOI+</Option>
                         <Option :value="0">暂无评定</Option>
                     </Select>
-                    <Button @click="newProblem" type="primary">
+                    <Button @click="newProblem" theme="primary">
                         新建题目
                     </Button>
                 </div>
-            </TabPane>
-            <TabPane key="2" title="数据上传" disabled @click="() => { $notification.error(`需要先创建题目`) }">
-            </TabPane>
+            </TabPanel>
+            <TabPanel key="2" title="数据上传" disabled @click="() => { $notification.error(`需要先创建题目`) }">
+            </TabPanel>
         </Tabs>
     </div>
 

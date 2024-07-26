@@ -1,17 +1,14 @@
 
 import * as VueRouter from 'vue-router';
-import detail from './training-detail.vue';
-import list from './training-list.vue';
-
 
 const routes = [
-    { path: '/:id', component: detail },
-    { path: '/list', component: list }
+    { path: '/:id', component: ()=> import(`./training-detail.vue`) },
+    { path: '/list', component: ()=> import(`./training-list.vue`) }
 ];
 
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`training`),
+    history: VueRouter.createWebHistory(`training`),
     routes, 
 });
 

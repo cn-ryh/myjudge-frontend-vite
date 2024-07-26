@@ -20,6 +20,6 @@ category:
 
 ## 更改密码
 
-如您记得原密码，可在 [个人设置->安全验证](https://oj.cnryh.cn/user/#/setting) 更改密码。
+如您记得原密码，可在 [个人设置->安全验证](https://oj.cnryh.cn/user/setting) 更改密码。
 
 如忘记原密码请联系教练更改密码。

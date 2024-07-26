@@ -1,14 +1,11 @@
 import * as VueRouter from 'vue-router';
-import userSettimg from './userSettimg.vue';
-import userDetail from './user-detail.vue';
-
 const routes = [
-    { path: '/setting', component: userSettimg },
-    { path: '/:id', component: userDetail },
+    { path: '/setting', component: ()=>import(`./userSettimg.vue`) },
+    { path: '/:id', component: ()=>import(`./user-detail.vue`) },
 ];
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`user`),
+    history: VueRouter.createWebHistory(`user`),
     routes,
 });
 

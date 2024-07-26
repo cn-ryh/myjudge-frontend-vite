@@ -11,7 +11,7 @@ const routes = [
 
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`discuss`),
+    history: VueRouter.createWebHistory(`discuss`),
     routes, 
 });
 

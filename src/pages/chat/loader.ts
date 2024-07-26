@@ -10,7 +10,7 @@ const routes = [
 
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`chat`),
+    history: VueRouter.createWebHistory(`chat`),
     routes,
 
 });

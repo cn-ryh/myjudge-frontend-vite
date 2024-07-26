@@ -9,7 +9,19 @@ const x = localStorage.getItem(`ip`);
 if (x == remote_ip || x == frp_ip) {
     ip = x;
 }
+async function checkConnection(url: string): Promise<Boolean> {
+    try {
+        await axios.get(url, {
+            timeout: 5000
+        })
+        return true;
+    }
+    catch (err) {
+        return false
+    }
+}
 const checkip = async () => {
+    checkConnection(``);
     if (failTime >= 15) {
         NotifyPlugin.error({
             title: `错误次数过多`,

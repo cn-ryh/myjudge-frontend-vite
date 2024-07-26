@@ -1,17 +1,14 @@
 
 import * as VueRouter from 'vue-router';
-import NetcutList from './netcut-list.vue';
-import NetcutView from './netcut-view.vue';
-
 
 const routes = [
-    { path: '/mine', component: NetcutList },
-    { path: '/:pid', component: NetcutView }
+    { path: '/mine', component: ()=>import(`./netcut-list.vue`) },
+    { path: '/:pid', component: ()=>import(`./netcut-view.vue`) }
 ];
 
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`netcut`),
+    history: VueRouter.createWebHistory(`netcut`),
     routes,
 
 });

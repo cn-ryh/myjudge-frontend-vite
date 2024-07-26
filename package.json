@@ -19,6 +19,7 @@
         "@mdit/plugin-tab": "^0.12.0",
         "@mdit/plugin-tasklist": "^0.12.0",
         "axios": "^1.7.2",
+        "fs-extra": "^11.2.0",
         "glob": "^10.4.1",
         "highlight.js": "^11.9.0",
         "jquery": "^3.7.1",
@@ -36,6 +37,7 @@
     },
     "devDependencies": {
         "@arco-design/web-vue": "^2.55.2",
+        "@types/fs-extra": "^11.0.4",
         "@types/jquery": "^3.5.30",
         "@types/js-cookie": "^3.0.6",
         "@types/markdown-it": "^14.1.1",

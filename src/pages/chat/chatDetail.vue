@@ -241,7 +241,7 @@ function sendMessage() {
 const self = ref(currectUser.uid)
 const userImages: Ref<{ [key: number]: string }> = ref({});
 function jump(uid: number) {
-    window.open(`/user#/${uid}`);
+    window.open(`/user/${uid}`);
 }
 
 </script>

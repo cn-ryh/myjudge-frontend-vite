@@ -76,7 +76,7 @@ function newDiscussion() {
                 content: `即将跳转到讨论界面`
             })
             setTimeout(() => {
-                window.location.href = `/discuss#/${createRes.data.data.id}`;
+                window.location.href = `/discuss/${createRes.data.data.id}`;
             }, 2000)
         }
         else {

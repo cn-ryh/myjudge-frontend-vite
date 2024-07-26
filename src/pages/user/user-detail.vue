@@ -27,7 +27,7 @@ axios.get(`${ip}/getUserData/${uid}`).then((res) => {
     headImg.value = res.data.headImg;
 });
 function getChatHref() {
-    return `/chat#/${Math.min(+uid, currectUser.uid)}&${Math.max(+uid, currectUser.uid)}`;
+    return `/chat/${Math.min(+uid, currectUser.uid)}&${Math.max(+uid, currectUser.uid)}`;
 }
 function logOut()
 {
@@ -54,7 +54,7 @@ function logOut()
 
                                     <div>
                                         <span v-for="(problem) of item" :key="problem">
-                                            <Link :href="`/problem#/${problem}`" style="font-size: large;">
+                                            <Link :href="`/problem/${problem}`" style="font-size: large;">
                                             {{ problem }}
                                             </Link>
                                             {{ ' ' }}
@@ -81,7 +81,7 @@ function logOut()
                         <img :src="headImg" style="width: 50%;border-radius: 50%;" />
                         <br />
                         <Button v-if="+uid != currectUser.uid" :href="getChatHref()">私信</Button>
-                        <Button :href="`/user#/setting`" v-if="+uid === currectUser.uid">个人设置</Button>
+                        <Button :href="`/user/setting`" v-if="+uid === currectUser.uid">个人设置</Button>
                         <Button @click="logOut" v-if="+uid === currectUser.uid">退出登录</Button>
                     </center>
                 </div>

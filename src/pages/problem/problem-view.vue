@@ -76,7 +76,7 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
     renderBlock.value = [document.getElementById(`problem`)!];
     if (problemres.data == ``) {
         alert(`不存在的题目`);
-        location.replace(`/problem#/list`);
+        location.replace(`/problem/list`);
     }
     console.log(contestId.value);
     // 当前打开的是比赛界面的题目
@@ -90,7 +90,7 @@ axio.get(`${ip}/getProblem/${problemId.value}`).then((problemres) => {
                 });
                 setTimeout(()=>
                 {
-                    window.location.href = `/problem#/${problemId.value}`
+                    window.location.href = `/problem/${problemId.value}`
                 },3000);
                 return;
             }
@@ -208,7 +208,7 @@ function submit() {
                             codes: monacoInstance.getValue(),
                             contestId: flag
                         }).then((res) => {
-                            window.location.href = `/record#/${res.data}`;
+                            window.location.href = `/record/${res.data}`;
                         });
                     }
                 });
@@ -235,7 +235,7 @@ function submit() {
                 codes: monacoInstance.getValue(),
                 contestEnd: 0
             }).then((res) => {
-                window.location.href = `/record#/${res.data}`;
+                window.location.href = `/record/${res.data}`;
             });
         }
     });
@@ -307,10 +307,10 @@ function submit() {
                     </div>
                 </div>
                 <div class="card" style="padding: 20px 30px;margin-top: 20px;">
-                    <Link theme="primary" :href="`/record#/list?problem=${problemId}`">
+                    <Link theme="primary" :href="`/record/list?problem=${problemId}`">
                     <span>提交记录</span>
                     </Link>
-                    <Link style="margin-left: 10px;" theme="primary" :href="`/admin#/problem/${problemId}`"
+                    <Link style="margin-left: 10px;" theme="primary" :href="`/admin/problem/${problemId}`"
                         v-show="showAdmin">
                     <span>题目管理</span>
                     </Link>
@@ -321,7 +321,7 @@ function submit() {
                         <span>暂无讨论</span>
                     </div>
                     <div v-for="(item, index) of discussions" :key="index">
-                        <Link theme="primary" :href="`/discuss#/${item.id}`">{{ item.title }}</Link>
+                        <Link theme="primary" :href="`/discuss/${item.id}`">{{ item.title }}</Link>
                     </div>
 
                 </div>

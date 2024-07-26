@@ -44,30 +44,30 @@ function jumpHome() {
             <MenuItem value="apps-files" :href="`/files`">
             文件系统
             </MenuItem>
-            <MenuItem value="apps-netcut" :href="`/netcut#/mine`">
+            <MenuItem value="apps-netcut" :href="`/netcut/mine`">
             云剪切板
             </MenuItem>
         </Submenu>
-        <MenuItem value="problems" :href="`/problem#/list`">
+        <MenuItem value="problems" :href="`/problem/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">题库</span>
         </MenuItem>
-        <MenuItem value="trainings" :href="`/training#/list`">
+        <MenuItem value="trainings" :href="`/training/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">题单</span>
         </MenuItem>
-        <MenuItem value="contests" :href="`/contest#/list`">
+        <MenuItem value="contests" :href="`/contest/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">比赛</span>
         </MenuItem>
-        <MenuItem value="records" :href="`/record#/list?user=${currectUser.uid}`">
+        <MenuItem value="records" :href="`/record/list?user=${currectUser.uid}`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">提交记录</span>
         </MenuItem>
-        <MenuItem value="discussions" :href="`/discuss#/list`">
+        <MenuItem value="discussions" :href="`/discuss/list`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">讨论</span>
         </MenuItem>
         <MenuItem value="docs" :href="`/docs`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">文档</span>
         </MenuItem>
 
-        <MenuItem value="backend" :href="`/admin#/index`">
+        <MenuItem value="backend" :href="`/admin/index`">
         <span class="menuitem" style="color:white;font-size: 1.1rem;">后台</span>
         </MenuItem>
         <template #operations>
@@ -77,7 +77,7 @@ function jumpHome() {
                     <span class="operator" style="color:white;font-size: large;">登录</span>
                 </Button>
                 <Badge style="margin-top: 10px;" :count="unReadMessageNum" :max-count="99">
-                    <Button :href="`/chat#/list`" v-if="logined" size="large" variant="text"
+                    <Button :href="`/chat/list`" v-if="logined" size="large" variant="text"
                         style="padding: 0px;height: 32px;">
                         <template #icon>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"
@@ -88,7 +88,7 @@ function jumpHome() {
                         </template>
                     </Button>
                 </Badge>
-                <Link variant="text" v-if="logined" shape="square" :href="`/user#/${uid}`"
+                <Link variant="text" v-if="logined" shape="square" :href="`/user/${uid}`"
                     style="margin-left: 1vw;min-width: 3rem;">
                 <userSign disableJump :uid="uid" :headImgPos="`right`" :showHeadImg="true"></UserSign>
                 </Link>

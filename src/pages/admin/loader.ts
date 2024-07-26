@@ -17,7 +17,7 @@ const routes = [
 ];
 
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(`admin`),
+    history: VueRouter.createWebHistory(`admin`),
     routes,
 });
 

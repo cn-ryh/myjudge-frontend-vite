@@ -49,14 +49,14 @@ if (nowPage.split(`?`).length > 1) {
 function getrecord() {
 
     if (searchOpinion.value["recordId"] && searchOpinion.value["recordId"] !== ``) {
-        window.location.href = `/record#/${searchOpinion.value["recordId"]}`;
+        window.location.href = `/record/${searchOpinion.value["recordId"]}`;
         return;
     }
     if (Object.keys(searchOpinion.value).length === 0) {
         window.alert(`不提供所有提交记录的查询`);
         return;
     }
-    let url = `/record#/list?`;
+    let url = `/record/list?`;
     for (const now in searchOpinion.value) {
         if (searchOpinion.value[now] && searchOpinion.value[now] != ``) {
             url += `${now}=${searchOpinion.value[now]}&`;
@@ -107,7 +107,7 @@ function getrecord() {
                             {{ translateTime(new Date(item.submitTime)) }}
                         </div>
                         <div style="width: 12%;">
-                            <a :href="`/record#/${item.id}`">
+                            <a :href="`/record/${item.id}`">
                                 <span :class="`State-${item.state}`.replace(/\s/g, ``)"
                                     style="padding:1px 2px;font-size: large;font-weight: 420;">
                                     {{ item.state }}
@@ -116,7 +116,7 @@ function getrecord() {
                         </div>
                         <div class="problem" style="width: 10%;">
                             <div>
-                                <a :href="`/problem#/${item.problem}`" style="color: rgb(10, 10, 230);">
+                                <a :href="`/problem/${item.problem}`" style="color: rgb(10, 10, 230);">
                                     <span class="pid">
                                         <b>{{ item.problem }}</b>
                                     </span>

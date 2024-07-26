@@ -7,7 +7,7 @@ export default hopeTheme({
 
     author: {
         name: "cn_ryh",
-        url: "https://oj.cnryh.cn/user#/1",
+        url: "https://oj.cnryh.cn/user/1",
     },
 
     iconAssets: "iconify",
