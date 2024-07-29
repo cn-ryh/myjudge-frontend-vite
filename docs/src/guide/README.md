@@ -26,6 +26,8 @@ category:
 
 为了 11 Online Judge 的持续发展，我们接受来自各位的捐赠。如您资金充裕，可向 11 Online Judge 维护者 cn_ryh 捐款，我们保证所有捐款均会用于 11 Online Judge 的维护相关工作。**未成年捐款请先获得家长同意，捐款请备注 11 Online Judge 捐款**。
 
+**如您需要，我们可以在您捐助的资金消费后，出具由腾讯云开局的电子普通发票。**
+
 <img src="./images/ali-pay.jpg" alt="支付宝" style="width:45%"/>
 <img src="./images/wechat-pay.jpg" alt="微信支付" style="width:45%"/>
 

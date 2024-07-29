@@ -12,6 +12,7 @@ import { AutoComplete, AutoCompleteOption, AutoCompleteOptionObj, NotifyPlugin }
 import axios from 'axios';
 import { ip } from '@/modules/ip';
 import { IProblem } from '../interface';
+import { sortProblemPid } from './sortProblem';
 const problemList: Ref<IProblem[]> = ref([]);
 const props = defineProps<{
     upproblems: IProblem[]
@@ -19,11 +20,12 @@ const props = defineProps<{
 const emit = defineEmits(['update:upproblems'])
 const nowProblem = ref(``);
 const options: Ref<AutoCompleteOption[]> = ref([]);
-axios.get(`${ip}/getProblemList`).then((res) => {
+axios.get(`${ip}/getProblemList?keys=["id","pid","difficult","title"]`).then((res) => {
     options.value = [];
     problemList.value = res.data.problems;
     for (const now of res.data.problems) {
-        options.value.push(`${now.pid} ${now.title}`);
+        if (!props.upproblems.includes(now))
+            options.value.push(`${now.pid} ${now.title}`);
     }
 });
 function filterWords(keyword: string, option: AutoCompleteOption) {
@@ -44,10 +46,13 @@ function addToTable() {
             NotifyPlugin.error({ title: `题目未找到`, content: `您选择的题目 ${nowProblem.value} 未找到` });
             return;
         }
+        console.log(x);
+        console.log(props.upproblems);
         if (props.upproblems.includes(x)) {
             NotifyPlugin.warning({ title: `题目已存在`, content: `您选择的题目 ${nowProblem.value} 已经存在，你可以拖动改变位置` });
             return;
         }
+        options.value = options.value.filter((item) => (item != `${x.pid} ${x.title}`));
         emit(`update:upproblems`, props.upproblems.concat([x]))
         nowProblem.value = ``;
     }
@@ -56,10 +61,15 @@ function addToTable() {
     }
 }
 function removeFromTable(pid: string) {
-    emit(`update:upproblems`, props.upproblems.filter((item) => { return item.pid !== pid }));
+    const now = problemList.value.filter((item) => item.pid == pid)[0]!;
+    console.log(now);
+    options.value.push(`${now.pid} ${now.title}`);
+    options.value = sortProblemPid(options.value as string[]);
+    console.log(options);
+    emit(`update:upproblems`, props.upproblems.filter((item) => item.pid !== pid));
 }
 const handleChange = (_data: IProblem[]) => {
-    emit(`update:upproblems`,_data);
+    emit(`update:upproblems`, _data);
 };
 </script>
 <template>
