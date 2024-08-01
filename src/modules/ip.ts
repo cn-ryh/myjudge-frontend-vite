@@ -12,7 +12,7 @@ if (x == remote_ip || x == frp_ip) {
 async function checkConnection(url: string): Promise<Boolean> {
     try {
         await axios.get(url, {
-            timeout: 5000
+            timeout: 15000
         })
         return true;
     }
@@ -35,7 +35,7 @@ const checkip = async () => {
         try {
             // 连接本地通信
             await axios.get(ip, {
-                timeout: 1000
+                timeout: 15000
             });
             localStorage.setItem(`ip`, local_ip);
         } catch (err) {
@@ -57,7 +57,7 @@ const checkip = async () => {
         try {
             // 尝试恢复本地通信
             const data = await axios.get(local_ip, {
-                timeout: 1000
+                timeout: 15000
             });
             if (data.data.length >= 5) {
                 NotifyPlugin.success({
@@ -74,7 +74,7 @@ const checkip = async () => {
             try {
                 // 监测通信是否正常
                 await axios.get(frp_ip, {
-                    timeout: 2000
+                    timeout: 15000
                 });
             } catch (err) {
                 console.error(err);
@@ -95,7 +95,7 @@ const checkip = async () => {
         try {
             // 尝试恢复本地通信
             const data = await axios.get(local_ip, {
-                timeout: 1000
+                timeout: 15000
             });
             if (data.data.length >= 5) {
                 NotifyPlugin.success({
@@ -111,7 +111,7 @@ const checkip = async () => {
         } catch (err) {
             // 尝试恢复穿透通信
             const data = await axios.get(frp_ip, {
-                timeout: 1000
+                timeout: 15000
             });
             if (data.data.length >= 5) {
                 NotifyPlugin.success({
